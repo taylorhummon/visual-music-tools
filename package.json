@@ -1,49 +1,37 @@
 {
   "name": "scales-tool",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "private": true,
-  "author": {
-    "name": "Taylor Hummon",
-    "email": "taylor@taylorhummon.com"
-  },
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "lint": "eslint .",
-    "check-types": "tsc --noEmit",
+    "dev": "next dev",
     "test": "vitest",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "lint": "eslint",
+    "check-types": "tsc --noEmit",
+    "build": "eslint && tsc --noEmit && next build"
   },
   "dependencies": {
-    "@mantine/core": "^9.0.2",
-    "@mantine/hooks": "^9.0.2",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "@mantine/core": "^9.1.1",
+    "@mantine/hooks": "^9.1.1",
+    "next": "16.2.6",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
   },
   "devDependencies": {
-    "@eslint/js": "^9.8.0",
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^14.5.2",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
-    "eslint": "^9.8.0",
-    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
-    "eslint-plugin-react-refresh": "^0.4.9",
-    "globals": "^15.9.0",
-    "jsdom": "^24.1.1",
-    "postcss": "^8.5.10",
-    "postcss-modules-values": "^4.0.0",
-    "postcss-nesting": "^13.0.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.4",
+    "jsdom": "^29.1.1",
+    "postcss": "^8.5.13",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",
-    "sass-embedded": "^1.99.0",
-    "typescript": "^5.5.3",
-    "typescript-eslint": "^8.0.0",
-    "vite": "^5.4.0",
-    "vitest": "^2.0.5"
-  }
+    "sass": "^1.99.0",
+    "typescript": "^5",
+    "vitest": "^4.1.5"
+  },
+  "packageManager": "pnpm@11.1.2+sha512.415a1cc25974731e75455c1468371be74c5aa5fb7621b50d4056d222451609f11412f23fd602e6169f1e060466641f798597e1be961a10688836a67b16569499"
 }

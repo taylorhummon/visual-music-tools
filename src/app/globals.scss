@@ -1,0 +1,95 @@
+html,
+body {
+  height: 100%;
+  background: black;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: rgb(17, 17, 17);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+h1 {
+  margin: 0 0 20px 0;
+  padding: 0;
+  font-weight: 400;
+  line-height: 1;
+  font-size: 32px;
+  letter-spacing: -1px;
+}
+
+h2 {
+  margin: 0 0 10px 0;
+  padding: 0;
+  font-weight: 400;
+  margin-top: 25px;
+  font-size: 24px;
+}
+
+h3 {
+  margin: 0 0 10px 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+p {
+  margin: 0 0 15px 0;
+  padding: 0;
+}
+
+ul {
+  margin: 0 0 15px 0;
+  padding: 0 0 0 20px;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+  vertical-align: middle;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+a {
+  color: rgb(42, 122, 226);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+.fixed-width-font {
+  font-family: var(--fixed-width-font);
+}

@@ -23,7 +23,10 @@ export function SolfegeLabel({
   const { isAlphabetical } = clockSettings
 
   return (
-    <g className={getClassName(isAlphabetical, solfegeLabelAnimator, note)}>
+    <g
+      className={getClassName(isAlphabetical, solfegeLabelAnimator, note)}
+      data-testid={`solfege-label-${solfegeLetter}`}
+    >
       <g className={getInnerClassName(solfegeLetter)}>
         <text className={solfegeLabelCssModule["text"]}>
           {solfegeLetter}

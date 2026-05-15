@@ -72,11 +72,12 @@ function NoteLabels({
 
   return (
     <>
-      {arrayFromMap(musicalKey.scale, (note: Note) => (
+      {arrayFromMap(musicalKey.scale, (note: Note, solfegeLetter: SolfegeLetter) => (
         <NoteLabel
           key={note.value}
           clockSettings={clockSettings}
           noteLabelAnimator={noteLabelAnimator}
+          solfegeLetter={solfegeLetter}
           note={note}
         />
       ))}

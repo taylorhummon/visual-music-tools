@@ -2,6 +2,7 @@ import { type Note } from "@shared/classes/Note"
 import { type NoteDotAnimator } from "@shared/classes/NoteDotAnimator"
 import { type ClockSettings, getHour } from "@shared/utilities/clock"
 import { buildClassName } from "@shared/utilities/css"
+import { SolfegeLetter } from "@shared/utilities/solfege"
 
 import noteDotCssModule from "./NoteDot.module.scss"
 
@@ -9,12 +10,14 @@ import noteDotCssModule from "./NoteDot.module.scss"
 interface NoteDotInput {
   clockSettings: ClockSettings,
   noteDotAnimator: NoteDotAnimator,
+  solfegeLetter: SolfegeLetter,
   note: Note,
 }
 
 export function NoteDot({
   clockSettings,
   noteDotAnimator,
+  solfegeLetter,
   note,
 }: NoteDotInput): React.ReactNode {
   const { isAlphabetical } = clockSettings
@@ -26,6 +29,7 @@ export function NoteDot({
       cy="0"
       r="8"
       fill="black"
+      data-testid={`note-dot-${solfegeLetter}`}
     />
   )
 }

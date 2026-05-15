@@ -3,6 +3,7 @@ import { type NoteLabelAnimator } from "@shared/classes/NoteLabelAnimator"
 import { NoteLabelText } from "@shared/components/clock/NoteLabelText"
 import { type ClockSettings, getHour } from "@shared/utilities/clock"
 import { buildClassName } from "@shared/utilities/css"
+import { type SolfegeLetter } from "@shared/utilities/solfege"
 
 import noteLabelCssModule from "./NoteLabel.module.scss"
 
@@ -10,19 +11,24 @@ import noteLabelCssModule from "./NoteLabel.module.scss"
 interface NoteLabelInput {
   clockSettings: ClockSettings,
   noteLabelAnimator: NoteLabelAnimator,
+  solfegeLetter: SolfegeLetter,
   note: Note,
 }
 
 export function NoteLabel({
   clockSettings,
   noteLabelAnimator,
+  solfegeLetter,
   note,
 }: NoteLabelInput): React.ReactNode {
   const { isAlphabetical } = clockSettings
   const finishNote = noteLabelAnimator.finishNote(note)
 
   return (
-    <g className={getClassName(isAlphabetical, note, finishNote)}>
+    <g
+      className={getClassName(isAlphabetical, note, finishNote)}
+      data-testid={`note-label-${solfegeLetter}`}
+    >
       <NoteLabelText
         startNote={note}
         finishNote={finishNote}

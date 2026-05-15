@@ -33,6 +33,7 @@ export function SettingsPanel({
             isUsingAnimation: event.currentTarget.checked,
           })
         }}
+        data-testid="animation-switch"
       />
       <Switch
         label="Alphabetical"

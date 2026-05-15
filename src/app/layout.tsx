@@ -1,16 +1,12 @@
 import { type Metadata } from "next"
-import {
-  ColorSchemeScript,
-  MantineProvider,
-  createTheme,
-  mantineHtmlProps,
-} from "@mantine/core"
+import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from "@mantine/core"
 
 import Content from "./_layouts/content"
 import Footer from "./_layouts/footer"
 import Header from "./_layouts/header"
 
-import { SANS_FONT, FIXED_WIDTH_FONT } from "./fonts"
+import { FIXED_WIDTH_FONT } from "./fonts"
+import { theme } from "./theme"
 import "@mantine/core/styles.css"
 import "./globals.scss"
 
@@ -27,11 +23,6 @@ interface LayoutInput {
 export default function Layout({
   children,
 }: LayoutInput): React.ReactNode {
-  const theme = createTheme({
-    fontFamily: SANS_FONT.style.fontFamily,
-    primaryColor: "yellow",
-  })
-
   return (
     <html
       lang="en"

@@ -33,7 +33,7 @@ export function RootSelector({
   return (
     <Selector
       className={rootSelectorCssModule["root-selector"]}
-      label="Deg"
+      label="Root"
       isIncrementing={getWillIncrementRoot(motion)}
       isDecrementing={getWillDecrementRoot(motion)}
     >

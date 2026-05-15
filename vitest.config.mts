@@ -9,6 +9,9 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     dir: "tests",
-    setupFiles: ["vitest-cleanup-after-each.ts"],
+    setupFiles: ["vitest.setup.ts"],
+    execArgv: [
+      '--no-webstorage',
+    ],
   },
 })

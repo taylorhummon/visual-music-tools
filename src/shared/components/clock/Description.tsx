@@ -1,19 +1,62 @@
 import { type MusicalKey } from "@shared/classes/MusicalKey"
+import { type ClockSettings } from "@shared/utilities/clock"
 
-import keyDescriptionCssModule from "./KeyDescription.module.scss"
+import descriptionCssModule from "./Description.module.scss"
 
+
+interface DescriptionInput {
+  clockSettings: ClockSettings,
+  musicalKey: MusicalKey,
+}
+
+export function Description({
+  clockSettings,
+  musicalKey,
+}: DescriptionInput): React.ReactNode {
+  const { isUsingSolfege } = clockSettings
+  if (isUsingSolfege) {
+    return (
+      <ModeDescription
+        musicalKey={musicalKey}
+      />
+    )
+  } else {
+    return (
+      <KeyDescription
+        musicalKey={musicalKey}
+      />
+    )
+  }
+}
+
+interface ModeDescriptionInput {
+  musicalKey: MusicalKey,
+}
+
+function ModeDescription({
+  musicalKey,
+}: ModeDescriptionInput): React.ReactNode {
+  return (
+    <text
+      className={descriptionCssModule["mode-description"]}
+      textAnchor="middle"
+    >
+      {musicalKey.modeName}
+    </text>
+  )
+}
 
 interface KeyDescriptionInput {
   musicalKey: MusicalKey,
 }
 
-export function KeyDescription({
+function KeyDescription({
   musicalKey,
 }: KeyDescriptionInput): React.ReactNode {
   return (
     <>
       <text
-        className={keyDescriptionCssModule["key-description"]}
+        className={descriptionCssModule["key-description"]}
         textAnchor="middle"
       >
         <TextContent
@@ -22,7 +65,7 @@ export function KeyDescription({
         {"\n"}
       </text>
       <text
-        className={keyDescriptionCssModule["degree-explanation"]}
+        className={descriptionCssModule["degree-description"]}
         textAnchor="middle"
       >
         {getDegreeExplanation(musicalKey.degree)}

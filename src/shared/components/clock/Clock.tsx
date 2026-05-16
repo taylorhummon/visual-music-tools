@@ -1,6 +1,6 @@
 import { type MusicalKey } from "@shared/classes/MusicalKey"
 import { Face } from "@shared/components/clock/Face"
-import { KeyDescription } from "@shared/components/clock/KeyDescription"
+import { Description } from "@shared/components/clock/Description"
 import { Labels } from "@shared/components/clock/Labels"
 import { NoteDots } from "@shared/components/clock/NoteDots"
 import { RootDot } from "@shared/components/clock/RootDot"
@@ -47,7 +47,8 @@ export function Clock({
         motion={motion}
         musicalKey={musicalKey}
       />
-      <KeyDescription
+      <Description
+        clockSettings={clockSettings}
         musicalKey={musicalKey}
       />
     </g>

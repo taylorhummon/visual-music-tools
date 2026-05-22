@@ -1,17 +1,31 @@
 import { type MusicalKey } from "@shared/classes/MusicalKey"
 import { Note } from "@shared/classes/Note"
-import { remainderFor } from "@shared/utilities/math"
+import { getRemainder } from "@shared/utilities/math"
 
 
-export interface ClockSettings {
-  isUntangled: boolean,
-  isUsingSymmetryDot: boolean,
-  isUsingSolfege: boolean,
-  isUsingDotsBallet: boolean,
-  isUsingAnimation: boolean,
+export enum AnimationOption {
+  Minimal = "Minimal",
+  Ballet = "Ballet",
+  FollowsOrdinaryLabel = "Follows Ordinary Label",
+  FollowsSolfegeLabel = "Follows Solfege Label",
 }
 
-interface getHourInput {
+export enum AnchorOption {
+  D = "D",
+  RootNote = "Root Note",
+  DegreeNote = "Symmetry Note",
+}
+
+export interface ClockSettings {
+  isUsingAnimation: boolean,
+  isUntangled: boolean,
+  isUsingSymmetrySpotlight: boolean,
+  isUsingSolfege: boolean,
+  animationOption: AnimationOption,
+  anchorOption: AnchorOption,
+}
+
+interface getHourParameters {
   clockSettings: ClockSettings,
   musicalKey: MusicalKey,
   note: Note,
@@ -21,13 +35,25 @@ export function getHour({
   clockSettings,
   musicalKey,
   note,
-}: getHourInput): number {
-  const difference = note.value
-  // const difference = note.value - musicalKey.rootNote.value
-  // const difference = note.value - musicalKey.symmetryNote.value
-  if (clockSettings.isUntangled) {
-    return remainderFor(difference, 12)
-  } else {
-    return remainderFor(7 * difference, 12)
+}: getHourParameters): number {
+  const anchorValue = getAnchorValue(clockSettings, musicalKey)
+  const untangledValue = clockSettings.isUntangled ? 1 : 7
+  return getRemainder(untangledValue * (note.value - anchorValue), 12)
+}
+
+function getAnchorValue(
+  clockSettings: ClockSettings,
+  musicalKey: MusicalKey,
+): number {
+  const { anchorOption } = clockSettings
+  if (anchorOption === AnchorOption.D) {
+    return 0
   }
+  if (anchorOption === AnchorOption.RootNote) {
+    return musicalKey.rootNote.value
+  }
+  if (anchorOption === AnchorOption.DegreeNote) {
+    return musicalKey.degreeNote.value
+  }
+  throw Error(`Unrecognized anchor option: ${anchorOption}`)
 }

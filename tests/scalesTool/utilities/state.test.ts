@@ -53,10 +53,10 @@ test("reducer() works", () => {
     reducer(
       getInitialState(),
       {
-        type: ActionType.SelectIsUsingSymmetryDot,
-        isUsingSymmetryDot: false
+        type: ActionType.SelectIsUsingSymmetrySpotlight,
+        isUsingSymmetrySpotlight: false
       },
-    ).isUsingSymmetryDot
+    ).isUsingSymmetrySpotlight
   ).toBe(
     false
   )

@@ -2,7 +2,7 @@ import { render } from "@testing-library/react"
 import { MantineProvider } from "@mantine/core"
 
 
-interface wrapperInput {
+interface wrapperParameters {
   children: React.ReactNode,
 }
 
@@ -12,7 +12,7 @@ export function renderWithMantine(
   return render(
     <>{ui}</>,
     {
-      wrapper: ({ children }: wrapperInput) => (
+      wrapper: ({ children }: wrapperParameters) => (
         <MantineProvider env="test">
           {children}
         </MantineProvider>

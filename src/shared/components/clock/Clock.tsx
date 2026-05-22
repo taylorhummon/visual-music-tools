@@ -1,70 +1,68 @@
 import { type MusicalKey } from "@shared/classes/MusicalKey"
-import { type Note } from "@shared/classes/Note"
-import { NoteDotAnimator } from "@shared/classes/NoteDotAnimator"
-import { NoteLabelAnimator } from "@shared/classes/NoteLabelAnimator"
-import { SolfegeLabelAnimator } from "@shared/classes/SolfegeLabelAnimator"
-import { Face } from "@shared/components/clock/Face"
+import { DotAnimator } from "@shared/classes/DotAnimator"
+import { Dot } from "@shared/components/clock/Dot"
 import { Description } from "@shared/components/clock/Description"
-import { NoteDot } from "@shared/components/clock/NoteDot"
-import { NoteLabel } from "@shared/components/clock/NoteLabel"
-import { RootDot } from "@shared/components/clock/RootDot"
+import { Face } from "@shared/components/clock/Face"
+import { OrdinaryLabel } from "@shared/components/clock/OrdinaryLabel"
+import { RootSpotlight } from "@shared/components/clock/RootSpotlight"
 import { SolfegeLabel } from "@shared/components/clock/SolfegeLabel"
-import { SymmetryDot } from "@shared/components/clock/SymmetryDot"
+import { SymmetrySpotlight } from "@shared/components/clock/SymmetrySpotlight"
 import { type ClockSettings } from "@shared/utilities/clock"
-import { arrayFromMap } from "@shared/utilities/map"
-import { NATURAL_NOTES } from "@shared/utilities/naturalNote"
 import { type Motion } from "@shared/utilities/motion"
-import { type SolfegeLetter, SOLFEGE_LETTERS } from "@shared/utilities/solfege"
+import { NATURAL_NOTES } from "@shared/utilities/naturalNote"
+import { SOLFEGE_LETTERS } from "@shared/utilities/solfege"
 
 import clockCssModule from "./Clock.module.scss"
 
 
-interface ClockInput {
+interface ClockParameters {
   clockSettings: ClockSettings,
-  musicalKey: MusicalKey,
+  motion: Motion,
+  currentMusicalKey: MusicalKey,
   nextMusicalKey: MusicalKey,
 }
 
 export function Clock({
   clockSettings,
-  musicalKey,
+  motion,
+  currentMusicalKey,
   nextMusicalKey,
-}: ClockInput): React.ReactNode {
-  const noteDotAnimator = new NoteDotAnimator({ clockSettings, musicalKey, nextMusicalKey })
-  const noteLabelAnimator = new NoteLabelAnimator({ musicalKey, nextMusicalKey })
-  const solfegeLabelAnimator = new SolfegeLabelAnimator({ musicalKey, nextMusicalKey })
+}: ClockParameters): React.ReactNode {
+  const dotAnimator = new DotAnimator({
+    clockSettings,
+    motion,
+    currentMusicalKey,
+    nextMusicalKey,
+  })
 
   return (
     <g className={clockCssModule["clock"]}>
-      <RootDot
+      <RootSpotlight
         clockSettings={clockSettings}
-        musicalKey={musicalKey}
+        currentMusicalKey={currentMusicalKey}
         nextMusicalKey={nextMusicalKey}
       />
-      <SymmetryDot
+      <SymmetrySpotlight
         clockSettings={clockSettings}
-        musicalKey={musicalKey}
+        currentMusicalKey={currentMusicalKey}
         nextMusicalKey={nextMusicalKey}
       />
       <Face />
-      {arrayFromMap(musicalKey.noteBySolfegeLetter, (note: Note, solfegeLetter: SolfegeLetter) => (
-        <NoteDot
-          key={note.value}
+      {SOLFEGE_LETTERS.map((solfegeLetter) =>
+        <Dot
+          key={solfegeLetter}
           clockSettings={clockSettings}
-          musicalKey={musicalKey}
-          nextMusicalKey={nextMusicalKey}
-          noteDotAnimator={noteDotAnimator}
+          currentMusicalKey={currentMusicalKey}
+          dotAnimator={dotAnimator}
           solfegeLetter={solfegeLetter}
-          note={note}
         />
-      ))}
+      )}
       {NATURAL_NOTES.map((naturalNote) =>
-        <NoteLabel
+        <OrdinaryLabel
           key={naturalNote}
           clockSettings={clockSettings}
-          musicalKey={musicalKey}
+          currentMusicalKey={currentMusicalKey}
           nextMusicalKey={nextMusicalKey}
-          noteLabelAnimator={noteLabelAnimator}
           naturalNote={naturalNote}
         />
       )}
@@ -72,14 +70,13 @@ export function Clock({
         <SolfegeLabel
           key={solfegeLetter}
           clockSettings={clockSettings}
-          musicalKey={musicalKey}
+          currentMusicalKey={currentMusicalKey}
           nextMusicalKey={nextMusicalKey}
-          solfegeLabelAnimator={solfegeLabelAnimator}
           solfegeLetter={solfegeLetter}
         />
       )}
       <Description
-        musicalKey={musicalKey}
+        currentMusicalKey={currentMusicalKey}
       />
     </g>
   )

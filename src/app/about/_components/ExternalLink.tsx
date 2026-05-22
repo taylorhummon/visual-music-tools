@@ -1,4 +1,4 @@
-interface ExternalLinkInput {
+interface ExternalLinkParameters {
   href: string,
   children: React.ReactNode,
 }
@@ -6,7 +6,7 @@ interface ExternalLinkInput {
 export default function ExternalLink({
   href,
   children,
-}: ExternalLinkInput): React.ReactNode {
+}: ExternalLinkParameters): React.ReactNode {
   return (
     <a
       href={href}

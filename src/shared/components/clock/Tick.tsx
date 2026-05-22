@@ -6,13 +6,13 @@ const OUTER_RADIUS = 116
 const INNER_RADIUS = 104
 
 
-interface TickInput {
+interface TickParameters {
   hour: number,
 }
 
 export function Tick({
   hour,
-}: TickInput): React.ReactNode {
+}: TickParameters): React.ReactNode {
   return (
     <line
       x1={OUTER_RADIUS * UNIT_CIRCLE_XS[hour]}

@@ -1,12 +1,12 @@
 import {
-  ROOT_DOT_STROKE,
-  ROOT_DOT_FILL,
+  ROOT_SPOTLIGHT_STROKE,
+  ROOT_SPOTLIGHT_FILL,
   ICON_MOTION_STROKE,
 } from "@shared/utilities/color"
 import { Motion } from "@shared/utilities/motion"
 
 
-interface IconInput {
+interface IconParameters {
   motion: Motion,
   className?: string,
 }
@@ -14,7 +14,7 @@ interface IconInput {
 export function Icon({
   motion,
   className,
-}: IconInput): React.ReactNode | null {
+}: IconParameters): React.ReactNode | null {
   if (motion === Motion.IncrementRoot) {
     return (
       <g className={className}>
@@ -23,8 +23,8 @@ export function Icon({
           cy="-4"
           r="7"
           strokeWidth="1.2"
-          stroke={ROOT_DOT_STROKE}
-          fill={ROOT_DOT_FILL}
+          stroke={ROOT_SPOTLIGHT_STROKE}
+          fill={ROOT_SPOTLIGHT_FILL}
         />
         <line
           x1="-3"
@@ -61,8 +61,8 @@ export function Icon({
           cy="4"
           r="7"
           strokeWidth="1.2"
-          stroke={ROOT_DOT_STROKE}
-          fill={ROOT_DOT_FILL}
+          stroke={ROOT_SPOTLIGHT_STROKE}
+          fill={ROOT_SPOTLIGHT_FILL}
         />
         <line
           x1="3"

@@ -4,16 +4,16 @@ are dense enough to have consecutive integers. That is, up until
 Number.MAX_SAFE_INTEGER = 9,007,199,254,740,991.
 */
 
-export function quotientAndRemainderFor(
+export function getQuotientAndRemainder(
   numerator: number,
   denominator: number,
 ): { quotient: number, remainder: number } {
-  const remainder = remainderFor(numerator, denominator)
+  const remainder = getRemainder(numerator, denominator)
   const quotient = ensureZeroIsPositive((numerator - remainder) / denominator)
   return { quotient, remainder }
 }
 
-export function remainderFor(
+export function getRemainder(
   numerator: number,
   denominator: number,
 ): number {

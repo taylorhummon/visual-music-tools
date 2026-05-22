@@ -3,7 +3,7 @@ import { buildClassName } from "@shared/utilities/css"
 import selectorCssModule from "./Selector.module.scss"
 
 
-interface SelectorInput {
+interface SelectorParameters {
   className: string,
   label: string,
   isIncrementing: boolean,
@@ -17,7 +17,7 @@ export function Selector({
   isIncrementing,
   isDecrementing,
   children,
-}: SelectorInput): React.ReactNode {
+}: SelectorParameters): React.ReactNode {
   return (
     <g className={className}>
       <text className={selectorCssModule["label"]}>

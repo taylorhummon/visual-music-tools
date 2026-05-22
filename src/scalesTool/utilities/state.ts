@@ -2,22 +2,25 @@ import {
   DEFAULT_IS_UNTANGLED,
   DEFAULT_IS_USING_SYMMETRY_DOT,
   DEFAULT_IS_USING_SOLFEGE,
-  DEFAULT_IS_USING_DOTS_BALLET,
   DEFAULT_IS_USING_ANIMATION,
+  DEFAULT_ANIMATION_OPTION,
+  DEFAULT_ANCHOR_OPTION,
   DEFAULT_ROOT,
   DEFAULT_DEGREE,
 } from "@scalesTool/config"
 
 import { ActionType, Action } from "@shared/utilities/action"
+import { type AnimationOption, type AnchorOption } from "@shared/utilities/clock"
 import { Motion } from "@shared/utilities/motion"
 
 
 export interface State {
-  isUntangled: boolean,
-  isUsingSymmetryDot: boolean,
-  isUsingSolfege: boolean,
-  isUsingDotsBallet: boolean,
   isUsingAnimation: boolean,
+  isUntangled: boolean,
+  isUsingSymmetrySpotlight: boolean,
+  isUsingSolfege: boolean,
+  animationOption: AnimationOption,
+  anchorOption: AnchorOption,
   motion: Motion,
   root: number,
   degree: number,
@@ -26,11 +29,12 @@ export interface State {
 export function getInitialState(
 ): State {
   return {
-    isUntangled: DEFAULT_IS_UNTANGLED,
-    isUsingSymmetryDot: DEFAULT_IS_USING_SYMMETRY_DOT,
-    isUsingSolfege: DEFAULT_IS_USING_SOLFEGE,
-    isUsingDotsBallet: DEFAULT_IS_USING_DOTS_BALLET,
     isUsingAnimation: DEFAULT_IS_USING_ANIMATION,
+    isUntangled: DEFAULT_IS_UNTANGLED,
+    isUsingSymmetrySpotlight: DEFAULT_IS_USING_SYMMETRY_DOT,
+    isUsingSolfege: DEFAULT_IS_USING_SOLFEGE,
+    animationOption: DEFAULT_ANIMATION_OPTION,
+    anchorOption: DEFAULT_ANCHOR_OPTION,
     motion: Motion.Still,
     root: DEFAULT_ROOT,
     degree: DEFAULT_DEGREE,
@@ -53,25 +57,29 @@ export function reducer(
       degree: action.nextMusicalKey.degree,
     }
   }
+  if (action.type === ActionType.SelectIsUsingAnimation) {
+    const { isUsingAnimation } = action
+    return { ...state, isUsingAnimation }
+  }
   if (action.type === ActionType.SelectIsUntangled) {
     const { isUntangled } = action
     return { ...state, isUntangled }
   }
-  if (action.type === ActionType.SelectIsUsingSymmetryDot) {
-    const { isUsingSymmetryDot } = action
-    return { ...state, isUsingSymmetryDot }
+  if (action.type === ActionType.SelectIsUsingSymmetrySpotlight) {
+    const { isUsingSymmetrySpotlight } = action
+    return { ...state, isUsingSymmetrySpotlight }
   }
   if (action.type === ActionType.SelectIsUsingSolfege) {
     const { isUsingSolfege } = action
     return { ...state, isUsingSolfege }
   }
-  if (action.type === ActionType.SelectIsUsingDotsBallet) {
-    const { isUsingDotsBallet } = action
-    return { ...state, isUsingDotsBallet }
+  if (action.type === ActionType.SelectAnimationOption) {
+    const { animationOption } = action
+    return { ...state, animationOption }
   }
-  if (action.type === ActionType.SelectIsUsingAnimation) {
-    const { isUsingAnimation } = action
-    return { ...state, isUsingAnimation }
+  if (action.type === ActionType.SelectAnchorOption) {
+    const { anchorOption } = action
+    return { ...state, anchorOption }
   }
   return state
 }

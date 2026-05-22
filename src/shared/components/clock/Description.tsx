@@ -3,13 +3,13 @@ import { type MusicalKey } from "@shared/classes/MusicalKey"
 import descriptionCssModule from "./Description.module.scss"
 
 
-interface DescriptionInput {
-  musicalKey: MusicalKey,
+interface DescriptionParameters {
+  currentMusicalKey: MusicalKey,
 }
 
 export function Description({
-  musicalKey,
-}: DescriptionInput): React.ReactNode {
+  currentMusicalKey,
+}: DescriptionParameters): React.ReactNode {
   return (
     <>
       <text
@@ -17,7 +17,7 @@ export function Description({
         textAnchor="middle"
       >
         <TextContent
-          musicalKey={musicalKey}
+          currentMusicalKey={currentMusicalKey}
         />
         {"\n"}
       </text>
@@ -25,29 +25,29 @@ export function Description({
         className={descriptionCssModule["degree-description"]}
         textAnchor="middle"
       >
-        {getDegreeExplanation(musicalKey.degree)}
+        {getDegreeExplanation(currentMusicalKey.degree)}
       </text>
     </>
   )
 }
 
-interface TextContentInput {
-  musicalKey: MusicalKey,
+interface TextContentParameters {
+  currentMusicalKey: MusicalKey,
 }
 
 function TextContent({
-  musicalKey,
-}: TextContentInput): React.ReactNode {
+  currentMusicalKey,
+}: TextContentParameters): React.ReactNode {
   const noteFontClassName = "fixed-width-font"
-  const rootNoteName = musicalKey.rootNote.name
-  if (musicalKey.mode === -2) {
+  const rootNoteName = currentMusicalKey.rootNote.name
+  if (currentMusicalKey.mode === -2) {
     return (
       <>
         <tspan className={noteFontClassName}>{rootNoteName}</tspan>-Major.
       </>
     )
   }
-  if (musicalKey.mode === 1) {
+  if (currentMusicalKey.mode === 1) {
     return (
       <>
         <tspan className={noteFontClassName}>{rootNoteName}</tspan>-Minor.
@@ -56,7 +56,7 @@ function TextContent({
   }
   return (
     <>
-      The {musicalKey.modeName} mode on <tspan className={noteFontClassName}>{rootNoteName}</tspan>.
+      The {currentMusicalKey.modeName} mode on <tspan className={noteFontClassName}>{rootNoteName}</tspan>.
     </>
   )
 }

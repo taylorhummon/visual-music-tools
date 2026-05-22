@@ -1,5 +1,5 @@
 import {
-  quotientAndRemainderFor,
+  getQuotientAndRemainder,
   ensureZeroIsPositive,
 } from "@shared/utilities/math"
 import {
@@ -13,35 +13,52 @@ export const SHARP = "♯"
 export const FLAT = "♭"
 
 
-interface buildNoteInput {
+interface buildNoteParameters {
   naturalNote: NaturalNote,
-  sharpsCount: number,
+  sharpsCount: number,  // positive means sharps; 0 means natural; negative means flats.
 }
 
 export function buildNote({
   naturalNote,
   sharpsCount,
-}: buildNoteInput): Note {
+}: buildNoteParameters): Note {
 
   return new Note({ value: getValue(naturalNote, sharpsCount) })
 }
 
-interface constructorInput {
-  value: number,
+interface constructorParameters {
+  value: number,  // big steps from D
 }
 
 export class Note {
-  value: number                  // big steps from D
-  naturalNote: NaturalNote
-  sharpsCount: number            // positive means sharps; 0 means natural; negative means flats.
+  value: number
+  #naturalNote?: NaturalNote
+  #sharpsCount?: number
 
   constructor({
     value,
-  }: constructorInput) {
+  }: constructorParameters) {
     this.value = value
-    const { naturalNote, sharpsCount } = getNaturalNoteAndSharpsCount(this.value)
-    this.naturalNote = naturalNote
-    this.sharpsCount = sharpsCount
+  }
+
+  get naturalNote(
+  ): NaturalNote {
+    if (this.#naturalNote === undefined) {
+      const { naturalNote, sharpsCount } = getNaturalNoteAndSharpsCount(this.value)
+      this.#naturalNote = naturalNote
+      this.#sharpsCount = sharpsCount
+    }
+    return this.#naturalNote
+  }
+
+  get sharpsCount(
+  ): number {
+    if (this.#sharpsCount === undefined) {
+      const { naturalNote, sharpsCount } = getNaturalNoteAndSharpsCount(this.value)
+      this.#naturalNote = naturalNote
+      this.#sharpsCount = sharpsCount
+    }
+    return this.#sharpsCount
   }
 
   get name(
@@ -70,14 +87,14 @@ function getNaturalNoteAndSharpsCount(
   value: number,
 ): { naturalNote: NaturalNote, sharpsCount: number } {
   if (value > 0) {
-    const { quotient, remainder } = quotientAndRemainderFor(3 + value, 7)
+    const { quotient, remainder } = getQuotientAndRemainder(3 + value, 7)
     return {
       naturalNote: NATURAL_NOTES_IN_FCGDAEB_ORDER[remainder],
       sharpsCount: quotient
     }
   }
   if (value < 0) {
-    const { quotient, remainder } = quotientAndRemainderFor(3 - value, 7)
+    const { quotient, remainder } = getQuotientAndRemainder(3 - value, 7)
     return {
       naturalNote: NATURAL_NOTES_IN_BEADGCF_ORDER[remainder],
       sharpsCount: ensureZeroIsPositive(- quotient)

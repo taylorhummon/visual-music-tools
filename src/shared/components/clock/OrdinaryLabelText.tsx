@@ -1,17 +1,17 @@
 import { type Note, SHARP, FLAT } from "@shared/classes/Note"
 
-import noteLabelTextCssModule from "./NoteLabelText.module.scss"
+import ordinaryLabelTextCssModule from "./OrdinaryLabelText.module.scss"
 
 
-interface NoteLabelTextInput {
+interface OrdinaryLabelTextParameters {
   startNote: Note,
   finishNote: Note,
 }
 
-export function NoteLabelText({
+export function OrdinaryLabelText({
   startNote,
   finishNote,
-}: NoteLabelTextInput): React.ReactNode {
+}: OrdinaryLabelTextParameters): React.ReactNode {
   if (finishNote.value !== startNote.value) {
     // The startCharacterCount and finishCharacterCount differ by exactly one
     const startCharacterCount = startNote.name.length
@@ -20,7 +20,7 @@ export function NoteLabelText({
     const appearOrDisappear = finishCharacterCount > startCharacterCount ? "appear" : "disappear"
     if (longerNote.sharpsCount > 0) {
       return (
-        <SharpsNoteLabelText
+        <SharpsOrdinaryLabelText
           longerNote={longerNote}
           appearOrDisappear={appearOrDisappear}
         />
@@ -28,7 +28,7 @@ export function NoteLabelText({
     }
     if (longerNote.sharpsCount < 0) {
       return (
-        <FlatsNoteLabelText
+        <FlatsOrdinaryLabelText
           longerNote={longerNote}
           appearOrDisappear={appearOrDisappear}
         />
@@ -42,40 +42,40 @@ export function NoteLabelText({
   )
 }
 
-interface SharpsNoteLabelTextInput {
+interface SharpsOrdinaryLabelTextParameters {
   longerNote: Note,
   appearOrDisappear: "appear" | "disappear",
 }
 
-function SharpsNoteLabelText({
+function SharpsOrdinaryLabelText({
   longerNote,
   appearOrDisappear,
-}: SharpsNoteLabelTextInput): React.ReactNode {
+}: SharpsOrdinaryLabelTextParameters): React.ReactNode {
   return (
     <text>
       {longerNote.naturalNote}
       {SHARP.repeat(Math.abs(longerNote.sharpsCount) - 1)}
-      <tspan className={noteLabelTextCssModule[appearOrDisappear]}>
+      <tspan className={ordinaryLabelTextCssModule[appearOrDisappear]}>
         {SHARP}
       </tspan>
     </text>
   )
 }
 
-interface FlatsNoteLabelTextInput {
+interface FlatsOrdinaryLabelTextParameters {
   longerNote: Note,
   appearOrDisappear: "appear" | "disappear",
 }
 
-function FlatsNoteLabelText({
+function FlatsOrdinaryLabelText({
   longerNote,
   appearOrDisappear,
-}: FlatsNoteLabelTextInput): React.ReactNode {
+}: FlatsOrdinaryLabelTextParameters): React.ReactNode {
   return (
     <text>
       {longerNote.naturalNote}
       {FLAT.repeat(Math.abs(longerNote.sharpsCount) - 1)}
-      <tspan className={noteLabelTextCssModule[appearOrDisappear]}>
+      <tspan className={ordinaryLabelTextCssModule[appearOrDisappear]}>
         {FLAT}
       </tspan>
     </text>

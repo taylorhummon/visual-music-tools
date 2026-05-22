@@ -8,10 +8,10 @@ import { Motion } from "@shared/utilities/motion"
 
 test("useDerived() works", () => {
   const state = {
-    isUntangled: false,
-    isUsingSymmetryDot: false,
-    isUsingSolfege: true,
     isUsingAnimation: true,
+    isUntangled: false,
+    isUsingSymmetrySpotlight: false,
+    isUsingSolfege: true,
     motion: Motion.IncrementDegree,
     root: 2,
     degree: 3,
@@ -24,7 +24,7 @@ test("useDerived() works", () => {
     false
   )
   expect(
-    derived.clockSettings.isUsingSymmetryDot
+    derived.clockSettings.isUsingSymmetrySpotlight
   ).toBe(
     false
   )
@@ -44,12 +44,12 @@ test("useDerived() works", () => {
     Motion.IncrementDegree
   )
   expect(
-    derived.musicalKey.root
+    derived.currentMusicalKey.root
   ).toBe(
     2
   )
   expect(
-    derived.musicalKey.degree
+    derived.currentMusicalKey.degree
   ).toBe(
     3
   )

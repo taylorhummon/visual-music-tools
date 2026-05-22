@@ -12,7 +12,7 @@ export enum Motion {
   DecrementBoth = "DecrementBoth",
 }
 
-interface canPerformMotionInput {
+interface canPerformMotionParameters {
   maxDegree: number,
   minDegree: number,
   musicalKey: MusicalKey,
@@ -24,7 +24,7 @@ export function canPerformMotion({
   minDegree,
   musicalKey,
   motion,
-}: canPerformMotionInput): boolean {
+}: canPerformMotionParameters): boolean {
   if (motion === Motion.IncrementRoot) {
     return musicalKey.mode < MAX_MODE
   }
@@ -52,52 +52,52 @@ export function canPerformMotion({
   return false
 }
 
-interface getNextMusicalKeyInput {
-  musicalKey: MusicalKey,
+interface getNextMusicalKeyParameters {
+  currentMusicalKey: MusicalKey,
   motion: Motion,
 }
 
 export function getNextMusicalKey({
-  musicalKey,
+  currentMusicalKey,
   motion,
-}: getNextMusicalKeyInput): MusicalKey {
+}: getNextMusicalKeyParameters): MusicalKey {
   if (motion === Motion.IncrementRoot) {
     return new MusicalKey({
-      root: musicalKey.root + 1,
-      degree: musicalKey.degree,
+      root: currentMusicalKey.root + 1,
+      degree: currentMusicalKey.degree,
     })
   }
   if (motion === Motion.DecrementRoot) {
     return new MusicalKey({
-      root: musicalKey.root - 1,
-      degree: musicalKey.degree,
+      root: currentMusicalKey.root - 1,
+      degree: currentMusicalKey.degree,
     })
   }
   if (motion === Motion.IncrementDegree) {
     return new MusicalKey({
-      root: musicalKey.root,
-      degree: musicalKey.degree + 1,
+      root: currentMusicalKey.root,
+      degree: currentMusicalKey.degree + 1,
     })
   }
   if (motion === Motion.DecrementDegree) {
     return new MusicalKey({
-      root: musicalKey.root,
-      degree: musicalKey.degree - 1,
+      root: currentMusicalKey.root,
+      degree: currentMusicalKey.degree - 1,
     })
   }
   if (motion === Motion.IncrementBoth) {
     return new MusicalKey({
-      root: musicalKey.root + 1,
-      degree: musicalKey.degree + 1,
+      root: currentMusicalKey.root + 1,
+      degree: currentMusicalKey.degree + 1,
     })
   }
   if (motion === Motion.DecrementBoth) {
     return new MusicalKey({
-      root: musicalKey.root - 1,
-      degree: musicalKey.degree - 1,
+      root: currentMusicalKey.root - 1,
+      degree: currentMusicalKey.degree - 1,
     })
   }
-  return musicalKey
+  return currentMusicalKey
 }
 
 export function getWillIncrementMode(

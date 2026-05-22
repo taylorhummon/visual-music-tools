@@ -4,7 +4,7 @@ import { buildClassName } from "@shared/utilities/css"
 import highlighterCssModule from "./Highlighter.module.scss"
 
 
-interface HighlighterInput {
+interface HighlighterParameters {
   currentMode: number,
   nextMode: number,
 }
@@ -12,7 +12,7 @@ interface HighlighterInput {
 export function Highlighter({
   currentMode,
   nextMode,
-}: HighlighterInput): React.ReactNode {
+}: HighlighterParameters): React.ReactNode {
   return (
     <g className={getClassName(currentMode, nextMode)}>
       <polygon

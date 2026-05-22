@@ -1,13 +1,13 @@
 import { type ActionDispatch } from "react"
-import { Stack, Switch } from "@mantine/core"
+import { Stack, Switch, Select } from "@mantine/core"
 
 import { type Action, ActionType } from "@shared/utilities/action"
-import { type ClockSettings } from "@shared/utilities/clock"
+import { type ClockSettings, AnimationOption, AnchorOption } from "@shared/utilities/clock"
 
 import settingsPanelCssModule from "./SettingsPanel.module.scss"
 
 
-interface SettingsPanelInput {
+interface SettingsPanelParameters {
   clockSettings: ClockSettings,
   dispatch: ActionDispatch<[action: Action]>,
 }
@@ -15,13 +15,26 @@ interface SettingsPanelInput {
 export function SettingsPanel({
   clockSettings,
   dispatch,
-}: SettingsPanelInput): React.ReactNode {
+}: SettingsPanelParameters): React.ReactNode {
   return (
     <Stack
       classNames={{ "root": settingsPanelCssModule["settings-panel"] }}
       align="stretch"
       gap="sm"
     >
+      <Switch
+        label="Animation"
+        size={SWITCH_SIZE}
+        withThumbIndicator={WITH_THUMB_INDICATOR}
+        checked={clockSettings.isUsingAnimation}
+        onChange={(event) => {
+          dispatch({
+            type: ActionType.SelectIsUsingAnimation,
+            isUsingAnimation: event.currentTarget.checked,
+          })
+        }}
+        data-testid="animation-switch"
+      />
       <Switch
         label="Untangle"
         size={SWITCH_SIZE}
@@ -39,11 +52,11 @@ export function SettingsPanel({
         label="Symmetry Note"
         size={SWITCH_SIZE}
         withThumbIndicator={WITH_THUMB_INDICATOR}
-        checked={clockSettings.isUsingSymmetryDot}
+        checked={clockSettings.isUsingSymmetrySpotlight}
         onChange={(event) => {
           dispatch({
-            type: ActionType.SelectIsUsingSymmetryDot,
-            isUsingSymmetryDot: event.currentTarget.checked,
+            type: ActionType.SelectIsUsingSymmetrySpotlight,
+            isUsingSymmetrySpotlight: event.currentTarget.checked,
           })
         }}
         data-testid="symmetry-switch"
@@ -61,31 +74,29 @@ export function SettingsPanel({
         }}
         data-testid="solfege-switch"
       />
-      <Switch
-        label="Notes Ballet"
-        size={SWITCH_SIZE}
-        withThumbIndicator={WITH_THUMB_INDICATOR}
-        checked={clockSettings.isUsingDotsBallet}
-        onChange={(event) => {
+      <Select
+        label="Dot Animation"
+        data={Object.values(AnimationOption)}
+        value={clockSettings.animationOption}
+        onChange={(value) => {
+          if (value === null) return
           dispatch({
-            type: ActionType.SelectIsUsingDotsBallet,
-            isUsingDotsBallet: event.currentTarget.checked,
+            type: ActionType.SelectAnimationOption,
+            animationOption: value,
           })
         }}
-        data-testid="notes-ballet-switch"
       />
-      <Switch
-        label="Animation"
-        size={SWITCH_SIZE}
-        withThumbIndicator={WITH_THUMB_INDICATOR}
-        checked={clockSettings.isUsingAnimation}
-        onChange={(event) => {
+      <Select
+        label="Anchor to Top"
+        data={Object.values(AnchorOption)}
+        value={clockSettings.anchorOption}
+        onChange={(value) => {
+          if (value === null) return
           dispatch({
-            type: ActionType.SelectIsUsingAnimation,
-            isUsingAnimation: event.currentTarget.checked,
+            type: ActionType.SelectAnchorOption,
+            anchorOption: value,
           })
         }}
-        data-testid="animation-switch"
       />
     </Stack>
   )

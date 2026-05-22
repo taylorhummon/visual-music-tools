@@ -10,7 +10,7 @@ import { Motion, getNextMusicalKey } from "@shared/utilities/motion"
 export interface Derived {
   clockSettings: ClockSettings,
   motion: Motion,
-  musicalKey: MusicalKey,
+  currentMusicalKey: MusicalKey,
   nextMusicalKey: MusicalKey,
 }
 
@@ -18,11 +18,12 @@ export function useDerived(
   state: State,
 ): Derived {
   const {
-    isUntangled,
-    isUsingSymmetryDot,
-    isUsingSolfege,
-    isUsingDotsBallet,
     isUsingAnimation,
+    isUntangled,
+    isUsingSymmetrySpotlight,
+    isUsingSolfege,
+    animationOption,
+    anchorOption,
     motion,
     root,
     degree,
@@ -30,16 +31,24 @@ export function useDerived(
   const clockSettings = useMemo(
     () => {
       return {
-        isUntangled,
-        isUsingSymmetryDot,
-        isUsingSolfege,
-        isUsingDotsBallet,
         isUsingAnimation,
+        isUntangled,
+        isUsingSymmetrySpotlight,
+        isUsingSolfege,
+        animationOption,
+        anchorOption,
       }
     },
-    [ isUntangled, isUsingSymmetryDot, isUsingSolfege, isUsingDotsBallet, isUsingAnimation ]
+    [
+      isUsingAnimation,
+      isUntangled,
+      isUsingSymmetrySpotlight,
+      isUsingSolfege,
+      animationOption,
+      anchorOption,
+    ]
   )
-  const musicalKey = useMemo(
+  const currentMusicalKey = useMemo(
     () => {
       return new MusicalKey({ root, degree })
     },
@@ -47,14 +56,14 @@ export function useDerived(
   )
   const nextMusicalKey = useMemo(
     () => {
-      return getNextMusicalKey({ musicalKey, motion })
+      return getNextMusicalKey({ currentMusicalKey, motion })
     },
-    [ musicalKey, motion ],
+    [ currentMusicalKey, motion ],
   )
   return {
     clockSettings,
     motion,
-    musicalKey,
+    currentMusicalKey,
     nextMusicalKey,
   }
 }

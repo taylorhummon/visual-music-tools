@@ -6,11 +6,11 @@ import { type SelectorButtonClickHandler, SelectorButtonSize } from "@shared/uti
 import selectorButtonsCssModule from "./SelectorButtons.module.scss"
 
 
-interface SelectorButtonsInput {
+interface SelectorButtonsParameters {
   maxDegree: number,
   minDegree: number,
   motion: Motion,
-  musicalKey: MusicalKey,
+  currentMusicalKey: MusicalKey,
   nextMusicalKey: MusicalKey,
   selectorButtonClickHandler: SelectorButtonClickHandler,
 }
@@ -19,10 +19,10 @@ export function SelectorButtons({
   maxDegree,
   minDegree,
   motion,
-  musicalKey,
+  currentMusicalKey,
   nextMusicalKey,
   selectorButtonClickHandler,
-}: SelectorButtonsInput): React.ReactNode {
+}: SelectorButtonsParameters): React.ReactNode {
   return (
     <>
       <g className={selectorButtonsCssModule["upper-buttons"]}>
@@ -30,7 +30,7 @@ export function SelectorButtons({
           maxDegree={maxDegree}
           minDegree={minDegree}
           motion={motion}
-          musicalKey={musicalKey}
+          currentMusicalKey={currentMusicalKey}
           nextMusicalKey={nextMusicalKey}
           clickHandler={selectorButtonClickHandler}
           size={SelectorButtonSize.Large}
@@ -42,7 +42,7 @@ export function SelectorButtons({
           maxDegree={maxDegree}
           minDegree={minDegree}
           motion={motion}
-          musicalKey={musicalKey}
+          currentMusicalKey={currentMusicalKey}
           nextMusicalKey={nextMusicalKey}
           clickHandler={selectorButtonClickHandler}
           size={SelectorButtonSize.Small}
@@ -54,7 +54,7 @@ export function SelectorButtons({
           maxDegree={maxDegree}
           minDegree={minDegree}
           motion={motion}
-          musicalKey={musicalKey}
+          currentMusicalKey={currentMusicalKey}
           nextMusicalKey={nextMusicalKey}
           clickHandler={selectorButtonClickHandler}
           size={SelectorButtonSize.Small}
@@ -68,7 +68,7 @@ export function SelectorButtons({
           maxDegree={maxDegree}
           minDegree={minDegree}
           motion={motion}
-          musicalKey={musicalKey}
+          currentMusicalKey={currentMusicalKey}
           nextMusicalKey={nextMusicalKey}
           clickHandler={selectorButtonClickHandler}
           size={SelectorButtonSize.Small}
@@ -80,7 +80,7 @@ export function SelectorButtons({
           maxDegree={maxDegree}
           minDegree={minDegree}
           motion={motion}
-          musicalKey={musicalKey}
+          currentMusicalKey={currentMusicalKey}
           nextMusicalKey={nextMusicalKey}
           clickHandler={selectorButtonClickHandler}
           size={SelectorButtonSize.Small}
@@ -92,7 +92,7 @@ export function SelectorButtons({
           maxDegree={maxDegree}
           minDegree={minDegree}
           motion={motion}
-          musicalKey={musicalKey}
+          currentMusicalKey={currentMusicalKey}
           nextMusicalKey={nextMusicalKey}
           clickHandler={selectorButtonClickHandler}
           size={SelectorButtonSize.Large}

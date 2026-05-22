@@ -1,13 +1,13 @@
 import styles from "./content.module.scss"
 
 
-interface ContentInput {
+interface ContentParameters {
   children: React.ReactNode,
 }
 
 export default function Content({
   children,
-}: ContentInput): React.ReactNode {
+}: ContentParameters): React.ReactNode {
   return (
     <div className={styles["page"]}>
       <main className={styles["main-content"]} aria-label="Content">

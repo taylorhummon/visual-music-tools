@@ -6,16 +6,16 @@ import { MODES } from "@shared/utilities/mode"
 import modeGaugeCssModule from "./ModeGauge.module.scss"
 
 
-interface ModeGaugeInput {
-  musicalKey: MusicalKey,
+interface ModeGaugeParameters {
+  currentMusicalKey: MusicalKey,
   nextMusicalKey: MusicalKey,
 }
 
 export function ModeGauge({
-  musicalKey,
+  currentMusicalKey,
   nextMusicalKey,
-}: ModeGaugeInput): React.ReactNode {
-  const currentMode = musicalKey.mode
+}: ModeGaugeParameters): React.ReactNode {
+  const currentMode = currentMusicalKey.mode
   const nextMode = nextMusicalKey.mode
 
   return (

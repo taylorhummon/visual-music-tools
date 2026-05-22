@@ -8,11 +8,11 @@ import { EXTENDED_POSITIONS, noteAt } from "@shared/utilities/selector"
 import rootSelectorCssModule from "./RootSelector.module.scss"
 
 
-interface RootSelectorInput {
+interface RootSelectorParameters {
   maxDegree: number,
   minDegree: number,
   motion: Motion,
-  musicalKey: MusicalKey,
+  currentMusicalKey: MusicalKey,
   nextMusicalKey: MusicalKey,
 }
 
@@ -20,15 +20,15 @@ export function RootSelector({
   maxDegree,
   minDegree,
   motion,
-  musicalKey,
+  currentMusicalKey,
   nextMusicalKey,
-}: RootSelectorInput): React.ReactNode {
+}: RootSelectorParameters): React.ReactNode {
   const pairs = EXTENDED_POSITIONS.map(
-    (position) => ({ position, note: noteAt(musicalKey, position) })
+    (position) => ({ position, note: noteAt(currentMusicalKey, position) })
   ).filter(
     ({ note }) => isBetweenInclusive(note.value, minDegree - 3, maxDegree + 3)
   )
-  const rootDifference = nextMusicalKey.root - musicalKey.root
+  const rootDifference = nextMusicalKey.root - currentMusicalKey.root
 
   return (
     <Selector

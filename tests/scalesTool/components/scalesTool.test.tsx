@@ -9,7 +9,7 @@ import { NaturalNote } from "@shared/utilities/naturalNote"
 import { SolfegeLetter } from "@shared/utilities/solfege"
 
 
-async function turnOnSymmetryDot() {
+async function turnOnSymmetrySpotlight() {
   if ((screen.getByTestId("symmetry-switch") as HTMLInputElement).checked === false) {
     await userEvent.click(screen.getByTestId("symmetry-switch"))
   }
@@ -21,154 +21,154 @@ async function turnOffAnimation() {
   }
 }
 
-function getRootDot(
+function getRootSpotlight(
 ) {
-  return screen.getByTestId("clock-root-dot")
+  return screen.getByTestId("clock-root-spotlight")
 }
 
-function getSymmetryDot(
+function getSymmetrySpotlight(
 ) {
-  return screen.getByTestId("clock-symmetry-dot")
+  return screen.getByTestId("clock-symmetry-spotlight")
 }
 
-function getNoteDot(
+function getDot(
   solfegeLetter: SolfegeLetter,
 ) {
-  return screen.getByTestId(`note-dot-${solfegeLetter}`)
+  return screen.getByTestId(`dot-${solfegeLetter}`)
 }
 
-function getNoteLabel(
+function getOrdinaryLabel(
   naturalNote: NaturalNote,
 ) {
-  return screen.getByTestId(`note-label-${naturalNote}`)
+  return screen.getByTestId(`ordinary-label-${naturalNote}`)
 }
 
 
 test("<ScalesTool /> shows C-Major as default correctly", async () => {
   renderWithMantine(<ScalesTool />)
 
-  await turnOnSymmetryDot()
+  await turnOnSymmetrySpotlight()
 
   expect(
-    getRootDot().getAttribute("class")
+    getRootSpotlight().getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-10")
   )
 
   expect(
-    getSymmetryDot().getAttribute("class")
+    getSymmetrySpotlight().getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-0")
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Do).getAttribute("class")
+    getDot(SolfegeLetter.Do).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-10")
   )
   expect(
-    getNoteLabel(NaturalNote.C).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.C).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-10")
   )
   expect(
-    getNoteLabel(NaturalNote.C).textContent
+    getOrdinaryLabel(NaturalNote.C).textContent
   ).toBe(
     "C"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Re).getAttribute("class")
+    getDot(SolfegeLetter.Re).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-0")
   )
   expect(
-    getNoteLabel(NaturalNote.D).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.D).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-0")
   )
   expect(
-    getNoteLabel(NaturalNote.D).textContent
+    getOrdinaryLabel(NaturalNote.D).textContent
   ).toBe(
     "D"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Mi).getAttribute("class")
+    getDot(SolfegeLetter.Mi).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-2")
   )
   expect(
-    getNoteLabel(NaturalNote.E).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.E).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-2")
   )
   expect(
-    getNoteLabel(NaturalNote.E).textContent
+    getOrdinaryLabel(NaturalNote.E).textContent
   ).toBe(
     "E"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Fa).getAttribute("class")
+    getDot(SolfegeLetter.Fa).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-3")
   )
   expect(
-    getNoteLabel(NaturalNote.F).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.F).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-3")
   )
   expect(
-    getNoteLabel(NaturalNote.F).textContent
+    getOrdinaryLabel(NaturalNote.F).textContent
   ).toBe(
     "F"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Sol).getAttribute("class")
+    getDot(SolfegeLetter.Sol).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-5")
   )
   expect(
-    getNoteLabel(NaturalNote.G).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.G).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-5")
   )
   expect(
-    getNoteLabel(NaturalNote.G).textContent
+    getOrdinaryLabel(NaturalNote.G).textContent
   ).toBe(
     "G"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.La).getAttribute("class")
+    getDot(SolfegeLetter.La).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-7")
   )
   expect(
-    getNoteLabel(NaturalNote.A).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.A).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-7")
   )
   expect(
-    getNoteLabel(NaturalNote.A).textContent
+    getOrdinaryLabel(NaturalNote.A).textContent
   ).toBe(
     "A"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Ti).getAttribute("class")
+    getDot(SolfegeLetter.Ti).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-9")
   )
   expect(
-    getNoteLabel(NaturalNote.B).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.B).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-9")
   )
   expect(
-    getNoteLabel(NaturalNote.B).textContent
+    getOrdinaryLabel(NaturalNote.B).textContent
   ).toBe(
     "B"
   )
@@ -177,130 +177,130 @@ test("<ScalesTool /> shows C-Major as default correctly", async () => {
 test("<ScalesTool /> shows G-Major as default correctly", async () => {
   renderWithMantine(<ScalesTool />)
 
-  await turnOnSymmetryDot()
+  await turnOnSymmetrySpotlight()
   await turnOffAnimation()
   await userEvent.click(screen.getByTestId("increment-both"))
 
   expect(
-    getRootDot().getAttribute("class")
+    getRootSpotlight().getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-5")
   )
 
   expect(
-    getSymmetryDot().getAttribute("class")
+    getSymmetrySpotlight().getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-7")
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Do).getAttribute("class")
+    getDot(SolfegeLetter.Do).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-5")
   )
   expect(
-    getNoteLabel(NaturalNote.G).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.G).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-5")
   )
   expect(
-    getNoteLabel(NaturalNote.G).textContent
+    getOrdinaryLabel(NaturalNote.G).textContent
   ).toBe(
     "G"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Re).getAttribute("class")
+    getDot(SolfegeLetter.Re).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-7")
   )
   expect(
-    getNoteLabel(NaturalNote.A).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.A).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-7")
   )
   expect(
-    getNoteLabel(NaturalNote.A).textContent
+    getOrdinaryLabel(NaturalNote.A).textContent
   ).toBe(
     "A"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Mi).getAttribute("class")
+    getDot(SolfegeLetter.Mi).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-9")
   )
   expect(
-    getNoteLabel(NaturalNote.B).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.B).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-9")
   )
   expect(
-    getNoteLabel(NaturalNote.B).textContent
+    getOrdinaryLabel(NaturalNote.B).textContent
   ).toBe(
     "B"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Fa).getAttribute("class")
+    getDot(SolfegeLetter.Fa).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-10")
   )
   expect(
-    getNoteLabel(NaturalNote.C).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.C).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-10")
   )
   expect(
-    getNoteLabel(NaturalNote.C).textContent
+    getOrdinaryLabel(NaturalNote.C).textContent
   ).toBe(
     "C"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Sol).getAttribute("class")
+    getDot(SolfegeLetter.Sol).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-0")
   )
   expect(
-    getNoteLabel(NaturalNote.D).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.D).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-0")
   )
   expect(
-    getNoteLabel(NaturalNote.D).textContent
+    getOrdinaryLabel(NaturalNote.D).textContent
   ).toBe(
     "D"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.La).getAttribute("class")
+    getDot(SolfegeLetter.La).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-2")
   )
   expect(
-    getNoteLabel(NaturalNote.E).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.E).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-2")
   )
   expect(
-    getNoteLabel(NaturalNote.E).textContent
+    getOrdinaryLabel(NaturalNote.E).textContent
   ).toBe(
     "E"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Ti).getAttribute("class")
+    getDot(SolfegeLetter.Ti).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-4")
   )
   expect(
-    getNoteLabel(NaturalNote.F).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.F).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-4")
   )
   expect(
-    getNoteLabel(NaturalNote.F).textContent
+    getOrdinaryLabel(NaturalNote.F).textContent
   ).toBe(
     "F♯"
   )
@@ -310,132 +310,132 @@ test("<ScalesTool /> shows C-Minor correctly", async () => {
   userEvent.setup()
   renderWithMantine(<ScalesTool />)
 
-  await turnOnSymmetryDot()
+  await turnOnSymmetrySpotlight()
   await turnOffAnimation()
   await userEvent.click(screen.getByTestId("decrement-degree"))
   await userEvent.click(screen.getByTestId("decrement-degree"))
   await userEvent.click(screen.getByTestId("decrement-degree"))
 
   expect(
-    getRootDot().getAttribute("class")
+    getRootSpotlight().getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-10")
   )
 
   expect(
-    getSymmetryDot().getAttribute("class")
+    getSymmetrySpotlight().getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-3")
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Do).getAttribute("class")
+    getDot(SolfegeLetter.Do).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-10")
   )
   expect(
-    getNoteLabel(NaturalNote.C).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.C).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-10")
   )
   expect(
-    getNoteLabel(NaturalNote.C).textContent
+    getOrdinaryLabel(NaturalNote.C).textContent
   ).toBe(
     "C"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Re).getAttribute("class")
+    getDot(SolfegeLetter.Re).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-0")
   )
   expect(
-    getNoteLabel(NaturalNote.D).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.D).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-0")
   )
   expect(
-    getNoteLabel(NaturalNote.D).textContent
+    getOrdinaryLabel(NaturalNote.D).textContent
   ).toBe(
     "D"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Mi).getAttribute("class")
+    getDot(SolfegeLetter.Mi).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-1")
   )
   expect(
-    getNoteLabel(NaturalNote.E).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.E).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-1")
   )
   expect(
-    getNoteLabel(NaturalNote.E).textContent
+    getOrdinaryLabel(NaturalNote.E).textContent
   ).toBe(
     "E♭"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Fa).getAttribute("class")
+    getDot(SolfegeLetter.Fa).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-3")
   )
   expect(
-    getNoteLabel(NaturalNote.F).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.F).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-3")
   )
   expect(
-    getNoteLabel(NaturalNote.F).textContent
+    getOrdinaryLabel(NaturalNote.F).textContent
   ).toBe(
     "F"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Sol).getAttribute("class")
+    getDot(SolfegeLetter.Sol).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-5")
   )
   expect(
-    getNoteLabel(NaturalNote.G).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.G).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-5")
   )
   expect(
-    getNoteLabel(NaturalNote.G).textContent
+    getOrdinaryLabel(NaturalNote.G).textContent
   ).toBe(
     "G"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.La).getAttribute("class")
+    getDot(SolfegeLetter.La).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-6")
   )
   expect(
-    getNoteLabel(NaturalNote.A).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.A).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-6")
   )
   expect(
-    getNoteLabel(NaturalNote.A).textContent
+    getOrdinaryLabel(NaturalNote.A).textContent
   ).toBe(
     "A♭"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Ti).getAttribute("class")
+    getDot(SolfegeLetter.Ti).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-8")
   )
   expect(
-    getNoteLabel(NaturalNote.B).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.B).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-8")
   )
   expect(
-    getNoteLabel(NaturalNote.B).textContent
+    getOrdinaryLabel(NaturalNote.B).textContent
   ).toBe(
     "B♭"
   )
@@ -445,131 +445,131 @@ test("<ScalesTool /> shows Dorian D correctly", async () => {
   userEvent.setup()
   renderWithMantine(<ScalesTool />)
 
-  await turnOnSymmetryDot()
+  await turnOnSymmetrySpotlight()
   await turnOffAnimation()
   await userEvent.click(screen.getByTestId("increment-root"))
   await userEvent.click(screen.getByTestId("increment-root"))
 
   expect(
-    getRootDot().getAttribute("class")
+    getRootSpotlight().getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-0")
   )
 
   expect(
-    getSymmetryDot().getAttribute("class")
+    getSymmetrySpotlight().getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-0")
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Do).getAttribute("class")
+    getDot(SolfegeLetter.Do).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-0")
   )
   expect(
-    getNoteLabel(NaturalNote.D).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.D).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-0")
   )
   expect(
-    getNoteLabel(NaturalNote.D).textContent
+    getOrdinaryLabel(NaturalNote.D).textContent
   ).toBe(
     "D"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Re).getAttribute("class")
+    getDot(SolfegeLetter.Re).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-2")
   )
   expect(
-    getNoteLabel(NaturalNote.E).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.E).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-2")
   )
   expect(
-    getNoteLabel(NaturalNote.E).textContent
+    getOrdinaryLabel(NaturalNote.E).textContent
   ).toBe(
     "E"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Mi).getAttribute("class")
+    getDot(SolfegeLetter.Mi).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-3")
   )
   expect(
-    getNoteLabel(NaturalNote.F).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.F).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-3")
   )
   expect(
-    getNoteLabel(NaturalNote.F).textContent
+    getOrdinaryLabel(NaturalNote.F).textContent
   ).toBe(
     "F"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Fa).getAttribute("class")
+    getDot(SolfegeLetter.Fa).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-5")
   )
   expect(
-    getNoteLabel(NaturalNote.G).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.G).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-5")
   )
   expect(
-    getNoteLabel(NaturalNote.G).textContent
+    getOrdinaryLabel(NaturalNote.G).textContent
   ).toBe(
     "G"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Sol).getAttribute("class")
+    getDot(SolfegeLetter.Sol).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-7")
   )
   expect(
-    getNoteLabel(NaturalNote.A).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.A).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-7")
   )
   expect(
-    getNoteLabel(NaturalNote.A).textContent
+    getOrdinaryLabel(NaturalNote.A).textContent
   ).toBe(
     "A"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.La).getAttribute("class")
+    getDot(SolfegeLetter.La).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-9")
   )
   expect(
-    getNoteLabel(NaturalNote.B).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.B).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-9")
   )
   expect(
-    getNoteLabel(NaturalNote.B).textContent
+    getOrdinaryLabel(NaturalNote.B).textContent
   ).toBe(
     "B"
   )
 
   expect(
-    getNoteDot(SolfegeLetter.Ti).getAttribute("class")
+    getDot(SolfegeLetter.Ti).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-10")
   )
   expect(
-    getNoteLabel(NaturalNote.C).getAttribute("class")
+    getOrdinaryLabel(NaturalNote.C).getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-10")
   )
   expect(
-    getNoteLabel(NaturalNote.C).textContent
+    getOrdinaryLabel(NaturalNote.C).textContent
   ).toBe(
     "C"
   )

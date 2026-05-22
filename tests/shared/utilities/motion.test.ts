@@ -155,64 +155,64 @@ test("canPerformMotion() works for mode = -3", () => {
 })
 
 test("getNextMusicalKey() works", () => {
-  const musicalKey = new MusicalKey({ mode: 0, root: 0 })
+  const currentMusicalKey = new MusicalKey({ mode: 0, root: 0 })
   expect(
-    getNextMusicalKey({ musicalKey, motion: Motion.IncrementRoot }).root
+    getNextMusicalKey({ currentMusicalKey, motion: Motion.IncrementRoot }).root
   ).toBe(
     1
   )
   expect(
-    getNextMusicalKey({ musicalKey, motion: Motion.IncrementRoot }).degree
+    getNextMusicalKey({ currentMusicalKey, motion: Motion.IncrementRoot }).degree
   ).toBe(
     0
   )
   expect(
-    getNextMusicalKey({ musicalKey, motion: Motion.DecrementRoot }).root
+    getNextMusicalKey({ currentMusicalKey, motion: Motion.DecrementRoot }).root
   ).toBe(
     -1
   )
   expect(
-    getNextMusicalKey({ musicalKey, motion: Motion.DecrementRoot }).degree
+    getNextMusicalKey({ currentMusicalKey, motion: Motion.DecrementRoot }).degree
   ).toBe(
     0
   )
   expect(
-    getNextMusicalKey({ musicalKey, motion: Motion.IncrementDegree }).root
+    getNextMusicalKey({ currentMusicalKey, motion: Motion.IncrementDegree }).root
   ).toBe(
     0
   )
   expect(
-    getNextMusicalKey({ musicalKey, motion: Motion.IncrementDegree }).degree
+    getNextMusicalKey({ currentMusicalKey, motion: Motion.IncrementDegree }).degree
   ).toBe(
     1
   )
   expect(
-    getNextMusicalKey({ musicalKey, motion: Motion.DecrementDegree }).root
+    getNextMusicalKey({ currentMusicalKey, motion: Motion.DecrementDegree }).root
   ).toBe(
     0
   )
   expect(
-    getNextMusicalKey({ musicalKey, motion: Motion.DecrementDegree }).degree
+    getNextMusicalKey({ currentMusicalKey, motion: Motion.DecrementDegree }).degree
   ).toBe(
     -1
   )
   expect(
-    getNextMusicalKey({ musicalKey, motion: Motion.IncrementBoth }).root
+    getNextMusicalKey({ currentMusicalKey, motion: Motion.IncrementBoth }).root
   ).toBe(
     1
   )
   expect(
-    getNextMusicalKey({ musicalKey, motion: Motion.IncrementBoth }).degree
+    getNextMusicalKey({ currentMusicalKey, motion: Motion.IncrementBoth }).degree
   ).toBe(
     1
   )
   expect(
-    getNextMusicalKey({ musicalKey, motion: Motion.DecrementBoth }).root
+    getNextMusicalKey({ currentMusicalKey, motion: Motion.DecrementBoth }).root
   ).toBe(
     -1
   )
   expect(
-    getNextMusicalKey({ musicalKey, motion: Motion.DecrementBoth }).degree
+    getNextMusicalKey({ currentMusicalKey, motion: Motion.DecrementBoth }).degree
   ).toBe(
     -1
   )

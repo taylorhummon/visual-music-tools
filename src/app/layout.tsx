@@ -16,13 +16,13 @@ export const metadata: Metadata = {
   description: "Visualize musical scales!",
 }
 
-interface LayoutInput {
+interface LayoutParameters {
   children: React.ReactNode,
 }
 
 export default function Layout({
   children,
-}: LayoutInput): React.ReactNode {
+}: LayoutParameters): React.ReactNode {
   return (
     <html
       lang="en"

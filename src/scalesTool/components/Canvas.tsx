@@ -11,10 +11,10 @@ import { type SelectorButtonClickHandler } from "@shared/utilities/selector"
 import canvasCssModule from "./Canvas.module.scss"
 
 
-interface CanvasInput {
+interface CanvasParameters {
   clockSettings: ClockSettings,
   motion: Motion,
-  musicalKey: MusicalKey,
+  currentMusicalKey: MusicalKey,
   nextMusicalKey: MusicalKey,
   selectorButtonClickHandler: SelectorButtonClickHandler,
 }
@@ -22,10 +22,10 @@ interface CanvasInput {
 export function Canvas({
   clockSettings,
   motion,
-  musicalKey,
+  currentMusicalKey,
   nextMusicalKey,
   selectorButtonClickHandler,
-}: CanvasInput): React.ReactNode {
+}: CanvasParameters): React.ReactNode {
   return (
     <svg
       className={canvasCssModule["canvas"]}
@@ -36,17 +36,18 @@ export function Canvas({
         maxDegree={MAX_DEGREE}
         minDegree={MIN_DEGREE}
         motion={motion}
-        musicalKey={musicalKey}
+        currentMusicalKey={currentMusicalKey}
         nextMusicalKey={nextMusicalKey}
         selectorButtonClickHandler={selectorButtonClickHandler}
       />
       <ModeGauge
-        musicalKey={musicalKey}
+        currentMusicalKey={currentMusicalKey}
         nextMusicalKey={nextMusicalKey}
       />
       <Clock
         clockSettings={clockSettings}
-        musicalKey={musicalKey}
+        motion={motion}
+        currentMusicalKey={currentMusicalKey}
         nextMusicalKey={nextMusicalKey}
       />
     </svg>

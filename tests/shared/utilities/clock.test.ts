@@ -1,11 +1,12 @@
 import { test, expect } from "vitest"
 
 import {
+  DEFAULT_IS_USING_ANIMATION,
   DEFAULT_IS_UNTANGLED,
   DEFAULT_IS_USING_SYMMETRY_DOT,
   DEFAULT_IS_USING_SOLFEGE,
-  DEFAULT_IS_USING_DOTS_BALLET,
-  DEFAULT_IS_USING_ANIMATION,
+  DEFAULT_ANIMATION_OPTION,
+  DEFAULT_ANCHOR_OPTION
 } from "@scalesTool/config"
 
 import { MusicalKey } from "@shared/classes/MusicalKey"
@@ -14,11 +15,12 @@ import { getHour } from "@shared/utilities/clock"
 
 
 const DEFAULT_CLOCK_SETTINGS = {
-  isUntangled: DEFAULT_IS_UNTANGLED,
-  isUsingSymmetryDot: DEFAULT_IS_USING_SYMMETRY_DOT,
-  isUsingSolfege: DEFAULT_IS_USING_SOLFEGE,
-  isUsingDotsBallet: DEFAULT_IS_USING_DOTS_BALLET,
   isUsingAnimation: DEFAULT_IS_USING_ANIMATION,
+  isUntangled: DEFAULT_IS_UNTANGLED,
+  isUsingSymmetrySpotlight: DEFAULT_IS_USING_SYMMETRY_DOT,
+  isUsingSolfege: DEFAULT_IS_USING_SOLFEGE,
+  animationOption: DEFAULT_ANIMATION_OPTION,
+  anchorOption: DEFAULT_ANCHOR_OPTION,
 }
 
 test("getHour() works when tangled", () => {

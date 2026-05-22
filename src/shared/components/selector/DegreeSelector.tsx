@@ -9,11 +9,11 @@ import { EXTENDED_POSITIONS } from "@shared/utilities/selector"
 import degreeSelectorCssModule from "./DegreeSelector.module.scss"
 
 
-interface DegreeSelectorInput {
+interface DegreeSelectorParameters {
   maxDegree: number,
   minDegree: number,
   motion: Motion,
-  musicalKey: MusicalKey,
+  currentMusicalKey: MusicalKey,
   nextMusicalKey: MusicalKey,
 }
 
@@ -21,15 +21,15 @@ export function DegreeSelector({
   maxDegree,
   minDegree,
   motion,
-  musicalKey,
+  currentMusicalKey,
   nextMusicalKey,
-}: DegreeSelectorInput): React.ReactNode {
+}: DegreeSelectorParameters): React.ReactNode {
   const pairs = EXTENDED_POSITIONS.map(
-    (position) => ({ position, degree: musicalKey.degree + position })
+    (position) => ({ position, degree: currentMusicalKey.degree + position })
   ).filter(
     ({ degree }) => isBetweenInclusive(degree, minDegree, maxDegree)
   )
-  const degreeDifference = nextMusicalKey.degree - musicalKey.degree
+  const degreeDifference = nextMusicalKey.degree - currentMusicalKey.degree
 
   return (
     <Selector

@@ -4,7 +4,7 @@ import { shortModeNameFromMode } from "@shared/utilities/mode"
 import modeCssModule from "./Mode.module.scss"
 
 
-interface ModeInput {
+interface ModeParameters {
   currentMode: number,
   nextMode: number,
   mode: number,
@@ -14,7 +14,7 @@ export function Mode({
   currentMode,
   nextMode,
   mode,
-}: ModeInput): React.ReactNode {
+}: ModeParameters): React.ReactNode {
   return (
     <g className={getClassName(currentMode, nextMode, mode)}>
       <text

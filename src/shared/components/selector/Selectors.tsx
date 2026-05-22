@@ -9,11 +9,11 @@ import { type SelectorButtonClickHandler } from "@shared/utilities/selector"
 import selectorsCssModule from "./Selectors.module.scss"
 
 
-interface SelectorsInput {
+interface SelectorsParameters {
   maxDegree: number,
   minDegree: number,
   motion: Motion,
-  musicalKey: MusicalKey,
+  currentMusicalKey: MusicalKey,
   nextMusicalKey: MusicalKey,
   selectorButtonClickHandler: SelectorButtonClickHandler,
 }
@@ -22,10 +22,10 @@ export function Selectors({
   maxDegree,
   minDegree,
   motion,
-  musicalKey,
+  currentMusicalKey,
   nextMusicalKey,
   selectorButtonClickHandler,
-}: SelectorsInput): React.ReactNode {
+}: SelectorsParameters): React.ReactNode {
   return (
     <g className={selectorsCssModule["selectors"]}>
       <defs>
@@ -42,7 +42,7 @@ export function Selectors({
         maxDegree={maxDegree}
         minDegree={minDegree}
         motion={motion}
-        musicalKey={musicalKey}
+        currentMusicalKey={currentMusicalKey}
         nextMusicalKey={nextMusicalKey}
         selectorButtonClickHandler={selectorButtonClickHandler}
       />
@@ -51,14 +51,14 @@ export function Selectors({
         maxDegree={maxDegree}
         minDegree={minDegree}
         motion={motion}
-        musicalKey={musicalKey}
+        currentMusicalKey={currentMusicalKey}
         nextMusicalKey={nextMusicalKey}
       />
       <RootSelector
         maxDegree={maxDegree}
         minDegree={minDegree}
         motion={motion}
-        musicalKey={musicalKey}
+        currentMusicalKey={currentMusicalKey}
         nextMusicalKey={nextMusicalKey}
       />
     </g>

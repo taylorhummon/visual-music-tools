@@ -3,7 +3,7 @@ import { buildClassName } from "@shared/utilities/css"
 import selectorValueCssModule from "./SelectorValue.module.scss"
 
 
-interface SelectorValueInput {
+interface SelectorValueParameters {
   currentPosition: number,
   nextPosition: number,
   children: React.ReactNode,
@@ -13,7 +13,7 @@ export function SelectorValue({
   currentPosition,
   nextPosition,
   children,
-}: SelectorValueInput): React.ReactNode {
+}: SelectorValueParameters): React.ReactNode {
   return (
     <g className={getClassName(currentPosition, nextPosition)}>
       <text

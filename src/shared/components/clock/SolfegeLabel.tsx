@@ -1,6 +1,4 @@
 import { type MusicalKey } from "@shared/classes/MusicalKey"
-import { type Note } from "@shared/classes/Note"
-import { SolfegeLabelAnimator } from "@shared/classes/SolfegeLabelAnimator"
 import { type ClockSettings, getHour } from "@shared/utilities/clock"
 import { buildClassName } from "@shared/utilities/css"
 import { SolfegeLetter } from "@shared/utilities/solfege"
@@ -8,26 +6,24 @@ import { SolfegeLetter } from "@shared/utilities/solfege"
 import solfegeLabelCssModule from "./SolfegeLabel.module.scss"
 
 
-interface SolfegeLabelInput {
+interface SolfegeLabelParameters {
   clockSettings: ClockSettings,
-  musicalKey: MusicalKey,
+  currentMusicalKey: MusicalKey,
   nextMusicalKey: MusicalKey,
-  solfegeLabelAnimator: SolfegeLabelAnimator,
   solfegeLetter: SolfegeLetter,
 }
 
 export function SolfegeLabel({
   clockSettings,
-  musicalKey,
+  currentMusicalKey,
   nextMusicalKey,
-  solfegeLabelAnimator,
   solfegeLetter,
-}: SolfegeLabelInput): React.ReactNode {
+}: SolfegeLabelParameters): React.ReactNode {
   const { isUsingSolfege } = clockSettings
   if (! isUsingSolfege) return null
-  const startNote = solfegeLabelAnimator.startNote(solfegeLetter)
-  const finishNote = solfegeLabelAnimator.finishNote(solfegeLetter)
-  const startHour = getHour({ clockSettings, musicalKey, note: startNote })
+  const startNote = currentMusicalKey.noteFromSolfegeLetter(solfegeLetter)
+  const finishNote = nextMusicalKey.noteFromSolfegeLetter(solfegeLetter)
+  const startHour = getHour({ clockSettings, musicalKey: currentMusicalKey, note: startNote })
   const finishHour = getHour({ clockSettings, musicalKey: nextMusicalKey, note: finishNote })
 
   return (

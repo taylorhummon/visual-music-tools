@@ -17,7 +17,7 @@ export function ScalesTool(
   const domNodeRef = useRef<HTMLDivElement>(null)
   const animationsCountRef = useRef<number>(0)
   const [ state, dispatch ] = useReducer(reducer, getInitialState())
-  const { clockSettings, motion, musicalKey, nextMusicalKey } = useDerived(state)
+  const { clockSettings, motion, currentMusicalKey, nextMusicalKey } = useDerived(state)
 
   // When the user clicks on a selector button
   const selectorButtonClickHandler = useCallback(
@@ -25,10 +25,10 @@ export function ScalesTool(
       if (clockSettings.isUsingAnimation) {
         dispatch({ type: ActionType.ActivateMotion, motion })
       } else {
-        dispatch({ type: ActionType.ChangeKey, nextMusicalKey: getNextMusicalKey({ musicalKey, motion }) })
+        dispatch({ type: ActionType.ChangeKey, nextMusicalKey: getNextMusicalKey({ currentMusicalKey, motion }) })
       }
     },
-    [ dispatch, clockSettings.isUsingAnimation, musicalKey ],
+    [ dispatch, clockSettings.isUsingAnimation, currentMusicalKey ],
   )
 
   // Count how many animations are runnning
@@ -47,14 +47,14 @@ export function ScalesTool(
       dispatch({ type: ActionType.ChangeKey, nextMusicalKey })
     }
     return registerEventListener(domNodeRef.current, "animationend", animationEndHandler)
-  }, [ dispatch, musicalKey, nextMusicalKey ])
+  }, [ dispatch, currentMusicalKey, nextMusicalKey ])
 
   return (
     <div ref={domNodeRef}>
       <Canvas
         clockSettings={clockSettings}
         motion={motion}
-        musicalKey={musicalKey}
+        currentMusicalKey={currentMusicalKey}
         nextMusicalKey={nextMusicalKey}
         selectorButtonClickHandler={selectorButtonClickHandler}
       />

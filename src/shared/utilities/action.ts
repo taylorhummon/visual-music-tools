@@ -1,22 +1,25 @@
 import { type MusicalKey } from "@shared/classes/MusicalKey"
+import { type AnimationOption, type AnchorOption } from "@shared/utilities/clock"
 import { type Motion } from "@shared/utilities/motion"
 
 
 export enum ActionType {
   ActivateMotion = "activate-motion",
   ChangeKey = "change-key",
-  SelectIsUntangled = "select-is-untangled",
-  SelectIsUsingSymmetryDot = "select-is-using-symmetry-dot",
-  SelectIsUsingSolfege = "select-is-using-solfege",
-  SelectIsUsingDotsBallet = "select-is-using-notes-ballet",
   SelectIsUsingAnimation = "select-is-using-animation",
+  SelectIsUntangled = "select-is-untangled",
+  SelectIsUsingSymmetrySpotlight = "select-is-using-symmetry-dot",
+  SelectIsUsingSolfege = "select-is-using-solfege",
+  SelectAnimationOption = "select-animation-option",
+  SelectAnchorOption = "select-anchor-option",
 }
 
 export type Action =
   | { type: ActionType.ActivateMotion, motion: Motion }
   | { type: ActionType.ChangeKey, nextMusicalKey: MusicalKey }
-  | { type: ActionType.SelectIsUntangled, isUntangled: boolean }
-  | { type: ActionType.SelectIsUsingSymmetryDot, isUsingSymmetryDot: boolean }
-  | { type: ActionType.SelectIsUsingSolfege, isUsingSolfege: boolean }
-  | { type: ActionType.SelectIsUsingDotsBallet, isUsingDotsBallet: boolean }
   | { type: ActionType.SelectIsUsingAnimation, isUsingAnimation: boolean }
+  | { type: ActionType.SelectIsUntangled, isUntangled: boolean }
+  | { type: ActionType.SelectIsUsingSymmetrySpotlight, isUsingSymmetrySpotlight: boolean }
+  | { type: ActionType.SelectIsUsingSolfege, isUsingSolfege: boolean }
+  | { type: ActionType.SelectAnimationOption, animationOption: AnimationOption }
+  | { type: ActionType.SelectAnchorOption, anchorOption: AnchorOption }

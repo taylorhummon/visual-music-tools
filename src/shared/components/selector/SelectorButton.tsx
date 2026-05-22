@@ -11,11 +11,11 @@ import {
 import selectorButtonCssModule from "./SelectorButton.module.scss"
 
 
-interface SelectorButtonInput {
+interface SelectorButtonParameters {
   maxDegree: number,
   minDegree: number,
   motion: Motion,
-  musicalKey: MusicalKey,
+  currentMusicalKey: MusicalKey,
   nextMusicalKey: MusicalKey,
   clickHandler: SelectorButtonClickHandler,
   size: SelectorButtonSize,
@@ -28,14 +28,14 @@ export function SelectorButton({
   maxDegree,
   minDegree,
   motion,
-  musicalKey,
+  currentMusicalKey,
   nextMusicalKey,
   clickHandler,
   size,
   onClickMotion,
   className,
   dataTestid,
-}: SelectorButtonInput): React.ReactNode {
+}: SelectorButtonParameters): React.ReactNode {
   return (
     <g className={getClassName(className)}>
       <Icon
@@ -45,7 +45,7 @@ export function SelectorButton({
         maxDegree={maxDegree}
         minDegree={minDegree}
         motion={motion}
-        musicalKey={musicalKey}
+        currentMusicalKey={currentMusicalKey}
         nextMusicalKey={nextMusicalKey}
         clickHandler={clickHandler}
         size={size}
@@ -67,11 +67,11 @@ function getClassName(
   ).join(" ")
 }
 
-interface ButtonRectangleInput {
+interface ButtonRectangleParameters {
   maxDegree: number,
   minDegree: number,
   motion: Motion,
-  musicalKey: MusicalKey,
+  currentMusicalKey: MusicalKey,
   nextMusicalKey: MusicalKey,
   clickHandler: SelectorButtonClickHandler,
   size: SelectorButtonSize,
@@ -88,7 +88,7 @@ function ButtonRectangle({
   size,
   onClickMotion,
   dataTestid,
-}: ButtonRectangleInput) {
+}: ButtonRectangleParameters) {
   const width = size === SelectorButtonSize.Large ? 98 : 46
   const x = - width / 2
   const buttonState = getButtonState({ maxDegree, minDegree, nextMusicalKey, onClickMotion, motion })
@@ -112,7 +112,7 @@ function ButtonRectangle({
   )
 }
 
-interface getButtonStateInput {
+interface getButtonStateParameters {
   maxDegree: number,
   minDegree: number,
   nextMusicalKey: MusicalKey,
@@ -126,7 +126,7 @@ function getButtonState({
   nextMusicalKey,
   onClickMotion,
   motion,
-}: getButtonStateInput): SelectorButtonState {
+}: getButtonStateParameters): SelectorButtonState {
   if (! canPerformMotion({
     maxDegree,
     minDegree,

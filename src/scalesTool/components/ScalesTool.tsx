@@ -4,12 +4,11 @@ import { useRef, useReducer, useEffect, useCallback } from "react"
 
 import { Canvas } from "@scalesTool/components/Canvas"
 import { SettingsPanel } from "@scalesTool/components/SettingsPanel"
-import { useDerived } from "@scalesTool/utilities/derived"
-import { getInitialState, reducer } from "@scalesTool/utilities/state"
-
 import { ActionType } from "@scalesTool/utilities/action"
+import { useDerived } from "@scalesTool/utilities/derived"
 import { registerEventListener } from "@scalesTool/utilities/eventListener"
 import { Motion, getNextMusicalKey } from "@scalesTool/utilities/motion"
+import { getInitialState, reducer } from "@scalesTool/utilities/state"
 
 
 export function ScalesTool(

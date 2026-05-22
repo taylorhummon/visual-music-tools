@@ -1,10 +1,9 @@
 import { useMemo } from "react"
 
-import { type State } from "@scalesTool/utilities/state"
-
 import { MusicalKey } from "@scalesTool/classes/MusicalKey"
 import { type ClockSettings } from "@scalesTool/utilities/clock"
 import { Motion, getNextMusicalKey } from "@scalesTool/utilities/motion"
+import { type State } from "@scalesTool/utilities/state"
 
 
 export interface Derived {

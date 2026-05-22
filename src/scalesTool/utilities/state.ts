@@ -8,7 +8,6 @@ import {
   DEFAULT_ROOT,
   DEFAULT_DEGREE,
 } from "@scalesTool/config"
-
 import { ActionType, Action } from "@scalesTool/utilities/action"
 import { type AnimationOption, type AnchorOption } from "@scalesTool/utilities/clock"
 import { Motion } from "@scalesTool/utilities/motion"

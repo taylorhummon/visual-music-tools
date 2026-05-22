@@ -22,7 +22,6 @@ export function buildNote({
   naturalNote,
   sharpsCount,
 }: buildNoteParameters): Note {
-
   return new Note({ value: getValue(naturalNote, sharpsCount) })
 }
 

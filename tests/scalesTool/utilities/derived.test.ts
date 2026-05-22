@@ -1,6 +1,7 @@
 import { test, expect } from "vitest"
 import { renderHook } from "@testing-library/react"
 
+import { AnimationOption } from "@scalesTool/utilities/clock"
 import { useDerived } from "@scalesTool/utilities/derived"
 
 import { Motion } from "@scalesTool/utilities/motion"
@@ -12,6 +13,7 @@ test("useDerived() works", () => {
     isUntangled: false,
     isUsingSymmetrySpotlight: false,
     isUsingSolfege: true,
+    animationOption: AnimationOption.Ballet,
     motion: Motion.IncrementDegree,
     root: 2,
     degree: 3,

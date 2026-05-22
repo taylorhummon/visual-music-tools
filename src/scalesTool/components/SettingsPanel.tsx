@@ -23,19 +23,6 @@ export function SettingsPanel({
       gap="sm"
     >
       <Switch
-        label="Animation"
-        size={SWITCH_SIZE}
-        withThumbIndicator={WITH_THUMB_INDICATOR}
-        checked={clockSettings.isUsingAnimation}
-        onChange={(event) => {
-          dispatch({
-            type: ActionType.SelectIsUsingAnimation,
-            isUsingAnimation: event.currentTarget.checked,
-          })
-        }}
-        data-testid="animation-switch"
-      />
-      <Switch
         label="Untangle"
         size={SWITCH_SIZE}
         withThumbIndicator={WITH_THUMB_INDICATOR}

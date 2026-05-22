@@ -1,12 +1,15 @@
-import { test, expect } from "vitest"
+import { test, expect, vi } from "vitest"
 import { renderWithMantine } from "../../../test-utilities/renderWithMantine"
 import { screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 
 import { ScalesTool } from "@scalesTool/components/ScalesTool"
-
 import { NaturalNote } from "@scalesTool/utilities/naturalNote"
 import { SolfegeLetter } from "@scalesTool/utilities/solfege"
+
+// Turn off animation
+import * as scalesTooolConfig from "@scalesTool/config"
+vi.spyOn(scalesTooolConfig, "DEFAULT_IS_USING_ANIMATION", "get").mockReturnValue(false)
 
 
 async function turnOnSymmetrySpotlight() {
@@ -15,9 +18,9 @@ async function turnOnSymmetrySpotlight() {
   }
 }
 
-async function turnOffAnimation() {
-  if ((screen.getByTestId("animation-switch") as HTMLInputElement).checked === true) {
-    await userEvent.click(screen.getByTestId("animation-switch"))
+async function turnOnSolfege() {
+  if ((screen.getByTestId("solfege-switch") as HTMLInputElement).checked === false) {
+    await userEvent.click(screen.getByTestId("solfege-switch"))
   }
 }
 
@@ -48,6 +51,7 @@ test("<ScalesTool /> shows C-Major as default correctly", async () => {
   renderWithMantine(<ScalesTool />)
 
   await turnOnSymmetrySpotlight()
+  await turnOnSolfege()
 
   expect(
     getRootSpotlight().getAttribute("class")
@@ -178,7 +182,7 @@ test("<ScalesTool /> shows G-Major as default correctly", async () => {
   renderWithMantine(<ScalesTool />)
 
   await turnOnSymmetrySpotlight()
-  await turnOffAnimation()
+  await turnOnSolfege()
   await userEvent.click(screen.getByTestId("increment-both"))
 
   expect(
@@ -311,7 +315,7 @@ test("<ScalesTool /> shows C-Minor correctly", async () => {
   renderWithMantine(<ScalesTool />)
 
   await turnOnSymmetrySpotlight()
-  await turnOffAnimation()
+  await turnOnSolfege()
   await userEvent.click(screen.getByTestId("decrement-degree"))
   await userEvent.click(screen.getByTestId("decrement-degree"))
   await userEvent.click(screen.getByTestId("decrement-degree"))
@@ -446,7 +450,7 @@ test("<ScalesTool /> shows Dorian D correctly", async () => {
   renderWithMantine(<ScalesTool />)
 
   await turnOnSymmetrySpotlight()
-  await turnOffAnimation()
+  await turnOnSolfege()
   await userEvent.click(screen.getByTestId("increment-root"))
   await userEvent.click(screen.getByTestId("increment-root"))
 

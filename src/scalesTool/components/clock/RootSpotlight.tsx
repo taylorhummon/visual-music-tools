@@ -1,25 +1,21 @@
-import { type MusicalKey } from "@scalesTool/classes/MusicalKey"
 import { ROOT_SPOTLIGHT_STROKE, ROOT_SPOTLIGHT_FILL } from "@scalesTool/utilities/color"
-import { type ClockSettings, getHour } from "@scalesTool/utilities/clock"
+import { getCurrentHour, getNextHour } from "@scalesTool/utilities/clock"
+import { type Derived } from "@scalesTool/utilities/derived"
 import { buildClassName } from "@scalesTool/utilities/css"
 
 import rootSpotlightCssModule from "./RootSpotlight.module.scss"
 
 
 interface RootSpotlightParameters {
-  clockSettings: ClockSettings,
-  currentMusicalKey: MusicalKey,
-  nextMusicalKey: MusicalKey,
+  derived: Derived,
 }
 
 export function RootSpotlight({
-  clockSettings,
-  currentMusicalKey,
-  nextMusicalKey,
+  derived,
 }: RootSpotlightParameters): React.ReactNode {
   return (
     <circle
-      className={getClassName(clockSettings, currentMusicalKey, nextMusicalKey)}
+      className={getClassName(derived)}
       data-testid={"clock-root-spotlight"}
       cx="0"
       cy="0"
@@ -32,13 +28,12 @@ export function RootSpotlight({
 }
 
 function getClassName(
-  clockSettings: ClockSettings,
-  currentMusicalKey: MusicalKey,
-  nextMusicalKey: MusicalKey,
+  derived: Derived,
 ): string {
+  const { currentMusicalKey, nextMusicalKey } = derived
   const classNames = [ "root-spotlight" ]
-  const startHour = getHour({ clockSettings, musicalKey: currentMusicalKey, note: currentMusicalKey.rootNote })
-  const finishHour = getHour({ clockSettings, musicalKey: nextMusicalKey, note: nextMusicalKey.rootNote })
+  const startHour = getCurrentHour(derived, currentMusicalKey.rootNote)
+  const finishHour = getNextHour(derived, nextMusicalKey.rootNote)
   if (finishHour === startHour) {
     classNames.push(`hour-${startHour}`)
   } else {

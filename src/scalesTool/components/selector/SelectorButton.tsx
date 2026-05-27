@@ -1,35 +1,27 @@
-import { type MusicalKey } from "@scalesTool/classes/MusicalKey"
 import { Icon } from "@scalesTool/components/selector/Icon"
+import { type ButtonClickHandler, ButtonSize, ButtonState } from "@scalesTool/utilities/button"
 import { buildClassName } from "@scalesTool/utilities/css"
+import { type Derived } from "@scalesTool/utilities/derived"
 import { Motion, canPerformMotion } from "@scalesTool/utilities/motion"
-import {
-  type SelectorButtonClickHandler,
-  SelectorButtonSize,
-  SelectorButtonState,
-} from "@scalesTool/utilities/selector"
 
 import selectorButtonCssModule from "./SelectorButton.module.scss"
 
 
 interface SelectorButtonParameters {
+  derived: Derived,
   maxDegree: number,
   minDegree: number,
-  motion: Motion,
-  currentMusicalKey: MusicalKey,
-  nextMusicalKey: MusicalKey,
-  clickHandler: SelectorButtonClickHandler,
-  size: SelectorButtonSize,
+  clickHandler: ButtonClickHandler,
+  size: ButtonSize,
   onClickMotion: Motion,
   className?: string,
   dataTestid: string,
 }
 
 export function SelectorButton({
+  derived,
   maxDegree,
   minDegree,
-  motion,
-  currentMusicalKey,
-  nextMusicalKey,
   clickHandler,
   size,
   onClickMotion,
@@ -44,9 +36,7 @@ export function SelectorButton({
       <ButtonRectangle
         maxDegree={maxDegree}
         minDegree={minDegree}
-        motion={motion}
-        currentMusicalKey={currentMusicalKey}
-        nextMusicalKey={nextMusicalKey}
+        derived={derived}
         clickHandler={clickHandler}
         size={size}
         onClickMotion={onClickMotion}
@@ -68,39 +58,37 @@ function getClassName(
 }
 
 interface ButtonRectangleParameters {
+  derived: Derived,
   maxDegree: number,
   minDegree: number,
-  motion: Motion,
-  currentMusicalKey: MusicalKey,
-  nextMusicalKey: MusicalKey,
-  clickHandler: SelectorButtonClickHandler,
-  size: SelectorButtonSize,
+  clickHandler: ButtonClickHandler,
+  size: ButtonSize,
   onClickMotion: Motion,
   dataTestid: string,
 }
 
 function ButtonRectangle({
+  derived,
   maxDegree,
   minDegree,
-  motion,
-  nextMusicalKey,
   clickHandler,
   size,
   onClickMotion,
   dataTestid,
 }: ButtonRectangleParameters) {
-  const width = size === SelectorButtonSize.Large ? 98 : 46
+  const width = size === ButtonSize.Large ? 98 : 46
   const x = - width / 2
-  const buttonState = getButtonState({ maxDegree, minDegree, nextMusicalKey, onClickMotion, motion })
+  const buttonState = getButtonState({ derived, maxDegree, minDegree, onClickMotion })
+
+  function onClick() {
+    if (buttonState !== ButtonState.Ready) return
+    clickHandler(onClickMotion)
+  }
 
   return (
     <rect
       className={buildClassName(selectorButtonCssModule, [ "rectangle", buttonState ])}
-      onClick={() => {
-        if (buttonState === SelectorButtonState.Ready) {
-          clickHandler(onClickMotion)
-        }
-      }}
+      onClick={onClick}
       data-testid={dataTestid}
       width={width}
       height="40"
@@ -113,33 +101,32 @@ function ButtonRectangle({
 }
 
 interface getButtonStateParameters {
+  derived: Derived,
   maxDegree: number,
   minDegree: number,
-  nextMusicalKey: MusicalKey,
   onClickMotion: Motion,
-  motion: Motion,
 }
 
 function getButtonState({
+  derived,
   maxDegree,
   minDegree,
-  nextMusicalKey,
   onClickMotion,
-  motion,
-}: getButtonStateParameters): SelectorButtonState {
+}: getButtonStateParameters): ButtonState {
+  const { motion, nextMusicalKey } = derived
   if (! canPerformMotion({
+    motion: onClickMotion,
+    musicalKey: nextMusicalKey,
     maxDegree,
     minDegree,
-    musicalKey: nextMusicalKey,
-    motion: onClickMotion,
   })) {
-    return SelectorButtonState.Disabled
+    return ButtonState.Disabled
   }
   if (motion === onClickMotion) {
-    return SelectorButtonState.Active
+    return ButtonState.Active
   }
   if (motion !== Motion.Still) {
-    return SelectorButtonState.Waiting
+    return ButtonState.Waiting
   }
-  return SelectorButtonState.Ready
+  return ButtonState.Ready
 }

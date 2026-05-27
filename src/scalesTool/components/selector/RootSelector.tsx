@@ -1,28 +1,25 @@
-import { type MusicalKey } from "@scalesTool/classes/MusicalKey"
 import { Selector } from "@scalesTool/components/selector/Selector"
 import { SelectorValue } from "@scalesTool/components/selector/SelectorValue"
 import { isBetweenInclusive } from "@scalesTool/utilities/math"
-import { type Motion, getWillIncrementRoot, getWillDecrementRoot } from "@scalesTool/utilities/motion"
+import { getWillIncrementRoot, getWillDecrementRoot } from "@scalesTool/utilities/motion"
+import { type Derived } from "@scalesTool/utilities/derived"
 import { EXTENDED_POSITIONS, noteAt } from "@scalesTool/utilities/selector"
 
 import rootSelectorCssModule from "./RootSelector.module.scss"
 
 
 interface RootSelectorParameters {
+  derived: Derived,
   maxDegree: number,
   minDegree: number,
-  motion: Motion,
-  currentMusicalKey: MusicalKey,
-  nextMusicalKey: MusicalKey,
 }
 
 export function RootSelector({
+  derived,
   maxDegree,
   minDegree,
-  motion,
-  currentMusicalKey,
-  nextMusicalKey,
 }: RootSelectorParameters): React.ReactNode {
+  const { motion, currentMusicalKey, nextMusicalKey } = derived
   const pairs = EXTENDED_POSITIONS.map(
     (position) => ({ position, note: noteAt(currentMusicalKey, position) })
   ).filter(

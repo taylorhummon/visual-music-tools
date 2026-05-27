@@ -1,29 +1,26 @@
-import { type MusicalKey } from "@scalesTool/classes/MusicalKey"
 import { OrdinaryLabelText } from "@scalesTool/components/clock/OrdinaryLabelText"
-import { type ClockSettings, getHour } from "@scalesTool/utilities/clock"
+import { getCurrentHour, getNextHour } from "@scalesTool/utilities/clock"
 import { buildClassName } from "@scalesTool/utilities/css"
+import { type Derived } from "@scalesTool/utilities/derived"
 import { type NaturalNote } from "@scalesTool/utilities/naturalNote"
 
 import ordinaryLabelCssModule from "./OrdinaryLabel.module.scss"
 
 
 interface OrdinaryLabelParameters {
-  clockSettings: ClockSettings,
-  currentMusicalKey: MusicalKey,
-  nextMusicalKey: MusicalKey,
+  derived: Derived,
   naturalNote: NaturalNote,
 }
 
 export function OrdinaryLabel({
-  clockSettings,
-  currentMusicalKey,
-  nextMusicalKey,
+  derived,
   naturalNote,
 }: OrdinaryLabelParameters): React.ReactNode {
+  const { currentMusicalKey, nextMusicalKey } = derived
   const startNote = currentMusicalKey.noteFromNaturalNote(naturalNote)
   const finishNote = nextMusicalKey.noteFromNaturalNote(naturalNote)
-  const startHour = getHour({ clockSettings, musicalKey: currentMusicalKey, note: startNote })
-  const finishHour = getHour({ clockSettings, musicalKey: nextMusicalKey, note: finishNote })
+  const startHour = getCurrentHour(derived, startNote)
+  const finishHour = getNextHour(derived, finishNote)
   const startCharacterCount = startNote.name.length
   const finishCharacterCount = finishNote.name.length
 

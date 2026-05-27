@@ -1,30 +1,25 @@
-import { type MusicalKey } from "@scalesTool/classes/MusicalKey"
 import { Highlighter } from "@scalesTool/components/selector/Highlighter"
 import { DegreeSelector } from "@scalesTool/components/selector/DegreeSelector"
 import { RootSelector } from "@scalesTool/components/selector/RootSelector"
 import { SelectorButtons } from "@scalesTool/components/selector/SelectorButtons"
-import { type Motion } from "@scalesTool/utilities/motion"
-import { type SelectorButtonClickHandler } from "@scalesTool/utilities/selector"
+import { type ButtonClickHandler } from "@scalesTool/utilities/button"
+import { type Derived } from "@scalesTool/utilities/derived"
 
 import selectorsCssModule from "./Selectors.module.scss"
 
 
 interface SelectorsParameters {
+  derived: Derived,
   maxDegree: number,
   minDegree: number,
-  motion: Motion,
-  currentMusicalKey: MusicalKey,
-  nextMusicalKey: MusicalKey,
-  selectorButtonClickHandler: SelectorButtonClickHandler,
+  buttonClickHandler: ButtonClickHandler,
 }
 
 export function Selectors({
+  derived,
   maxDegree,
   minDegree,
-  motion,
-  currentMusicalKey,
-  nextMusicalKey,
-  selectorButtonClickHandler,
+  buttonClickHandler,
 }: SelectorsParameters): React.ReactNode {
   return (
     <g className={selectorsCssModule["selectors"]}>
@@ -39,27 +34,21 @@ export function Selectors({
         </clipPath>
       </defs>
       <SelectorButtons
+        derived={derived}
         maxDegree={maxDegree}
         minDegree={minDegree}
-        motion={motion}
-        currentMusicalKey={currentMusicalKey}
-        nextMusicalKey={nextMusicalKey}
-        selectorButtonClickHandler={selectorButtonClickHandler}
+        buttonClickHandler={buttonClickHandler}
       />
       <Highlighter />
       <DegreeSelector
+        derived={derived}
         maxDegree={maxDegree}
         minDegree={minDegree}
-        motion={motion}
-        currentMusicalKey={currentMusicalKey}
-        nextMusicalKey={nextMusicalKey}
       />
       <RootSelector
+        derived={derived}
         maxDegree={maxDegree}
         minDegree={minDegree}
-        motion={motion}
-        currentMusicalKey={currentMusicalKey}
-        nextMusicalKey={nextMusicalKey}
       />
     </g>
   )

@@ -1,54 +1,41 @@
 import { MAX_DEGREE, MIN_DEGREE } from "@scalesTool/config"
 
-import { type MusicalKey } from "@scalesTool/classes/MusicalKey"
 import { Clock } from "@scalesTool/components/clock/Clock"
 import { ModeGauge } from "@scalesTool/components/gauge/ModeGauge"
 import { Selectors } from "@scalesTool/components/selector/Selectors"
-import { type ClockSettings } from "@scalesTool/utilities/clock"
-import { type Motion } from "@scalesTool/utilities/motion"
-import { type SelectorButtonClickHandler } from "@scalesTool/utilities/selector"
+import { type ButtonClickHandler } from "@scalesTool/utilities/button"
+import { type Derived } from "@scalesTool/utilities/derived"
 
 import canvasCssModule from "./Canvas.module.scss"
 
 
 interface CanvasParameters {
-  clockSettings: ClockSettings,
-  motion: Motion,
-  currentMusicalKey: MusicalKey,
-  nextMusicalKey: MusicalKey,
-  selectorButtonClickHandler: SelectorButtonClickHandler,
+  derived: Derived,
+  buttonClickHandler: ButtonClickHandler,
 }
 
 export function Canvas({
-  clockSettings,
-  motion,
-  currentMusicalKey,
-  nextMusicalKey,
-  selectorButtonClickHandler,
+  derived,
+  buttonClickHandler,
 }: CanvasParameters): React.ReactNode {
   return (
     <svg
       className={canvasCssModule["canvas"]}
-      viewBox="0 0 600 440"
+      viewBox="0 0 600 460"
       xmlns="http://www.w3.org/2000/svg"
     >
       <Selectors
+        derived={derived}
         maxDegree={MAX_DEGREE}
         minDegree={MIN_DEGREE}
-        motion={motion}
-        currentMusicalKey={currentMusicalKey}
-        nextMusicalKey={nextMusicalKey}
-        selectorButtonClickHandler={selectorButtonClickHandler}
+        buttonClickHandler={buttonClickHandler}
       />
       <ModeGauge
-        currentMusicalKey={currentMusicalKey}
-        nextMusicalKey={nextMusicalKey}
+        derived={derived}
       />
       <Clock
-        clockSettings={clockSettings}
-        motion={motion}
-        currentMusicalKey={currentMusicalKey}
-        nextMusicalKey={nextMusicalKey}
+        derived={derived}
+        buttonClickHandler={buttonClickHandler}
       />
     </svg>
   )

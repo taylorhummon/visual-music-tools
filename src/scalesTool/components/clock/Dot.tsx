@@ -1,27 +1,26 @@
-import { type MusicalKey } from "@scalesTool/classes/MusicalKey"
 import { type DotAnimator } from "@scalesTool/classes/DotAnimator"
-import { type ClockSettings, getHour } from "@scalesTool/utilities/clock"
+import { getCurrentHour } from "@scalesTool/utilities/clock"
 import { buildClassName } from "@scalesTool/utilities/css"
+import { type Derived } from "@scalesTool/utilities/derived"
 import { SolfegeLetter } from "@scalesTool/utilities/solfege"
 
 import dotCssModule from "./Dot.module.scss"
 
 
 interface DotParameters {
-  clockSettings: ClockSettings,
-  currentMusicalKey: MusicalKey,
+  derived: Derived,
   dotAnimator: DotAnimator,
   solfegeLetter: SolfegeLetter,
 }
 
 export function Dot({
-  clockSettings,
-  currentMusicalKey,
+  derived,
   dotAnimator,
   solfegeLetter,
 }: DotParameters): React.ReactNode {
+  const { currentMusicalKey } = derived
   const startNote = currentMusicalKey.noteFromSolfegeLetter(solfegeLetter)
-  const startHour = getHour({ clockSettings, musicalKey: currentMusicalKey, note: startNote })
+  const startHour = getCurrentHour(derived, startNote)
   const finishHour = dotAnimator.getFinishHour(startHour, startNote.naturalNote, solfegeLetter)
 
   return (

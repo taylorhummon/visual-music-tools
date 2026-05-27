@@ -4,6 +4,8 @@ import { MAX_MODE, MIN_MODE } from "@scalesTool/utilities/mode"
 
 export enum Motion {
   Still = "Still",
+  ArrangeDucks = "ArrangeDucks",
+  ExplodeDucks = "ExplodeDucks",
   IncrementRoot = "IncrementRoot",
   DecrementRoot = "DecrementRoot",
   IncrementDegree = "IncrementDegree",
@@ -13,17 +15,17 @@ export enum Motion {
 }
 
 interface canPerformMotionParameters {
+  motion: Motion,
+  musicalKey: MusicalKey,
   maxDegree: number,
   minDegree: number,
-  musicalKey: MusicalKey,
-  motion: Motion,
 }
 
 export function canPerformMotion({
+  motion,
+  musicalKey,
   maxDegree,
   minDegree,
-  musicalKey,
-  motion,
 }: canPerformMotionParameters): boolean {
   if (motion === Motion.IncrementRoot) {
     return musicalKey.mode < MAX_MODE
@@ -53,13 +55,13 @@ export function canPerformMotion({
 }
 
 interface getNextMusicalKeyParameters {
-  currentMusicalKey: MusicalKey,
   motion: Motion,
+  currentMusicalKey: MusicalKey,
 }
 
 export function getNextMusicalKey({
-  currentMusicalKey,
   motion,
+  currentMusicalKey,
 }: getNextMusicalKeyParameters): MusicalKey {
   if (motion === Motion.IncrementRoot) {
     return new MusicalKey({
@@ -98,6 +100,18 @@ export function getNextMusicalKey({
     })
   }
   return currentMusicalKey
+}
+
+interface getNextAreDucksInARowParameters {
+  motion: Motion,
+  currentAreDucksInARow: boolean,
+}
+
+export function getNextAreDucksInARow({
+  motion,
+  currentAreDucksInARow,
+}: getNextAreDucksInARowParameters): boolean {
+  return motion === Motion.ArrangeDucks || (currentAreDucksInARow && motion !== Motion.ExplodeDucks)
 }
 
 export function getWillIncrementMode(

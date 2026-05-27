@@ -1,278 +1,372 @@
 import { test, expect } from "vitest"
+import { getDerivedFromState } from "../../../test-utilities/getDerivedFromState"
 
-import {
-  DEFAULT_IS_USING_ANIMATION,
-  DEFAULT_IS_UNTANGLED,
-  DEFAULT_IS_USING_SYMMETRY_DOT,
-  DEFAULT_IS_USING_SOLFEGE,
-  DEFAULT_IS_ANCHORING_ROOT,
-  DEFAULT_ANIMATION_OPTION,
-} from "@scalesTool/config"
-
-import { MusicalKey } from "@scalesTool/classes/MusicalKey"
 import { DotAnimator } from "@scalesTool/classes/DotAnimator"
-import { AnimationOption, type ClockSettings, getHour } from "@scalesTool/utilities/clock"
-import { Motion, getNextMusicalKey } from "@scalesTool/utilities/motion"
+import { getCurrentHour } from "@scalesTool/utilities/clock"
+import { type Derived } from "@scalesTool/utilities/derived"
+import { Motion } from "@scalesTool/utilities/motion"
 import { SOLFEGE_LETTERS } from "@scalesTool/utilities/solfege"
+import { getInitialState } from "@scalesTool/utilities/state"
 
-
-const DEFAULT_CLOCK_SETTINGS = {
-  isUsingAnimation: DEFAULT_IS_USING_ANIMATION,
-  isUntangled: DEFAULT_IS_UNTANGLED,
-  isUsingSymmetrySpotlight: DEFAULT_IS_USING_SYMMETRY_DOT,
-  isUsingSolfege: DEFAULT_IS_USING_SOLFEGE,
-  isAnchoringRoot: DEFAULT_IS_ANCHORING_ROOT,
-  animationOption: DEFAULT_ANIMATION_OPTION,
-}
 
 function noMotion(
-  clockSettings: ClockSettings,
-  currentMusicalKey: MusicalKey,
+  derived: Derived,
 ): Array<number> {
   return SOLFEGE_LETTERS.map(
     (solfegeLetter) => {
-      const note = currentMusicalKey.noteFromSolfegeLetter(solfegeLetter)
-      const startHour = getHour({
-        clockSettings,
-        musicalKey: currentMusicalKey,
-        note,
-      })
+      const note = derived.currentMusicalKey.noteFromSolfegeLetter(solfegeLetter)
+      const startHour = getCurrentHour(derived, note)
       return startHour
     }
   )
 }
 
 function exerciseAnimator(
-  clockSettings: ClockSettings,
-  currentMusicalKey: MusicalKey,
+  derived: Derived,
   animator: DotAnimator,
 ): Array<number> {
   return SOLFEGE_LETTERS.map(
     (solfegeLetter) => {
-      const note = currentMusicalKey.noteFromSolfegeLetter(solfegeLetter)
-      const startHour = getHour({
-        clockSettings,
-        musicalKey: currentMusicalKey,
-        note,
-      })
+      const note = derived.currentMusicalKey.noteFromSolfegeLetter(solfegeLetter)
+      const startHour = getCurrentHour(derived, note)
       return animator.getFinishHour(startHour, note.naturalNote, solfegeLetter)
     }
   )
 }
 
 
-test("DotAnimator works when is incrementing root and is using minimal animation", () => {
-  const clockSettings = { ...DEFAULT_CLOCK_SETTINGS, animationOption: AnimationOption.Minimal }
-  const motion = Motion.IncrementRoot
-  const currentMusicalKey = new MusicalKey({ root: 2, degree: 1 })
-  const nextMusicalKey = getNextMusicalKey({ currentMusicalKey, motion })
-  const animator = new DotAnimator({ clockSettings, motion, currentMusicalKey, nextMusicalKey })
+test("DotAnimator works when still and ducks are not in a row", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.Still,
+    areDucksInARow: false,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
   expect(
-    noMotion(clockSettings, currentMusicalKey)
+    noMotion(derived)
   ).toStrictEqual(
     [ 2, 4, 5, 7, 9, 10, 0 ]
   )
   expect(
-    exerciseAnimator(clockSettings, currentMusicalKey, animator)
-  ).toStrictEqual(
-    [ 2, 4, 5, 7, 9, 10, 0 ]
-  )
-})
-
-test("DotAnimator works when is decrementing root and is using minimal animation", () => {
-  const clockSettings = { ...DEFAULT_CLOCK_SETTINGS, animationOption: AnimationOption.Minimal }
-  const motion = Motion.DecrementRoot
-  const currentMusicalKey = new MusicalKey({ root: 2, degree: 1 })
-  const nextMusicalKey = getNextMusicalKey({ currentMusicalKey, motion })
-  const animator = new DotAnimator({ clockSettings, motion, currentMusicalKey, nextMusicalKey })
-  expect(
-    noMotion(clockSettings, currentMusicalKey)
-  ).toStrictEqual(
-    [ 2, 4, 5, 7, 9, 10, 0 ]
-  )
-  expect(
-    exerciseAnimator(clockSettings, currentMusicalKey, animator)
+    exerciseAnimator(derived, animator)
   ).toStrictEqual(
     [ 2, 4, 5, 7, 9, 10, 0 ]
   )
 })
 
-test("DotAnimator works when is incrementing degree and is using minimal animation", () => {
-  const clockSettings = { ...DEFAULT_CLOCK_SETTINGS, animationOption: AnimationOption.Minimal }
-  const motion = Motion.IncrementDegree
-  const currentMusicalKey = new MusicalKey({ root: 2, degree: 1 })
-  const nextMusicalKey = getNextMusicalKey({ currentMusicalKey, motion })
-  const animator = new DotAnimator({ clockSettings, motion, currentMusicalKey, nextMusicalKey })
+test("DotAnimator works when incrementing root and ducks are not in a row", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.IncrementRoot,
+    areDucksInARow: false,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
   expect(
-    noMotion(clockSettings, currentMusicalKey)
+    noMotion(derived)
   ).toStrictEqual(
     [ 2, 4, 5, 7, 9, 10, 0 ]
   )
   expect(
-    exerciseAnimator(clockSettings, currentMusicalKey, animator)
+    exerciseAnimator(derived, animator)
+  ).toStrictEqual(
+    [ 2, 4, 5, 7, 9, 10, 0 ]
+  )
+})
+
+test("DotAnimator works when decrementing root and ducks are not in a row", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.DecrementRoot,
+    areDucksInARow: false,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
+  expect(
+    noMotion(derived)
+  ).toStrictEqual(
+    [ 2, 4, 5, 7, 9, 10, 0 ]
+  )
+  expect(
+    exerciseAnimator(derived, animator)
+  ).toStrictEqual(
+    [ 2, 4, 5, 7, 9, 10, 0 ]
+  )
+})
+
+test("DotAnimator works when incrementing degree and ducks are not in a row", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.IncrementDegree,
+    areDucksInARow: false,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
+  expect(
+    noMotion(derived)
+  ).toStrictEqual(
+    [ 2, 4, 5, 7, 9, 10, 0 ]
+  )
+  expect(
+    exerciseAnimator(derived, animator)
   ).toStrictEqual(
     [ 2, 4, 5, 7, 9, 11, 0 ]
   )
 })
 
-test("DotAnimator works when is decrementing degree and is using minimal animation", () => {
-  const clockSettings = { ...DEFAULT_CLOCK_SETTINGS, animationOption: AnimationOption.Minimal }
-  const motion = Motion.DecrementDegree
-  const currentMusicalKey = new MusicalKey({ root: 2, degree: 1 })
-  const nextMusicalKey = getNextMusicalKey({ currentMusicalKey, motion })
-  const animator = new DotAnimator({ clockSettings, motion, currentMusicalKey, nextMusicalKey })
+test("DotAnimator works when decrementing degree and ducks are not in a row", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.DecrementDegree,
+    areDucksInARow: false,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
   expect(
-    noMotion(clockSettings, currentMusicalKey)
+    noMotion(derived)
   ).toStrictEqual(
     [ 2, 4, 5, 7, 9, 10, 0 ]
   )
   expect(
-    exerciseAnimator(clockSettings, currentMusicalKey, animator)
+    exerciseAnimator(derived, animator)
   ).toStrictEqual(
     [ 2, 3, 5, 7, 9, 10, 0 ]
   )
 })
 
-test("DotAnimator works when is incrementing both and is using minimal animation", () => {
-  const clockSettings = { ...DEFAULT_CLOCK_SETTINGS, animationOption: AnimationOption.Minimal }
-  const motion = Motion.IncrementBoth
-  const currentMusicalKey = new MusicalKey({ root: 2, degree: 1 })
-  const nextMusicalKey = getNextMusicalKey({ currentMusicalKey, motion })
-  const animator = new DotAnimator({ clockSettings, motion, currentMusicalKey, nextMusicalKey })
+test("DotAnimator works when incrementing both and ducks are not in a row", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.IncrementDegree,
+    areDucksInARow: false,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
   expect(
-    noMotion(clockSettings, currentMusicalKey)
+    noMotion(derived)
   ).toStrictEqual(
     [ 2, 4, 5, 7, 9, 10, 0 ]
   )
   expect(
-    exerciseAnimator(clockSettings, currentMusicalKey, animator)
+    exerciseAnimator(derived, animator)
   ).toStrictEqual(
     [ 2, 4, 5, 7, 9, 11, 0 ]
   )
 })
 
-test("DotAnimator works when is decrementing both and is using minimal animation", () => {
-  const clockSettings = { ...DEFAULT_CLOCK_SETTINGS, animationOption: AnimationOption.Minimal }
-  const motion = Motion.DecrementBoth
-  const currentMusicalKey = new MusicalKey({ root: 2, degree: 1 })
-  const nextMusicalKey = getNextMusicalKey({ currentMusicalKey, motion })
-  const animator = new DotAnimator({ clockSettings, motion, currentMusicalKey, nextMusicalKey })
+test("DotAnimator works when decrementing both and ducks are not in a row", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.DecrementDegree,
+    areDucksInARow: false,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
   expect(
-    noMotion(clockSettings, currentMusicalKey)
+    noMotion(derived)
   ).toStrictEqual(
     [ 2, 4, 5, 7, 9, 10, 0 ]
   )
   expect(
-    exerciseAnimator(clockSettings, currentMusicalKey, animator)
+    exerciseAnimator(derived, animator)
   ).toStrictEqual(
     [ 2, 3, 5, 7, 9, 10, 0 ]
   )
 })
 
-test("DotAnimator works when is incrementing root and is using ballet animation", () => {
-  const clockSettings = { ...DEFAULT_CLOCK_SETTINGS, animationOption: AnimationOption.Ballet }
-  const motion = Motion.IncrementRoot
-  const currentMusicalKey = new MusicalKey({ root: 2, degree: 1 })
-  const nextMusicalKey = getNextMusicalKey({ currentMusicalKey, motion })
-  const animator = new DotAnimator({ clockSettings, motion, currentMusicalKey, nextMusicalKey })
+test("DotAnimator works when arranging ducks", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.ArrangeDucks,
+    areDucksInARow: false,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
   expect(
-    noMotion(clockSettings, currentMusicalKey)
+    noMotion(derived)
   ).toStrictEqual(
     [ 2, 4, 5, 7, 9, 10, 0 ]
   )
   expect(
-    exerciseAnimator(clockSettings, currentMusicalKey, animator)
+    exerciseAnimator(derived, animator)
   ).toStrictEqual(
-    [ 2, 4, 5, 7, 9, 10, 0 ]
+    [ 2, 4, 11, 1, 3, 10, 0 ]
   )
 })
 
-test("DotAnimator works when is decrementing root and is using ballet animation", () => {
-  const clockSettings = { ...DEFAULT_CLOCK_SETTINGS, animationOption: AnimationOption.Ballet }
-  const motion = Motion.DecrementRoot
-  const currentMusicalKey = new MusicalKey({ root: 2, degree: 1 })
-  const nextMusicalKey = getNextMusicalKey({ currentMusicalKey, motion })
-  const animator = new DotAnimator({ clockSettings, motion, currentMusicalKey, nextMusicalKey })
+test("DotAnimator works when still and ducks are in a row", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.Still,
+    areDucksInARow: true,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
   expect(
-    noMotion(clockSettings, currentMusicalKey)
+    noMotion(derived)
   ).toStrictEqual(
-    [ 2, 4, 5, 7, 9, 10, 0 ]
+    [ 2, 4, 11, 1, 3, 10, 0 ]
   )
   expect(
-    exerciseAnimator(clockSettings, currentMusicalKey, animator)
+    exerciseAnimator(derived, animator)
   ).toStrictEqual(
-    [ 2, 4, 5, 7, 9, 10, 0 ]
-  )
-})
-
-test("DotAnimator works when is incrementing degree and is using ballet animation", () => {
-  const clockSettings = { ...DEFAULT_CLOCK_SETTINGS, animationOption: AnimationOption.Ballet }
-  const motion = Motion.IncrementDegree
-  const currentMusicalKey = new MusicalKey({ root: 2, degree: 1 })
-  const nextMusicalKey = getNextMusicalKey({ currentMusicalKey, motion })
-  const animator = new DotAnimator({ clockSettings, motion, currentMusicalKey, nextMusicalKey })
-  expect(
-    noMotion(clockSettings, currentMusicalKey)
-  ).toStrictEqual(
-    [ 2, 4, 5, 7, 9, 10, 0 ]
-  )
-  expect(
-    exerciseAnimator(clockSettings, currentMusicalKey, animator)
-  ).toStrictEqual(
-    [ 9, 11, 0, 2, 4, 5, 7 ]
+    [ 2, 4, 11, 1, 3, 10, 0 ]
   )
 })
 
-test("DotAnimator works when is decrementing degree and is using ballet animation", () => {
-  const clockSettings = { ...DEFAULT_CLOCK_SETTINGS, animationOption: AnimationOption.Ballet }
-  const motion = Motion.DecrementDegree
-  const currentMusicalKey = new MusicalKey({ root: 2, degree: 1 })
-  const nextMusicalKey = getNextMusicalKey({ currentMusicalKey, motion })
-  const animator = new DotAnimator({ clockSettings, motion, currentMusicalKey, nextMusicalKey })
+test("DotAnimator works when incrementing root and ducks are in a row", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.IncrementRoot,
+    areDucksInARow: true,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
   expect(
-    noMotion(clockSettings, currentMusicalKey)
+    noMotion(derived)
   ).toStrictEqual(
-    [ 2, 4, 5, 7, 9, 10, 0 ]
+    [ 2, 4, 11, 1, 3, 10, 0 ]
   )
   expect(
-    exerciseAnimator(clockSettings, currentMusicalKey, animator)
+    exerciseAnimator(derived, animator)
   ).toStrictEqual(
-    [ 7, 9, 10, 0, 2, 3, 5 ]
-  )
-})
-
-test("DotAnimator works when is incrementing both and is using ballet animation", () => {
-  const clockSettings = { ...DEFAULT_CLOCK_SETTINGS, animationOption: AnimationOption.Ballet }
-  const motion = Motion.IncrementBoth
-  const currentMusicalKey = new MusicalKey({ root: 2, degree: 1 })
-  const nextMusicalKey = getNextMusicalKey({ currentMusicalKey, motion })
-  const animator = new DotAnimator({ clockSettings, motion, currentMusicalKey, nextMusicalKey })
-  expect(
-    noMotion(clockSettings, currentMusicalKey)
-  ).toStrictEqual(
-    [ 2, 4, 5, 7, 9, 10, 0 ]
-  )
-  expect(
-    exerciseAnimator(clockSettings, currentMusicalKey, animator)
-  ).toStrictEqual(
-    [ 9, 11, 0, 2, 4, 5, 7 ]
+    [ 2, 4, 11, 1, 3, 10, 0 ]
   )
 })
 
-test("DotAnimator works when is decrementing both and is using ballet animation", () => {
-  const clockSettings = { ...DEFAULT_CLOCK_SETTINGS, animationOption: AnimationOption.Ballet }
-  const motion = Motion.DecrementBoth
-  const currentMusicalKey = new MusicalKey({ root: 2, degree: 1 })
-  const nextMusicalKey = getNextMusicalKey({ currentMusicalKey, motion })
-  const animator = new DotAnimator({ clockSettings, motion, currentMusicalKey, nextMusicalKey })
+test("DotAnimator works when decrementing root and ducks are in a row", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.DecrementRoot,
+    areDucksInARow: true,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
   expect(
-    noMotion(clockSettings, currentMusicalKey)
+    noMotion(derived)
   ).toStrictEqual(
-    [ 2, 4, 5, 7, 9, 10, 0 ]
+    [ 2, 4, 11, 1, 3, 10, 0 ]
   )
   expect(
-    exerciseAnimator(clockSettings, currentMusicalKey, animator)
+    exerciseAnimator(derived, animator)
   ).toStrictEqual(
-    [ 7, 9, 10, 0, 2, 3, 5 ]
+    [ 2, 4, 11, 1, 3, 10, 0 ]
+  )
+})
+
+test("DotAnimator works when incrementing degree and ducks are in a row", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.IncrementDegree,
+    areDucksInARow: true,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
+  expect(
+    noMotion(derived)
+  ).toStrictEqual(
+    [2, 4, 11, 1, 3, 10, 0 ]
+  )
+  expect(
+    exerciseAnimator(derived, animator)
+  ).toStrictEqual(
+    [ 3, 5, 0, 2, 4, 11, 1 ]
+  )
+})
+
+test("DotAnimator works when decrementing degree and ducks are in a row", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.DecrementDegree,
+    areDucksInARow: true,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
+  expect(
+    noMotion(derived)
+  ).toStrictEqual(
+    [ 2, 4, 11, 1, 3, 10, 0 ]
+  )
+  expect(
+    exerciseAnimator(derived, animator)
+  ).toStrictEqual(
+    [ 1, 3, 10, 0, 2, 9, 11 ]
+  )
+})
+
+test("DotAnimator works when incrementing both and ducks are in a row", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.IncrementDegree,
+    areDucksInARow: true,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
+  expect(
+    noMotion(derived)
+  ).toStrictEqual(
+    [ 2, 4, 11, 1, 3, 10, 0 ]
+  )
+  expect(
+    exerciseAnimator(derived, animator)
+  ).toStrictEqual(
+    [ 3, 5, 0, 2, 4, 11, 1 ]
+  )
+})
+
+test("DotAnimator works when decrementing both and ducks are in a row", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.DecrementDegree,
+    areDucksInARow: true,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
+  expect(
+    noMotion(derived)
+  ).toStrictEqual(
+    [ 2, 4, 11, 1, 3, 10, 0 ]
+  )
+  expect(
+    exerciseAnimator(derived, animator)
+  ).toStrictEqual(
+    [ 1, 3, 10, 0, 2, 9, 11 ]
+  )
+})
+
+test("DotAnimator works when exploding ducks", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.ExplodeDucks,
+    areDucksInARow: true,
+    root: 2,
+    degree: 1,
+  })
+  const animator = new DotAnimator({ derived })
+  expect(
+    noMotion(derived)
+  ).toStrictEqual(
+    [ 2, 4, 11, 1, 3, 10, 0 ]
+  )
+  expect(
+    exerciseAnimator(derived, animator)
+  ).toStrictEqual(
+    [ 2, 4, 5, 7, 9, 10, 0 ]
   )
 })

@@ -2,7 +2,7 @@ import { useMemo } from "react"
 
 import { MusicalKey } from "@scalesTool/classes/MusicalKey"
 import { type ClockSettings } from "@scalesTool/utilities/clock"
-import { Motion, getNextMusicalKey } from "@scalesTool/utilities/motion"
+import { Motion, getNextMusicalKey, getNextAreDucksInARow } from "@scalesTool/utilities/motion"
 import { type State } from "@scalesTool/utilities/state"
 
 
@@ -11,39 +11,39 @@ export interface Derived {
   motion: Motion,
   currentMusicalKey: MusicalKey,
   nextMusicalKey: MusicalKey,
+  currentAreDucksInARow: boolean,
+  nextAreDucksInARow: boolean,
 }
 
 export function useDerived(
   state: State,
 ): Derived {
   const {
-    isUsingAnimation,
-    isUntangled,
-    isUsingSymmetrySpotlight,
+    isUsingDegreeSpotlight,
     isUsingSolfege,
     isAnchoringRoot,
+    isUsingAnimation,
     animationOption,
     motion,
     root,
     degree,
+    areDucksInARow,
   } = state
   const clockSettings = useMemo(
     () => {
       return {
-        isUsingAnimation,
-        isUntangled,
-        isUsingSymmetrySpotlight,
+        isUsingDegreeSpotlight,
         isUsingSolfege,
         isAnchoringRoot,
+        isUsingAnimation,
         animationOption,
       }
     },
     [
-      isUsingAnimation,
-      isUntangled,
-      isUsingSymmetrySpotlight,
+      isUsingDegreeSpotlight,
       isUsingSolfege,
       isAnchoringRoot,
+      isUsingAnimation,
       animationOption,
     ]
   )
@@ -55,14 +55,23 @@ export function useDerived(
   )
   const nextMusicalKey = useMemo(
     () => {
-      return getNextMusicalKey({ currentMusicalKey, motion })
+      return getNextMusicalKey({ motion, currentMusicalKey })
     },
-    [ currentMusicalKey, motion ],
+    [ motion, currentMusicalKey ],
+  )
+  const currentAreDucksInARow = areDucksInARow
+  const nextAreDucksInARow = useMemo(
+    () => {
+      return getNextAreDucksInARow({ motion, currentAreDucksInARow })
+    },
+    [ motion, currentAreDucksInARow ]
   )
   return {
     clockSettings,
     motion,
     currentMusicalKey,
     nextMusicalKey,
+    currentAreDucksInARow,
+    nextAreDucksInARow,
   }
 }

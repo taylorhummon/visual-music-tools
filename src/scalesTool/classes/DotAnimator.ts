@@ -1,35 +1,23 @@
-import { type MusicalKey } from "@scalesTool/classes/MusicalKey"
-import { AnimationOption, type ClockSettings, getHour } from "@scalesTool/utilities/clock"
+import { AnimationOption, getCurrentHour, getNextHour } from "@scalesTool/utilities/clock"
 import { getRemainder } from "@scalesTool/utilities/math"
+import { type Derived } from "@scalesTool/utilities/derived"
 import { Motion } from "@scalesTool/utilities/motion"
 import { type NaturalNote } from "@scalesTool/utilities/naturalNote"
 import { type SolfegeLetter } from "@scalesTool/utilities/solfege"
 
 
 interface constructorParameters {
-  clockSettings: ClockSettings,
-  motion: Motion,
-  currentMusicalKey: MusicalKey,
-  nextMusicalKey: MusicalKey,
+  derived: Derived
 }
 
 export class DotAnimator {
-  #clockSettings: ClockSettings
-  #motion: Motion
-  #currentMusicalKey: MusicalKey
-  #nextMusicalKey: MusicalKey
+  #derived: Derived
   #_leftOverNotes: LeftOverNotes | null | undefined
 
   constructor({
-    clockSettings,
-    motion,
-    currentMusicalKey,
-    nextMusicalKey,
+    derived,
   }: constructorParameters) {
-    this.#clockSettings = clockSettings
-    this.#motion = motion
-    this.#currentMusicalKey = currentMusicalKey
-    this.#nextMusicalKey = nextMusicalKey
+    this.#derived = derived
   }
 
   getFinishHour(
@@ -37,10 +25,20 @@ export class DotAnimator {
     naturalNote: NaturalNote,
     solfegeLetter: SolfegeLetter,
   ): number {
-    if (this.#motion === Motion.Still) {
+    const { clockSettings, motion } = this.#derived
+    if (motion === Motion.Still) {
       return startHour
     }
-    const { animationOption } = this.#clockSettings
+    if (motion === Motion.ArrangeDucks || motion === Motion.ExplodeDucks) {
+      if (getRemainder(startHour, 2) === 1) {
+        return getRemainder(startHour + 6, 12)
+      }
+      return startHour
+    }
+    const { animationOption } = clockSettings
+    if (animationOption === AnimationOption.Combo) {
+      return this.#combo(startHour)
+    }
     if (animationOption === AnimationOption.Ballet) {
       return this.#notesBallet(startHour)
     }
@@ -54,6 +52,17 @@ export class DotAnimator {
       return this.#followsSolfegeLabel(solfegeLetter)
     }
     throw Error(`Unknown animation option ${animationOption}`)
+  }
+
+  #combo(
+    startHour: number,
+  ): number {
+    const { currentAreDucksInARow } = this.#derived
+    if (currentAreDucksInARow) {
+      return this.#notesBallet(startHour)
+    } else {
+      return this.#minimal(startHour)
+    }
   }
 
   #notesBallet(
@@ -75,27 +84,23 @@ export class DotAnimator {
   #followsOrdinaryLabel(
     naturalNote: NaturalNote,
   ): number {
-    return getHour({
-      clockSettings: this.#clockSettings,
-      musicalKey: this.#nextMusicalKey,
-      note: this.#nextMusicalKey.noteFromNaturalNote(naturalNote),
-    })
+    const { nextMusicalKey } = this.#derived
+    const note = nextMusicalKey.noteFromNaturalNote(naturalNote)
+    return getNextHour(this.#derived, note)
   }
 
   #followsSolfegeLabel(
     solfegeLetter: SolfegeLetter,
   ): number {
-    return getHour({
-      clockSettings: this.#clockSettings,
-      musicalKey: this.#nextMusicalKey,
-      note: this.#nextMusicalKey.noteFromSolfegeLetter(solfegeLetter),
-    })
+    const { nextMusicalKey } = this.#derived
+    const note = nextMusicalKey.noteFromSolfegeLetter(solfegeLetter)
+    return getNextHour(this.#derived, note)
   }
 
   get #leftOverNotes(
   ): LeftOverNotes | null {
     if (this.#_leftOverNotes === undefined) {
-      this.#_leftOverNotes = getLeftOverNotes(this.#clockSettings, this.#currentMusicalKey, this.#nextMusicalKey)
+      this.#_leftOverNotes = getLeftOverNotes(this.#derived)
     }
     return this.#_leftOverNotes
   }
@@ -109,15 +114,14 @@ interface LeftOverNotes {
 }
 
 function getLeftOverNotes(
-  clockSettings: ClockSettings,
-  currentMusicalKey: MusicalKey,
-  nextMusicalKey: MusicalKey,
+  derived: Derived,
 ): LeftOverNotes | null {
+  const { currentMusicalKey, nextMusicalKey } = derived
   const currentHours = new Set(currentMusicalKey.notes.map(
-    (note) => getHour({ clockSettings, musicalKey: currentMusicalKey, note }))
+    (note) => getCurrentHour(derived, note))
   )
   const nextHours = new Set(nextMusicalKey.notes.map(
-    (note) => getHour({ clockSettings, musicalKey: nextMusicalKey, note })
+    (note) => getNextHour(derived, note)
   ))
   const sharedHours = currentHours.intersection(nextHours)
   if (sharedHours.size === 7) {

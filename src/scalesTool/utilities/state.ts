@@ -1,10 +1,10 @@
 import {
-  DEFAULT_IS_UNTANGLED,
-  DEFAULT_IS_USING_SYMMETRY_DOT,
+  DEFAULT_IS_USING_DEGREE_SPOTLIGHT,
   DEFAULT_IS_USING_SOLFEGE,
-  DEFAULT_IS_USING_ANIMATION,
   DEFAULT_IS_ANCHORING_ROOT,
+  DEFAULT_IS_USING_ANIMATION,
   DEFAULT_ANIMATION_OPTION,
+  DEFAULT_ARE_DUCKS_IN_A_ROW,
   DEFAULT_ROOT,
   DEFAULT_DEGREE,
 } from "@scalesTool/config"
@@ -14,29 +14,29 @@ import { Motion } from "@scalesTool/utilities/motion"
 
 
 export interface State {
-  isUsingAnimation: boolean,
-  isUntangled: boolean,
-  isUsingSymmetrySpotlight: boolean,
+  isUsingDegreeSpotlight: boolean,
   isUsingSolfege: boolean,
   isAnchoringRoot: boolean,
+  isUsingAnimation: boolean,
   animationOption: AnimationOption,
   motion: Motion,
   root: number,
   degree: number,
+  areDucksInARow: boolean,
 }
 
 export function getInitialState(
 ): State {
   return {
-    isUsingAnimation: DEFAULT_IS_USING_ANIMATION,
-    isUntangled: DEFAULT_IS_UNTANGLED,
-    isUsingSymmetrySpotlight: DEFAULT_IS_USING_SYMMETRY_DOT,
+    isUsingDegreeSpotlight: DEFAULT_IS_USING_DEGREE_SPOTLIGHT,
     isUsingSolfege: DEFAULT_IS_USING_SOLFEGE,
     isAnchoringRoot: DEFAULT_IS_ANCHORING_ROOT,
+    isUsingAnimation: DEFAULT_IS_USING_ANIMATION,
     animationOption: DEFAULT_ANIMATION_OPTION,
     motion: Motion.Still,
     root: DEFAULT_ROOT,
     degree: DEFAULT_DEGREE,
+    areDucksInARow: DEFAULT_ARE_DUCKS_IN_A_ROW,
   }
 }
 
@@ -44,25 +44,9 @@ export function reducer(
   state: State,
   action: Action,
 ): State {
-  if (action.type === ActionType.ActivateMotion) {
-    const { motion } = action
-    return { ...state, motion }
-  }
-  if (action.type === ActionType.ChangeKey) {
-    return {
-      ...state,
-      motion: Motion.Still,
-      root: action.nextMusicalKey.root,
-      degree: action.nextMusicalKey.degree,
-    }
-  }
-  if (action.type === ActionType.SelectIsUntangled) {
-    const { isUntangled } = action
-    return { ...state, isUntangled }
-  }
-  if (action.type === ActionType.SelectIsUsingSymmetrySpotlight) {
-    const { isUsingSymmetrySpotlight } = action
-    return { ...state, isUsingSymmetrySpotlight }
+  if (action.type === ActionType.SelectIsUsingDegreeSpotlight) {
+    const { isUsingDegreeSpotlight } = action
+    return { ...state, isUsingDegreeSpotlight }
   }
   if (action.type === ActionType.SelectIsUsingSolfege) {
     const { isUsingSolfege } = action
@@ -72,9 +56,27 @@ export function reducer(
     const { isAnchoringRoot } = action
     return { ...state, isAnchoringRoot }
   }
+  if (action.type === ActionType.SelectIsUsingAnimation) {
+    const { isUsingAnimation } = action
+    return { ...state, isUsingAnimation }
+  }
   if (action.type === ActionType.SelectAnimationOption) {
     const { animationOption } = action
     return { ...state, animationOption }
+  }
+  if (action.type === ActionType.ActivateMotion) {
+    const { motion } = action
+    return { ...state, motion }
+  }
+  if (action.type === ActionType.CompleteMotion) {
+    const { nextMusicalKey, nextAreDucksInARow } = action
+    return {
+      ...state,
+      motion: Motion.Still,
+      root: nextMusicalKey.root,
+      degree: nextMusicalKey.degree,
+      areDucksInARow: nextAreDucksInARow,
+    }
   }
   return state
 }

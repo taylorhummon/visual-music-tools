@@ -1,30 +1,27 @@
-import { type MusicalKey } from "@scalesTool/classes/MusicalKey"
-import { type ClockSettings, getHour } from "@scalesTool/utilities/clock"
+import { getCurrentHour, getNextHour } from "@scalesTool/utilities/clock"
 import { buildClassName } from "@scalesTool/utilities/css"
+import { type Derived } from "@scalesTool/utilities/derived"
 import { SolfegeLetter } from "@scalesTool/utilities/solfege"
 
 import solfegeLabelCssModule from "./SolfegeLabel.module.scss"
 
 
 interface SolfegeLabelParameters {
-  clockSettings: ClockSettings,
-  currentMusicalKey: MusicalKey,
-  nextMusicalKey: MusicalKey,
+  derived: Derived,
   solfegeLetter: SolfegeLetter,
 }
 
 export function SolfegeLabel({
-  clockSettings,
-  currentMusicalKey,
-  nextMusicalKey,
+  derived,
   solfegeLetter,
 }: SolfegeLabelParameters): React.ReactNode {
+  const { clockSettings, currentMusicalKey, nextMusicalKey } = derived
   const { isUsingSolfege } = clockSettings
   if (! isUsingSolfege) return null
   const startNote = currentMusicalKey.noteFromSolfegeLetter(solfegeLetter)
   const finishNote = nextMusicalKey.noteFromSolfegeLetter(solfegeLetter)
-  const startHour = getHour({ clockSettings, musicalKey: currentMusicalKey, note: startNote })
-  const finishHour = getHour({ clockSettings, musicalKey: nextMusicalKey, note: finishNote })
+  const startHour = getCurrentHour(derived, startNote)
+  const finishHour = getNextHour(derived, finishNote)
 
   return (
     <g

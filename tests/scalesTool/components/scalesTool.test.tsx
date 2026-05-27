@@ -12,9 +12,9 @@ import * as scalesTooolConfig from "@scalesTool/config"
 vi.spyOn(scalesTooolConfig, "DEFAULT_IS_USING_ANIMATION", "get").mockReturnValue(false)
 
 
-async function turnOnSymmetrySpotlight() {
-  if ((screen.getByTestId("symmetry-switch") as HTMLInputElement).checked === false) {
-    await userEvent.click(screen.getByTestId("symmetry-switch"))
+async function turnOnDegreeSpotlight() {
+  if ((screen.getByTestId("degree-spotlight-switch") as HTMLInputElement).checked === false) {
+    await userEvent.click(screen.getByTestId("degree-spotlight-switch"))
   }
 }
 
@@ -29,9 +29,9 @@ function getRootSpotlight(
   return screen.getByTestId("clock-root-spotlight")
 }
 
-function getSymmetrySpotlight(
+function getDegreeSpotlight(
 ) {
-  return screen.getByTestId("clock-symmetry-spotlight")
+  return screen.getByTestId("clock-degree-spotlight")
 }
 
 function getDot(
@@ -50,7 +50,7 @@ function getOrdinaryLabel(
 test("<ScalesTool /> shows C-Major as default correctly", async () => {
   renderWithMantine(<ScalesTool />)
 
-  await turnOnSymmetrySpotlight()
+  await turnOnDegreeSpotlight()
   await turnOnSolfege()
 
   expect(
@@ -60,7 +60,7 @@ test("<ScalesTool /> shows C-Major as default correctly", async () => {
   )
 
   expect(
-    getSymmetrySpotlight().getAttribute("class")
+    getDegreeSpotlight().getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-0")
   )
@@ -181,7 +181,7 @@ test("<ScalesTool /> shows C-Major as default correctly", async () => {
 test("<ScalesTool /> shows G-Major as default correctly", async () => {
   renderWithMantine(<ScalesTool />)
 
-  await turnOnSymmetrySpotlight()
+  await turnOnDegreeSpotlight()
   await turnOnSolfege()
   await userEvent.click(screen.getByTestId("increment-both"))
 
@@ -192,7 +192,7 @@ test("<ScalesTool /> shows G-Major as default correctly", async () => {
   )
 
   expect(
-    getSymmetrySpotlight().getAttribute("class")
+    getDegreeSpotlight().getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-7")
   )
@@ -314,7 +314,7 @@ test("<ScalesTool /> shows C-Minor correctly", async () => {
   userEvent.setup()
   renderWithMantine(<ScalesTool />)
 
-  await turnOnSymmetrySpotlight()
+  await turnOnDegreeSpotlight()
   await turnOnSolfege()
   await userEvent.click(screen.getByTestId("decrement-degree"))
   await userEvent.click(screen.getByTestId("decrement-degree"))
@@ -327,7 +327,7 @@ test("<ScalesTool /> shows C-Minor correctly", async () => {
   )
 
   expect(
-    getSymmetrySpotlight().getAttribute("class")
+    getDegreeSpotlight().getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-3")
   )
@@ -449,7 +449,7 @@ test("<ScalesTool /> shows Dorian D correctly", async () => {
   userEvent.setup()
   renderWithMantine(<ScalesTool />)
 
-  await turnOnSymmetrySpotlight()
+  await turnOnDegreeSpotlight()
   await turnOnSolfege()
   await userEvent.click(screen.getByTestId("increment-root"))
   await userEvent.click(screen.getByTestId("increment-root"))
@@ -461,7 +461,7 @@ test("<ScalesTool /> shows Dorian D correctly", async () => {
   )
 
   expect(
-    getSymmetrySpotlight().getAttribute("class")
+    getDegreeSpotlight().getAttribute("class")
   ).toEqual(
     expect.stringContaining("hour-0")
   )

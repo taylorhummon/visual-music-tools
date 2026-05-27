@@ -45,6 +45,15 @@ $radius: 110;
   }
 
   @for $hour-a from 0 through 11 {
+    $hour-b: unit-circle.hour($hour-a + 6);
+
+    &.move-from-#{$hour-a}-to-#{$hour-b} {
+      animation: move-root-spotlight animation.$duration ease-in-out 1 forwards;
+      offset-path: path.linear-path(clock.point($radius, $hour-a), clock.point($radius, $hour-b));
+    }
+  }
+
+  @for $hour-a from 0 through 11 {
     $hour-b: unit-circle.hour($hour-a + 7);
 
     &.move-from-#{$hour-a}-to-#{$hour-b} {

@@ -1,29 +1,26 @@
-import { type MusicalKey } from "@scalesTool/classes/MusicalKey"
 import { SHARP, FLAT } from "@scalesTool/classes/Note"
 import { Selector } from "@scalesTool/components/selector/Selector"
 import { SelectorValue } from "@scalesTool/components/selector/SelectorValue"
 import { isBetweenInclusive } from "@scalesTool/utilities/math"
-import { type Motion, getWillIncrementDegree, getWillDecrementDegree } from "@scalesTool/utilities/motion"
+import { type Derived } from "@scalesTool/utilities/derived"
+import { getWillIncrementDegree, getWillDecrementDegree } from "@scalesTool/utilities/motion"
 import { EXTENDED_POSITIONS } from "@scalesTool/utilities/selector"
 
 import degreeSelectorCssModule from "./DegreeSelector.module.scss"
 
 
 interface DegreeSelectorParameters {
+  derived: Derived,
   maxDegree: number,
   minDegree: number,
-  motion: Motion,
-  currentMusicalKey: MusicalKey,
-  nextMusicalKey: MusicalKey,
 }
 
 export function DegreeSelector({
+  derived,
   maxDegree,
   minDegree,
-  motion,
-  currentMusicalKey,
-  nextMusicalKey,
 }: DegreeSelectorParameters): React.ReactNode {
+  const { motion, currentMusicalKey, nextMusicalKey } = derived
   const pairs = EXTENDED_POSITIONS.map(
     (position) => ({ position, degree: currentMusicalKey.degree + position })
   ).filter(

@@ -5,6 +5,7 @@ import {
   Motion,
   canPerformMotion,
   getNextMusicalKey,
+  getNextAreDucksInARow,
   getWillIncrementMode,
   getWillDecrementMode,
   getWillIncrementRoot,
@@ -21,32 +22,32 @@ const minDegree = -14
 test("canPerformMotion() works for Dorian D", () => {
   const musicalKey = new MusicalKey({ mode: 0, root: 0 })
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.IncrementRoot })
+    canPerformMotion({ motion: Motion.IncrementRoot, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.DecrementRoot })
+    canPerformMotion({ motion: Motion.DecrementRoot, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.IncrementDegree })
+    canPerformMotion({ motion: Motion.IncrementDegree, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.DecrementDegree })
+    canPerformMotion({ motion: Motion.DecrementDegree, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.IncrementBoth })
+    canPerformMotion({ motion: Motion.IncrementBoth, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.DecrementBoth })
+    canPerformMotion({ motion: Motion.DecrementBoth, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
@@ -55,32 +56,32 @@ test("canPerformMotion() works for Dorian D", () => {
 test("canPerformMotion() works for 14 sharps", () => {
   const musicalKey = new MusicalKey({ mode: -2, degree: 14 })
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.IncrementRoot })
+    canPerformMotion({ motion: Motion.IncrementRoot, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.DecrementRoot })
+    canPerformMotion({ motion: Motion.DecrementRoot, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.IncrementDegree })
+    canPerformMotion({ motion: Motion.IncrementDegree, musicalKey, maxDegree, minDegree })
   ).toBe(
     false
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.DecrementDegree })
+    canPerformMotion({ motion: Motion.DecrementDegree, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.IncrementBoth })
+    canPerformMotion({ motion: Motion.IncrementBoth, musicalKey, maxDegree, minDegree })
   ).toBe(
     false
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.DecrementBoth })
+    canPerformMotion({ motion: Motion.DecrementBoth, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
@@ -89,32 +90,32 @@ test("canPerformMotion() works for 14 sharps", () => {
 test("canPerformMotion() works for 14 flats", () => {
   const musicalKey = new MusicalKey({ mode: -1, degree: -14 })
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.IncrementRoot })
+    canPerformMotion({ motion: Motion.IncrementRoot, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.DecrementRoot })
+    canPerformMotion({ motion: Motion.DecrementRoot, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.IncrementDegree })
+    canPerformMotion({ motion: Motion.IncrementDegree, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.DecrementDegree })
+    canPerformMotion({ motion: Motion.DecrementDegree, musicalKey, maxDegree, minDegree })
   ).toBe(
     false
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.IncrementBoth })
+    canPerformMotion({ motion: Motion.IncrementBoth, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.DecrementBoth })
+    canPerformMotion({ motion: Motion.DecrementBoth, musicalKey, maxDegree, minDegree })
   ).toBe(
     false
   )
@@ -123,32 +124,32 @@ test("canPerformMotion() works for 14 flats", () => {
 test("canPerformMotion() works for mode = -3", () => {
   const musicalKey = new MusicalKey({ mode: -3, root: 2 })
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.IncrementRoot })
+    canPerformMotion({ motion: Motion.IncrementRoot, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.DecrementRoot })
+    canPerformMotion({ motion: Motion.DecrementRoot, musicalKey, maxDegree, minDegree })
   ).toBe(
     false
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.IncrementDegree })
+    canPerformMotion({ motion: Motion.IncrementDegree, musicalKey, maxDegree, minDegree })
   ).toBe(
     false
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.DecrementDegree })
+    canPerformMotion({ motion: Motion.DecrementDegree, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.IncrementBoth })
+    canPerformMotion({ motion: Motion.IncrementBoth, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
   expect(
-    canPerformMotion({ maxDegree, minDegree, musicalKey, motion: Motion.DecrementBoth })
+    canPerformMotion({ motion: Motion.DecrementBoth, musicalKey, maxDegree, minDegree })
   ).toBe(
     true
   )
@@ -157,64 +158,87 @@ test("canPerformMotion() works for mode = -3", () => {
 test("getNextMusicalKey() works", () => {
   const currentMusicalKey = new MusicalKey({ mode: 0, root: 0 })
   expect(
-    getNextMusicalKey({ currentMusicalKey, motion: Motion.IncrementRoot }).root
+    getNextMusicalKey({ motion: Motion.IncrementRoot, currentMusicalKey }).root
   ).toBe(
     1
   )
   expect(
-    getNextMusicalKey({ currentMusicalKey, motion: Motion.IncrementRoot }).degree
+    getNextMusicalKey({ motion: Motion.IncrementRoot, currentMusicalKey }).degree
   ).toBe(
     0
   )
   expect(
-    getNextMusicalKey({ currentMusicalKey, motion: Motion.DecrementRoot }).root
+    getNextMusicalKey({ motion: Motion.DecrementRoot, currentMusicalKey }).root
   ).toBe(
     -1
   )
   expect(
-    getNextMusicalKey({ currentMusicalKey, motion: Motion.DecrementRoot }).degree
+    getNextMusicalKey({ motion: Motion.DecrementRoot, currentMusicalKey }).degree
   ).toBe(
     0
   )
   expect(
-    getNextMusicalKey({ currentMusicalKey, motion: Motion.IncrementDegree }).root
+    getNextMusicalKey({ motion: Motion.IncrementDegree, currentMusicalKey }).root
   ).toBe(
     0
   )
   expect(
-    getNextMusicalKey({ currentMusicalKey, motion: Motion.IncrementDegree }).degree
+    getNextMusicalKey({ motion: Motion.IncrementDegree, currentMusicalKey }).degree
   ).toBe(
     1
   )
   expect(
-    getNextMusicalKey({ currentMusicalKey, motion: Motion.DecrementDegree }).root
+    getNextMusicalKey({ motion: Motion.DecrementDegree, currentMusicalKey }).root
   ).toBe(
     0
   )
   expect(
-    getNextMusicalKey({ currentMusicalKey, motion: Motion.DecrementDegree }).degree
+    getNextMusicalKey({ motion: Motion.DecrementDegree, currentMusicalKey }).degree
   ).toBe(
     -1
   )
   expect(
-    getNextMusicalKey({ currentMusicalKey, motion: Motion.IncrementBoth }).root
+    getNextMusicalKey({ motion: Motion.IncrementBoth, currentMusicalKey }).root
   ).toBe(
     1
   )
   expect(
-    getNextMusicalKey({ currentMusicalKey, motion: Motion.IncrementBoth }).degree
+    getNextMusicalKey({ motion: Motion.IncrementBoth, currentMusicalKey }).degree
   ).toBe(
     1
   )
   expect(
-    getNextMusicalKey({ currentMusicalKey, motion: Motion.DecrementBoth }).root
+    getNextMusicalKey({ motion: Motion.DecrementBoth, currentMusicalKey }).root
   ).toBe(
     -1
   )
   expect(
-    getNextMusicalKey({ currentMusicalKey, motion: Motion.DecrementBoth }).degree
+    getNextMusicalKey({ motion: Motion.DecrementBoth, currentMusicalKey }).degree
   ).toBe(
     -1
+  )
+})
+
+test("getNextAreDucksInARow() works", () => {
+  expect(
+    getNextAreDucksInARow({ motion: Motion.ArrangeDucks, currentAreDucksInARow: false })
+  ).toBe(
+    true
+  )
+  expect(
+    getNextAreDucksInARow({ motion: Motion.ExplodeDucks, currentAreDucksInARow: true })
+  ).toBe(
+    false
+  )
+  expect(
+    getNextAreDucksInARow({ motion: Motion.DecrementBoth, currentAreDucksInARow: false })
+  ).toBe(
+    false
+  )
+  expect(
+    getNextAreDucksInARow({ motion: Motion.DecrementBoth, currentAreDucksInARow: true })
+  ).toBe(
+    true
   )
 })
 

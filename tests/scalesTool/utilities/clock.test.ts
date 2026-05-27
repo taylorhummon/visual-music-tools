@@ -1,84 +1,77 @@
 import { test, expect } from "vitest"
+import { getDerivedFromState } from "../../../test-utilities/getDerivedFromState"
 
-import {
-  DEFAULT_IS_USING_ANIMATION,
-  DEFAULT_IS_UNTANGLED,
-  DEFAULT_IS_USING_SYMMETRY_DOT,
-  DEFAULT_IS_USING_SOLFEGE,
-  DEFAULT_IS_ANCHORING_ROOT,
-  DEFAULT_ANIMATION_OPTION,
-} from "@scalesTool/config"
-
-import { MusicalKey } from "@scalesTool/classes/MusicalKey"
 import { Note } from "@scalesTool/classes/Note"
-import { getHour } from "@scalesTool/utilities/clock"
+import { buildInclusiveRange } from "@scalesTool/utilities/array"
+import { getCurrentHour, getNextHour } from "@scalesTool/utilities/clock"
+import { Motion } from "@scalesTool/utilities/motion"
+import { getInitialState } from "@scalesTool/utilities/state"
 
 
-const DEFAULT_CLOCK_SETTINGS = {
-  isUsingAnimation: DEFAULT_IS_USING_ANIMATION,
-  isUntangled: DEFAULT_IS_UNTANGLED,
-  isUsingSymmetrySpotlight: DEFAULT_IS_USING_SYMMETRY_DOT,
-  isUsingSolfege: DEFAULT_IS_USING_SOLFEGE,
-  isAnchoringRoot: DEFAULT_IS_ANCHORING_ROOT,
-  animationOption: DEFAULT_ANIMATION_OPTION,
-}
-
-test("getHour() works when tangled", () => {
-  const clockSettings = { ...DEFAULT_CLOCK_SETTINGS, isUntangled: false }
-  const musicalKey = new MusicalKey({ root: 0, degree: 0 })
+test("getCurrentHour() works when arranging ducks", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.ArrangeDucks,
+    areDucksInARow: false,
+    root: 0,
+    degree: 0,
+  })
   expect(
-    getHour({ clockSettings, musicalKey, note: new Note({ value: -2 }) })
-  ).toBe(
-    10
-  )
-  expect(
-    getHour({ clockSettings, musicalKey, note: new Note({ value: -1 }) })
-  ).toBe(
-    5
-  )
-  expect(
-    getHour({ clockSettings, musicalKey, note: new Note({ value: 0 }) })
-  ).toBe(
-    0
-  )
-  expect(
-    getHour({ clockSettings, musicalKey, note: new Note({ value: 1 }) })
-  ).toBe(
-    7
-  )
-  expect(
-    getHour({ clockSettings, musicalKey, note: new Note({ value: 2 }) })
-  ).toBe(
-    2
+    buildInclusiveRange(-3, 3).map(
+      (value) => getCurrentHour(derived, new Note({ value }))
+    )
+  ).toStrictEqual(
+    [3, 10, 5, 0, 7, 2, 9]
   )
 })
 
-test("getHour() works when untangled", () => {
-  const clockSettings = { ...DEFAULT_CLOCK_SETTINGS, isUntangled: true }
-  const musicalKey = new MusicalKey({ root: 0, degree: 0 })
+test("getCurrentHour() works when exploding ducks", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.ExplodeDucks,
+    areDucksInARow: true,
+    root: 0,
+    degree: 0,
+  })
   expect(
-    getHour({ clockSettings, musicalKey, note: new Note({ value: -2 }) })
-  ).toBe(
-    10
+    buildInclusiveRange(-3, 3).map(
+      (value) => getCurrentHour(derived, new Note({ value }))
+    )
+  ).toStrictEqual(
+    [9, 10, 11, 0, 1, 2, 3]
   )
+})
+
+test("getNextHour() works when arranging ducks", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.ArrangeDucks,
+    areDucksInARow: false,
+    root: 0,
+    degree: 0,
+  })
   expect(
-    getHour({ clockSettings, musicalKey, note: new Note({ value: -1 }) })
-  ).toBe(
-    11
+    buildInclusiveRange(-3, 3).map(
+      (value) => getNextHour(derived, new Note({ value }))
+    )
+  ).toStrictEqual(
+    [9, 10, 11, 0, 1, 2, 3]
   )
+})
+
+test("getNextHour() works when exploding ducks", () => {
+  const derived = getDerivedFromState({
+    ...getInitialState(),
+    motion: Motion.ExplodeDucks,
+    areDucksInARow: true,
+    root: 0,
+    degree: 0,
+  })
   expect(
-    getHour({ clockSettings, musicalKey, note: new Note({ value: 0 }) })
-  ).toBe(
-    0
-  )
-  expect(
-    getHour({ clockSettings, musicalKey, note: new Note({ value: 1 }) })
-  ).toBe(
-    1
-  )
-  expect(
-    getHour({ clockSettings, musicalKey, note: new Note({ value: 2 }) })
-  ).toBe(
-    2
+    buildInclusiveRange(-3, 3).map(
+      (value) => getNextHour(derived, new Note({ value }))
+    )
+  ).toStrictEqual(
+    [3, 10, 5, 0, 7, 2, 9]
   )
 })

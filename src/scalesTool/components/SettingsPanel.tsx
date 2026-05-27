@@ -2,7 +2,7 @@ import { type ActionDispatch } from "react"
 import { Stack, Switch } from "@mantine/core"
 
 import { type Action, ActionType } from "@scalesTool/utilities/action"
-import { type ClockSettings, AnimationOption } from "@scalesTool/utilities/clock"
+import { type ClockSettings } from "@scalesTool/utilities/clock"
 
 import settingsPanelCssModule from "./SettingsPanel.module.scss"
 
@@ -23,30 +23,17 @@ export function SettingsPanel({
       gap="sm"
     >
       <Switch
-        label="Ducks in a row"
+        label="Degree note"
         size={SWITCH_SIZE}
         withThumbIndicator={WITH_THUMB_INDICATOR}
-        checked={clockSettings.isUntangled}
+        checked={clockSettings.isUsingDegreeSpotlight}
         onChange={(event) => {
           dispatch({
-            type: ActionType.SelectIsUntangled,
-            isUntangled: event.currentTarget.checked,
+            type: ActionType.SelectIsUsingDegreeSpotlight,
+            isUsingDegreeSpotlight: event.currentTarget.checked,
           })
         }}
-        data-testid="untangle-switch"
-      />
-      <Switch
-        label="Symmetry note"
-        size={SWITCH_SIZE}
-        withThumbIndicator={WITH_THUMB_INDICATOR}
-        checked={clockSettings.isUsingSymmetrySpotlight}
-        onChange={(event) => {
-          dispatch({
-            type: ActionType.SelectIsUsingSymmetrySpotlight,
-            isUsingSymmetrySpotlight: event.currentTarget.checked,
-          })
-        }}
-        data-testid="symmetry-switch"
+        data-testid="degree-spotlight-switch"
       />
       <Switch
         label="Solfège"
@@ -60,19 +47,6 @@ export function SettingsPanel({
           })
         }}
         data-testid="solfege-switch"
-      />
-      <Switch
-        label="Reduce motion"
-        size={SWITCH_SIZE}
-        withThumbIndicator={WITH_THUMB_INDICATOR}
-        checked={clockSettings.animationOption === AnimationOption.Minimal}
-        onChange={(event) => {
-          dispatch({
-            type: ActionType.SelectAnimationOption,
-            animationOption: event.currentTarget.checked ? AnimationOption.Minimal : AnimationOption.Ballet,
-          })
-        }}
-        data-testid="reduce-motion-switch"
       />
     </Stack>
   )

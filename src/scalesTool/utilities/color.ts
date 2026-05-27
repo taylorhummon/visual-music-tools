@@ -8,5 +8,5 @@ export const CLOCK_STROKE = "rgb(120, 120, 120)"
 export const ROOT_SPOTLIGHT_STROKE = "rgb(4, 51, 255)"
 export const ROOT_SPOTLIGHT_FILL = "rgb(208, 214, 253)"
 
-export const SYMMETRY_SPOTLIGHT_STROKE = "rgba(244, 3, 132, 0.8)"
-export const SYMMETRY_SPOTLIGHT_FILL = "rgba(244, 3, 132, 0.3)"
+export const DEGREE_SPOTLIGHT_STROKE = "rgba(244, 3, 132, 0.8)"
+export const DEGREE_SPOTLIGHT_FILL = "rgba(244, 3, 132, 0.3)"

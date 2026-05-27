@@ -1,33 +1,24 @@
 import { test, expect } from "vitest"
-import { renderHook } from "@testing-library/react"
+import { getDerivedFromState } from "../../../test-utilities/getDerivedFromState"
 
 import { AnimationOption } from "@scalesTool/utilities/clock"
-import { useDerived } from "@scalesTool/utilities/derived"
-
 import { Motion } from "@scalesTool/utilities/motion"
 
 
 test("useDerived() works", () => {
-  const state = {
-    isUsingAnimation: true,
-    isUntangled: false,
-    isUsingSymmetrySpotlight: false,
+  const derived = getDerivedFromState({
+    isUsingDegreeSpotlight: false,
     isUsingSolfege: true,
     isAnchoringRoot: false,
+    isUsingAnimation: true,
     animationOption: AnimationOption.Ballet,
     motion: Motion.IncrementDegree,
     root: 2,
     degree: 3,
-  }
-  const { result } = renderHook(() => useDerived(state))
-  const derived = result.current
+    areDucksInARow: false,
+  })
   expect(
-    derived.clockSettings.isUntangled
-  ).toBe(
-    false
-  )
-  expect(
-    derived.clockSettings.isUsingSymmetrySpotlight
+    derived.clockSettings.isUsingDegreeSpotlight
   ).toBe(
     false
   )
@@ -37,9 +28,19 @@ test("useDerived() works", () => {
     true
   )
   expect(
+    derived.clockSettings.isAnchoringRoot
+  ).toBe(
+    false
+  )
+  expect(
     derived.clockSettings.isUsingAnimation
   ).toBe(
     true
+  )
+  expect(
+    derived.clockSettings.animationOption
+  ).toBe(
+    AnimationOption.Ballet
   )
   expect(
     derived.motion
@@ -65,5 +66,15 @@ test("useDerived() works", () => {
     derived.nextMusicalKey.degree
   ).toBe(
     4
+  )
+  expect(
+    derived.currentAreDucksInARow
+  ).toBe(
+    false
+  )
+  expect(
+    derived.nextAreDucksInARow
+  ).toBe(
+    false
   )
 })

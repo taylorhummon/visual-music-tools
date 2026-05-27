@@ -1,15 +1,18 @@
 import { type MusicalKey } from "@scalesTool/classes/MusicalKey"
+import { type Derived } from "@scalesTool/utilities/derived"
 
 import descriptionCssModule from "./Description.module.scss"
 
 
 interface DescriptionParameters {
-  currentMusicalKey: MusicalKey,
+  derived: Derived,
 }
 
 export function Description({
-  currentMusicalKey,
+  derived,
 }: DescriptionParameters): React.ReactNode {
+  const { currentMusicalKey } = derived
+
   return (
     <>
       <text

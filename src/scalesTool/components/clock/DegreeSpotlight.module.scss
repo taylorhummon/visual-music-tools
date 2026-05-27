@@ -4,7 +4,7 @@
 @use "@scalesTool/utilities/unitCircle" as unit-circle;
 
 
-@keyframes move-symmetry-spotlight {
+@keyframes move-degree-spotlight {
   0% {
     offset-distance: 0%;
   }
@@ -17,7 +17,7 @@
 $radius: 110;
 
 
-.symmetry-spotlight {
+.degree-spotlight {
   offset-rotate: 0deg;
 
   @for $hour from 0 through 11 {
@@ -30,7 +30,7 @@ $radius: 110;
     $hour-b: unit-circle.hour($hour-a + 1);
 
     &.move-from-#{$hour-a}-to-#{$hour-b} {
-      animation: move-symmetry-spotlight animation.$duration ease-in-out 1 forwards;
+      animation: move-degree-spotlight animation.$duration ease-in-out 1 forwards;
       offset-path: path.cw-arc-path($radius, $hour-a);
     }
   }
@@ -39,7 +39,16 @@ $radius: 110;
     $hour-b: unit-circle.hour($hour-a + 5);
 
     &.move-from-#{$hour-a}-to-#{$hour-b} {
-      animation: move-symmetry-spotlight animation.$duration ease-in-out 1 forwards;
+      animation: move-degree-spotlight animation.$duration ease-in-out 1 forwards;
+      offset-path: path.linear-path(clock.point($radius, $hour-a), clock.point($radius, $hour-b));
+    }
+  }
+
+  @for $hour-a from 0 through 11 {
+    $hour-b: unit-circle.hour($hour-a + 6);
+
+    &.move-from-#{$hour-a}-to-#{$hour-b} {
+      animation: move-degree-spotlight animation.$duration ease-in-out 1 forwards;
       offset-path: path.linear-path(clock.point($radius, $hour-a), clock.point($radius, $hour-b));
     }
   }
@@ -48,7 +57,7 @@ $radius: 110;
     $hour-b: unit-circle.hour($hour-a + 7);
 
     &.move-from-#{$hour-a}-to-#{$hour-b} {
-      animation: move-symmetry-spotlight animation.$duration ease-in-out 1 forwards;
+      animation: move-degree-spotlight animation.$duration ease-in-out 1 forwards;
       offset-path: path.linear-path(clock.point($radius, $hour-a), clock.point($radius, $hour-b));
     }
   }
@@ -57,7 +66,7 @@ $radius: 110;
     $hour-b: unit-circle.hour($hour-a + 11);
 
     &.move-from-#{$hour-a}-to-#{$hour-b} {
-      animation: move-symmetry-spotlight animation.$duration ease-in-out 1 forwards;
+      animation: move-degree-spotlight animation.$duration ease-in-out 1 forwards;
       offset-path: path.ccw-arc-path($radius, $hour-a);
     }
   }

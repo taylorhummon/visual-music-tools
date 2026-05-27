@@ -1,20 +1,19 @@
-import { type MusicalKey } from "@scalesTool/classes/MusicalKey"
 import { Highlighter } from "@scalesTool/components/gauge/Highlighter"
 import { Mode } from "@scalesTool/components/gauge/Mode"
+import { type Derived } from "@scalesTool/utilities/derived"
 import { MODES } from "@scalesTool/utilities/mode"
 
 import modeGaugeCssModule from "./ModeGauge.module.scss"
 
 
 interface ModeGaugeParameters {
-  currentMusicalKey: MusicalKey,
-  nextMusicalKey: MusicalKey,
+  derived: Derived,
 }
 
 export function ModeGauge({
-  currentMusicalKey,
-  nextMusicalKey,
+  derived,
 }: ModeGaugeParameters): React.ReactNode {
+  const { currentMusicalKey, nextMusicalKey } = derived
   const currentMode = currentMusicalKey.mode
   const nextMode = nextMusicalKey.mode
 

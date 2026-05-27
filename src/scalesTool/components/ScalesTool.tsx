@@ -7,7 +7,7 @@ import { SettingsPanel } from "@scalesTool/components/SettingsPanel"
 import { ActionType } from "@scalesTool/utilities/action"
 import { useDerived } from "@scalesTool/utilities/derived"
 import { registerEventListener } from "@scalesTool/utilities/eventListener"
-import { Motion, getNextMusicalKey } from "@scalesTool/utilities/motion"
+import { Motion, getNextMusicalKey, getNextAreDucksInARow } from "@scalesTool/utilities/motion"
 import { getInitialState, reducer } from "@scalesTool/utilities/state"
 
 
@@ -16,18 +16,30 @@ export function ScalesTool(
   const domNodeRef = useRef<HTMLDivElement>(null)
   const animationsCountRef = useRef<number>(0)
   const [ state, dispatch ] = useReducer(reducer, getInitialState())
-  const { clockSettings, motion, currentMusicalKey, nextMusicalKey } = useDerived(state)
+  const derived = useDerived(state)
+  const {
+    clockSettings,
+    motion,
+    currentMusicalKey,
+    nextMusicalKey,
+    currentAreDucksInARow,
+    nextAreDucksInARow,
+  } = derived
 
-  // When the user clicks on a selector button
-  const selectorButtonClickHandler = useCallback(
+  // When the user clicks on a button
+  const buttonClickHandler = useCallback(
     (motion: Motion) => {
       if (clockSettings.isUsingAnimation) {
         dispatch({ type: ActionType.ActivateMotion, motion })
       } else {
-        dispatch({ type: ActionType.ChangeKey, nextMusicalKey: getNextMusicalKey({ currentMusicalKey, motion }) })
+        dispatch({
+          type: ActionType.CompleteMotion,
+          nextMusicalKey: getNextMusicalKey({ motion, currentMusicalKey }),
+          nextAreDucksInARow: getNextAreDucksInARow({ motion, currentAreDucksInARow }),
+        })
       }
     },
-    [ dispatch, clockSettings.isUsingAnimation, currentMusicalKey ],
+    [ dispatch, clockSettings.isUsingAnimation, currentMusicalKey, currentAreDucksInARow ],
   )
 
   // Count how many animations are runnning
@@ -43,19 +55,16 @@ export function ScalesTool(
     function animationEndHandler(): void {
       animationsCountRef.current -= 1
       if (animationsCountRef.current >= 1) return
-      dispatch({ type: ActionType.ChangeKey, nextMusicalKey })
+      dispatch({ type: ActionType.CompleteMotion, nextMusicalKey, nextAreDucksInARow })
     }
     return registerEventListener(domNodeRef.current, "animationend", animationEndHandler)
-  }, [ dispatch, currentMusicalKey, nextMusicalKey ])
+  }, [ dispatch, motion, nextMusicalKey, nextAreDucksInARow ])
 
   return (
     <div ref={domNodeRef}>
       <Canvas
-        clockSettings={clockSettings}
-        motion={motion}
-        currentMusicalKey={currentMusicalKey}
-        nextMusicalKey={nextMusicalKey}
-        selectorButtonClickHandler={selectorButtonClickHandler}
+        derived={derived}
+        buttonClickHandler={buttonClickHandler}
       />
       <SettingsPanel
         clockSettings={clockSettings}

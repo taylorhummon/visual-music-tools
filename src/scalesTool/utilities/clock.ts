@@ -1,9 +1,11 @@
 import { type MusicalKey } from "@scalesTool/classes/MusicalKey"
 import { Note } from "@scalesTool/classes/Note"
+import { type Derived } from "@scalesTool/utilities/derived"
 import { getRemainder } from "@scalesTool/utilities/math"
 
 
 export enum AnimationOption {
+  Combo = "Combo",
   Minimal = "Minimal",
   Ballet = "Ballet",
   FollowsOrdinaryLabel = "Follows ordinary label",
@@ -11,26 +13,46 @@ export enum AnimationOption {
 }
 
 export interface ClockSettings {
-  isUsingAnimation: boolean,
-  isUntangled: boolean,
-  isUsingSymmetrySpotlight: boolean,
+  isUsingDegreeSpotlight: boolean,
   isUsingSolfege: boolean,
   isAnchoringRoot: boolean,
+  isUsingAnimation: boolean,
   animationOption: AnimationOption,
 }
 
-interface getHourParameters {
-  clockSettings: ClockSettings,
-  musicalKey: MusicalKey,
+export function getCurrentHour(
+  derived: Derived,
   note: Note,
+): number {
+  const { clockSettings, currentMusicalKey, currentAreDucksInARow } = derived
+  return getHour(
+    clockSettings,
+    currentMusicalKey,
+    currentAreDucksInARow,
+    note,
+  )
 }
 
-export function getHour({
-  clockSettings,
-  musicalKey,
-  note,
-}: getHourParameters): number {
+export function getNextHour(
+  derived: Derived,
+  note: Note,
+): number {
+  const { clockSettings, nextMusicalKey, nextAreDucksInARow } = derived
+  return getHour(
+    clockSettings,
+    nextMusicalKey,
+    nextAreDucksInARow,
+    note,
+  )
+}
+
+function getHour(
+  clockSettings: ClockSettings,
+  musicalKey: MusicalKey,
+  areDucksInARow: boolean,
+  note: Note,
+): number {
   const anchorValue = clockSettings.isAnchoringRoot ? musicalKey.rootNote.value : 0
-  const untangledMultiplier = clockSettings.isUntangled ? 1 : 7
-  return getRemainder(untangledMultiplier * (note.value - anchorValue), 12)
+  const ducksMultiplier = areDucksInARow ? 1 : 7
+  return getRemainder(ducksMultiplier * (note.value - anchorValue), 12)
 }

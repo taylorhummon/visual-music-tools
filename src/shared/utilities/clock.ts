@@ -25,7 +25,6 @@ export enum TriadOriginOption {
 
 export enum AnimationOption {
   None = "None",
-  FollowsOrdinaryLabel = "Follows ordinary label",
   FollowsSolfegeLabel = "Follows solfege label",
   FollowsSimplifiedLabel = "Follows simplified label",
   Minimal = "Minimal",

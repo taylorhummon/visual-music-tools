@@ -1,4 +1,4 @@
-import { type DotAnimator } from "@shared/classes/DotAnimator"
+import { type DotsAnimator } from "@shared/classes/DotsAnimator"
 import { getCurrentHour } from "@shared/utilities/clock"
 import { buildClassName } from "@shared/utilities/css"
 import { type Derived } from "@shared/utilities/derived"
@@ -9,19 +9,19 @@ import dotCssModule from "./Dot.module.scss"
 
 interface DotParameters {
   derived: Derived,
-  dotAnimator: DotAnimator,
+  dotsAnimator: DotsAnimator,
   solfegeLetter: SolfegeLetter,
 }
 
 export function Dot({
   derived,
-  dotAnimator,
+  dotsAnimator,
   solfegeLetter,
 }: DotParameters): React.ReactNode {
   const { currentMusicalKey } = derived
   const startNote = currentMusicalKey.noteFromSolfegeLetter(solfegeLetter)
   const startHour = getCurrentHour(derived, startNote)
-  const finishHour = dotAnimator.getFinishHour(startHour, startNote.naturalNote, solfegeLetter)
+  const finishHour = dotsAnimator.getFinishHour(startHour, startNote.naturalNote, solfegeLetter)
 
   return (
     <circle

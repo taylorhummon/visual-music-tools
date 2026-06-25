@@ -11,7 +11,7 @@ interface constructorParameters {
   derived: Derived
 }
 
-export class DotAnimator {
+export class DotsAnimator {
   #derived: Derived
   #_leftOverNotes: LeftOverNotes | null | undefined
 
@@ -37,9 +37,6 @@ export class DotAnimator {
       return startHour
     }
     const { animationOption } = clockSettings
-    if (animationOption === AnimationOption.FollowsOrdinaryLabel) {
-      return this.#followsOrdinaryLabel(naturalNote)
-    }
     if (animationOption === AnimationOption.FollowsSolfegeLabel) {
       return this.#followsSolfegeLabel(solfegeLetter)
     }
@@ -53,14 +50,6 @@ export class DotAnimator {
       return this.#combo(startHour, naturalNote)
     }
     throw Error(`Unexpected animation option ${animationOption}`)
-  }
-
-  #followsOrdinaryLabel(
-    naturalNote: NaturalNote,
-  ): number {
-    const { nextMusicalKey } = this.#derived
-    const note = nextMusicalKey.noteFromNaturalNote(naturalNote)
-    return getNextHour(this.#derived, note)
   }
 
   #followsSolfegeLabel(

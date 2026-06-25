@@ -44,11 +44,11 @@ function getClassName(
   startHour: number,
   finishHour: number,
 ): string {
-  const classNames = []
+  const classNames = [ "simplified-label" ]
   if (isInside) {
-    classNames.push("simplified-label-inside")
+    classNames.push("inside")
   } else {
-    classNames.push("simplified-label-outside")
+    classNames.push("outside")
   }
   if (finishHour === startHour) {
     classNames.push(`hour-${startHour}`)

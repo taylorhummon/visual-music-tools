@@ -1,4 +1,4 @@
-import { DotAnimator } from "@shared/classes/DotAnimator"
+import { DotsAnimator } from "@shared/classes/DotsAnimator"
 import { Dot } from "@shared/components/clock/Dot"
 import { type Derived } from "@shared/utilities/derived"
 import { SOLFEGE_LETTERS } from "@shared/utilities/solfegeLetter"
@@ -11,7 +11,7 @@ interface DotsParameters {
 export function Dots({
   derived,
 }: DotsParameters): React.ReactNode {
-  const dotAnimator = new DotAnimator({ derived })
+  const dotsAnimator = new DotsAnimator({ derived })
 
   return (
     <>
@@ -19,7 +19,7 @@ export function Dots({
         <Dot
           key={solfegeLetter}
           derived={derived}
-          dotAnimator={dotAnimator}
+          dotsAnimator={dotsAnimator}
           solfegeLetter={solfegeLetter}
         />
       )}

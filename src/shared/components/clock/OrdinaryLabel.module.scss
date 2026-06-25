@@ -1,10 +1,29 @@
 @use "@shared/utilities/animation" as animation;
-@use "@shared/utilities/ordinaryLabel" as ordinary-label;
+@use "@shared/utilities/clock" as clock;
 @use "@shared/utilities/path" as path;
 @use "@shared/utilities/unitCircle" as unit-circle;
 
 
-$radius: 75;
+@keyframes appear {
+  0% {
+    fill-opacity: 0;
+  }
+  60% {
+    fill-opacity: 0;
+  }
+  100% {
+    fill-opacity: 1;
+  }
+}
+
+.appear {
+  animation: appear animation.$duration linear 1 forwards;
+}
+
+.disappear {
+  animation: appear animation.$duration linear 1 forwards reverse;
+}
+
 
 @keyframes move {
   0% {
@@ -15,314 +34,46 @@ $radius: 75;
   }
 }
 
-.ordinary-label {
+@mixin ordinary-label($radius) {
   offset-rotate: 0deg;
 
   @for $hour from 0 through 11 {
-    @for $character-count from 1 through 3 {
-      &.hour-#{$hour}-cc-#{$character-count} {
-        offset-path: path.still-path(ordinary-label.point($radius, $hour, $character-count));
-      }
-    }
-  }
-
-  @for $hour-a from 0 through 11 {
-    $hour-b: unit-circle.hour($hour-a + 1);
-
-    &.move-from-#{$hour-a}-cc-1-to-#{$hour-b}-cc-1 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 1),
-        ordinary-label.point($radius, $hour-b, 1),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-3-to-#{$hour-b}-cc-3 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 3),
-        ordinary-label.point($radius, $hour-b, 3),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-1-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 1),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-3 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 3),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-3-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 3),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-1 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 1),
-      );
-    }
-  }
-
-  @for $hour-a from 0 through 11 {
-    $hour-b: unit-circle.hour($hour-a + 5);
-
-    &.move-from-#{$hour-a}-cc-1-to-#{$hour-b}-cc-1 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 1),
-        ordinary-label.point($radius, $hour-b, 1),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-3-to-#{$hour-b}-cc-3 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 3),
-        ordinary-label.point($radius, $hour-b, 3),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-1-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 1),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-3 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 3),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-3-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 3),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-1 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 1),
-      );
+    &.hour-#{$hour} {
+      offset-path: path.still-path(clock.point($radius, $hour));
     }
   }
 
   @for $hour-a from 0 through 11 {
     $hour-b: unit-circle.hour($hour-a + 6);
 
-    &.move-from-#{$hour-a}-cc-1-to-#{$hour-b}-cc-1 {
+    &.move-from-#{$hour-a}-to-#{$hour-b} {
       animation: move animation.$duration ease-in-out 1 forwards;
       offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 1),
-        ordinary-label.point($radius, $hour-b, 1),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-3-to-#{$hour-b}-cc-3 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 3),
-        ordinary-label.point($radius, $hour-b, 3),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-1-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 1),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-3 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 3),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-3-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 3),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-1 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 1),
+        clock.point($radius, $hour-a),
+        clock.point($radius, $hour-b),
       );
     }
   }
+}
 
-  @for $hour-a from 0 through 11 {
-    $hour-b: unit-circle.hour($hour-a + 7);
-
-    &.move-from-#{$hour-a}-cc-1-to-#{$hour-b}-cc-1 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 1),
-        ordinary-label.point($radius, $hour-b, 1),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-3-to-#{$hour-b}-cc-3 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 3),
-        ordinary-label.point($radius, $hour-b, 3),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-1-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 1),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-3 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 3),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-3-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 3),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-1 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 1),
-      );
-    }
+.ordinary-label {
+  &.inside {
+    @include ordinary-label(clock.$inside-radius)
   }
 
-  @for $hour-a from 0 through 11 {
-    $hour-b: unit-circle.hour($hour-a + 11);
-
-    &.move-from-#{$hour-a}-cc-1-to-#{$hour-b}-cc-1 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 1),
-        ordinary-label.point($radius, $hour-b, 1),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-3-to-#{$hour-b}-cc-3 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 3),
-        ordinary-label.point($radius, $hour-b, 3),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-1-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 1),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-3 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 3),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-3-to-#{$hour-b}-cc-2 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 3),
-        ordinary-label.point($radius, $hour-b, 2),
-      );
-    }
-
-    &.move-from-#{$hour-a}-cc-2-to-#{$hour-b}-cc-1 {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(
-        ordinary-label.point($radius, $hour-a, 2),
-        ordinary-label.point($radius, $hour-b, 1),
-      );
-    }
+  &.outside {
+    @include ordinary-label(clock.$outside-radius)
   }
+}
+
+.width-1 {
+  offset-path: path("M -5 5");
+}
+
+.width-2 {
+  offset-path: path("M -10 5");
+}
+
+.width-3 {
+  offset-path: path("M -15 5");
 }

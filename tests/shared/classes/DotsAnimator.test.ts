@@ -2,7 +2,7 @@ import { test, expect } from "vitest"
 import { getDerivedFromState } from "../../../test-utilities/getDerivedFromState"
 import { getInitialState } from "../../../test-utilities/initialState"
 
-import { DotAnimator } from "@shared/classes/DotAnimator"
+import { DotsAnimator } from "@shared/classes/DotsAnimator"
 import { AnimationOption, getCurrentHour } from "@shared/utilities/clock"
 import { type Derived } from "@shared/utilities/derived"
 import { Motion } from "@shared/utilities/motion"
@@ -23,7 +23,7 @@ function noMotion(
 
 function exerciseAnimator(
   derived: Derived,
-  animator: DotAnimator,
+  animator: DotsAnimator,
 ): Array<number> {
   return SOLFEGE_LETTERS.map(
     (solfegeLetter) => {
@@ -35,7 +35,7 @@ function exerciseAnimator(
 }
 
 
-test("DotAnimator works when still and in butterfly mode", () => {
+test("DotsAnimator works when still and in butterfly mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -44,7 +44,7 @@ test("DotAnimator works when still and in butterfly mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -57,7 +57,7 @@ test("DotAnimator works when still and in butterfly mode", () => {
   )
 })
 
-test("DotAnimator works when incrementing root and in butterfly mode", () => {
+test("DotsAnimator works when incrementing root and in butterfly mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -66,7 +66,7 @@ test("DotAnimator works when incrementing root and in butterfly mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -79,7 +79,7 @@ test("DotAnimator works when incrementing root and in butterfly mode", () => {
   )
 })
 
-test("DotAnimator works when decrementing root and in butterfly mode", () => {
+test("DotsAnimator works when decrementing root and in butterfly mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -88,7 +88,7 @@ test("DotAnimator works when decrementing root and in butterfly mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -101,7 +101,7 @@ test("DotAnimator works when decrementing root and in butterfly mode", () => {
   )
 })
 
-test("DotAnimator works when incrementing rank and in butterfly mode", () => {
+test("DotsAnimator works when incrementing rank and in butterfly mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -110,7 +110,7 @@ test("DotAnimator works when incrementing rank and in butterfly mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -123,7 +123,7 @@ test("DotAnimator works when incrementing rank and in butterfly mode", () => {
   )
 })
 
-test("DotAnimator works when decrementing rank and in butterfly mode", () => {
+test("DotsAnimator works when decrementing rank and in butterfly mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -132,7 +132,7 @@ test("DotAnimator works when decrementing rank and in butterfly mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -145,7 +145,7 @@ test("DotAnimator works when decrementing rank and in butterfly mode", () => {
   )
 })
 
-test("DotAnimator works when incrementing both and in butterfly mode", () => {
+test("DotsAnimator works when incrementing both and in butterfly mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -154,7 +154,7 @@ test("DotAnimator works when incrementing both and in butterfly mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -167,7 +167,7 @@ test("DotAnimator works when incrementing both and in butterfly mode", () => {
   )
 })
 
-test("DotAnimator works when decrementing both and in butterfly mode", () => {
+test("DotsAnimator works when decrementing both and in butterfly mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -176,7 +176,7 @@ test("DotAnimator works when decrementing both and in butterfly mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -189,7 +189,7 @@ test("DotAnimator works when decrementing both and in butterfly mode", () => {
   )
 })
 
-test("DotAnimator works when moving to caterpillar mode", () => {
+test("DotsAnimator works when moving to caterpillar mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -198,7 +198,7 @@ test("DotAnimator works when moving to caterpillar mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -211,7 +211,7 @@ test("DotAnimator works when moving to caterpillar mode", () => {
   )
 })
 
-test("DotAnimator works when still and in caterpillar mode", () => {
+test("DotsAnimator works when still and in caterpillar mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -220,7 +220,7 @@ test("DotAnimator works when still and in caterpillar mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -233,7 +233,7 @@ test("DotAnimator works when still and in caterpillar mode", () => {
   )
 })
 
-test("DotAnimator works when incrementing root and in caterpillar mode", () => {
+test("DotsAnimator works when incrementing root and in caterpillar mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -242,7 +242,7 @@ test("DotAnimator works when incrementing root and in caterpillar mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -255,7 +255,7 @@ test("DotAnimator works when incrementing root and in caterpillar mode", () => {
   )
 })
 
-test("DotAnimator works when decrementing root and in caterpillar mode", () => {
+test("DotsAnimator works when decrementing root and in caterpillar mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -264,7 +264,7 @@ test("DotAnimator works when decrementing root and in caterpillar mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -277,7 +277,7 @@ test("DotAnimator works when decrementing root and in caterpillar mode", () => {
   )
 })
 
-test("DotAnimator works when incrementing rank and in caterpillar mode", () => {
+test("DotsAnimator works when incrementing rank and in caterpillar mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -286,7 +286,7 @@ test("DotAnimator works when incrementing rank and in caterpillar mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -299,7 +299,7 @@ test("DotAnimator works when incrementing rank and in caterpillar mode", () => {
   )
 })
 
-test("DotAnimator works when decrementing rank and in caterpillar mode", () => {
+test("DotsAnimator works when decrementing rank and in caterpillar mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -308,7 +308,7 @@ test("DotAnimator works when decrementing rank and in caterpillar mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -321,7 +321,7 @@ test("DotAnimator works when decrementing rank and in caterpillar mode", () => {
   )
 })
 
-test("DotAnimator works when incrementing both and in caterpillar mode", () => {
+test("DotsAnimator works when incrementing both and in caterpillar mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -330,7 +330,7 @@ test("DotAnimator works when incrementing both and in caterpillar mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -343,7 +343,7 @@ test("DotAnimator works when incrementing both and in caterpillar mode", () => {
   )
 })
 
-test("DotAnimator works when decrementing both and in caterpillar mode", () => {
+test("DotsAnimator works when decrementing both and in caterpillar mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -352,7 +352,7 @@ test("DotAnimator works when decrementing both and in caterpillar mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(
@@ -365,7 +365,7 @@ test("DotAnimator works when decrementing both and in caterpillar mode", () => {
   )
 })
 
-test("DotAnimator works when moving to butterfly mode", () => {
+test("DotsAnimator works when moving to butterfly mode", () => {
   const derived = getDerivedFromState({
     ...getInitialState(),
     animationOption: AnimationOption.Combo,
@@ -374,7 +374,7 @@ test("DotAnimator works when moving to butterfly mode", () => {
     root: 2,
     rank: 1,
   })
-  const animator = new DotAnimator({ derived })
+  const animator = new DotsAnimator({ derived })
   expect(
     noMotion(derived)
   ).toStrictEqual(

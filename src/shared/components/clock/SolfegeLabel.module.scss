@@ -4,9 +4,6 @@
 @use "@shared/utilities/unitCircle" as unit-circle;
 
 
-$inside-radius: 75;
-$outside-radius: 145;
-
 @keyframes move {
   0% {
     offset-distance: 0%;
@@ -16,12 +13,12 @@ $outside-radius: 145;
   }
 }
 
-.solfege-label-inside {
+@mixin solfege-label($radius) {
   offset-rotate: 0deg;
 
   @for $hour from 0 through 11 {
     &.hour-#{$hour} {
-      offset-path: path.still-path(clock.point($inside-radius, $hour));
+      offset-path: path.still-path(clock.point($radius, $hour));
     }
   }
 
@@ -30,7 +27,7 @@ $outside-radius: 145;
 
     &.move-from-#{$hour-a}-to-#{$hour-b} {
       animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.cw-arc-path($inside-radius, $hour-a, 1);
+      offset-path: path.cw-arc-path($radius, $hour-a, 1);
     }
   }
 
@@ -39,7 +36,10 @@ $outside-radius: 145;
 
     &.move-from-#{$hour-a}-to-#{$hour-b} {
       animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(clock.point($inside-radius, $hour-a), clock.point($inside-radius, $hour-b));
+      offset-path: path.linear-path(
+        clock.point($radius, $hour-a),
+        clock.point($radius, $hour-b)
+      );
     }
   }
 
@@ -48,7 +48,10 @@ $outside-radius: 145;
 
     &.move-from-#{$hour-a}-to-#{$hour-b} {
       animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(clock.point($inside-radius, $hour-a), clock.point($inside-radius, $hour-b));
+      offset-path: path.linear-path(
+        clock.point($radius, $hour-a),
+        clock.point($radius, $hour-b)
+      );
     }
   }
 
@@ -57,7 +60,10 @@ $outside-radius: 145;
 
     &.move-from-#{$hour-a}-to-#{$hour-b} {
       animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(clock.point($inside-radius, $hour-a), clock.point($inside-radius, $hour-b));
+      offset-path: path.linear-path(
+        clock.point($radius, $hour-a),
+        clock.point($radius, $hour-b)
+      );
     }
   }
 
@@ -66,63 +72,18 @@ $outside-radius: 145;
 
     &.move-from-#{$hour-a}-to-#{$hour-b} {
       animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.ccw-arc-path($inside-radius, $hour-a, 1);
+      offset-path: path.ccw-arc-path($radius, $hour-a, 1);
     }
   }
 }
 
-.solfege-label-outside {
-  offset-rotate: 0deg;
-
-  @for $hour from 0 through 11 {
-    &.hour-#{$hour} {
-      offset-path: path.still-path(clock.point($outside-radius, $hour));
-    }
+.solfege-label {
+  &.inside {
+    @include solfege-label(clock.$inside-radius)
   }
 
-  @for $hour-a from 0 through 11 {
-    $hour-b: unit-circle.hour($hour-a + 1);
-
-    &.move-from-#{$hour-a}-to-#{$hour-b} {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.cw-arc-path($outside-radius, $hour-a, 1);
-    }
-  }
-
-  @for $hour-a from 0 through 11 {
-    $hour-b: unit-circle.hour($hour-a + 5);
-
-    &.move-from-#{$hour-a}-to-#{$hour-b} {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(clock.point($outside-radius, $hour-a), clock.point($outside-radius, $hour-b));
-    }
-  }
-
-  @for $hour-a from 0 through 11 {
-    $hour-b: unit-circle.hour($hour-a + 6);
-
-    &.move-from-#{$hour-a}-to-#{$hour-b} {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(clock.point($outside-radius, $hour-a), clock.point($outside-radius, $hour-b));
-    }
-  }
-
-  @for $hour-a from 0 through 11 {
-    $hour-b: unit-circle.hour($hour-a + 7);
-
-    &.move-from-#{$hour-a}-to-#{$hour-b} {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.linear-path(clock.point($outside-radius, $hour-a), clock.point($outside-radius, $hour-b));
-    }
-  }
-
-  @for $hour-a from 0 through 11 {
-    $hour-b: unit-circle.hour($hour-a + 11);
-
-    &.move-from-#{$hour-a}-to-#{$hour-b} {
-      animation: move animation.$duration ease-in-out 1 forwards;
-      offset-path: path.ccw-arc-path($outside-radius, $hour-a, 1);
-    }
+  &.outside {
+    @include solfege-label(clock.$outside-radius)
   }
 }
 

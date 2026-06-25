@@ -19,7 +19,7 @@ export default function Page() {
           Rotation buttons select a triad.
         </li>
         <li>
-          Sharp and flat buttons change the rank.
+          Sharp and flat buttons change the scale's rank.
         </li>
       </ul>
       <TriadsTool />

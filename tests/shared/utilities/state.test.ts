@@ -68,7 +68,7 @@ test("reducer() works for SelectIsUsingSimplifiedNotes action", () => {
       { type: ActionType.SelectIsUsingSimplifiedNotes, isUsingSimplifiedNotes: true },
     ).insideLabelsOption
   ).toBe(
-    LabelsOption.Ordinary
+    LabelsOption.Simplified
   )
 
   expect(
@@ -77,7 +77,7 @@ test("reducer() works for SelectIsUsingSimplifiedNotes action", () => {
       { type: ActionType.SelectIsUsingSimplifiedNotes, isUsingSimplifiedNotes: false },
     ).insideLabelsOption
   ).toBe(
-    LabelsOption.Simplified
+    LabelsOption.Ordinary
   )
 })
 

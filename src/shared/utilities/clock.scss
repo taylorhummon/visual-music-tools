@@ -1,6 +1,10 @@
 @use "@shared/utilities/unitCircle" as unit-circle;
 
 
+$inside-radius: 75;
+$clock-radius: 110;
+$outside-radius: 145;
+
 @function point($radius, $hour) {
   $x: $radius * unit-circle.x-at($hour);
   $y: $radius * unit-circle.y-at($hour);

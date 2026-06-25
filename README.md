@@ -1,6 +1,6 @@
 # Visual Music Tools
 
-The Visual Music Tool allows you to visually explore patterns among musical scales, modes, 
+The Visual Music Tools allow you to visually explore patterns among musical scales, modes, 
 and triads. You can try it out at [https://taylorhummon.com/](https://taylorhummon.com/).
 
 

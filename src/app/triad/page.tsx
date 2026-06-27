@@ -11,10 +11,10 @@ export default function Page() {
       </h1>
       <ul className={styles["instructions"]}>
         <li>
-          Rotation buttons select a triad.
+          Sharp and flat buttons change the scale&apos;s rank.
         </li>
         <li>
-          Sharp and flat buttons change the scale&apos;s rank.
+          Rotation buttons select a triad.
         </li>
       </ul>
       <TriadsTool />

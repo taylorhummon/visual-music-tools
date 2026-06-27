@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Burger, Divider, Drawer, Group, ScrollArea } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
@@ -39,9 +40,11 @@ export default function Header() {
             hiddenFrom="sm"
             aria-label="Toggle navigation"
           />
-          <img
+          <Image
             src="/logo.svg"
             alt="Visual Music Tools"
+            width={205}
+            height={24}
           />
           <Group
             ml={45}

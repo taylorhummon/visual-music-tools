@@ -9,8 +9,8 @@ import styles from "./header.module.scss"
 
 const TOOL_LINKS = [
   { url: "/", label: "Scales" },
-  { url: "/mode/", label: "Modes" },
-  { url: "/triad/", label: "Triads" },
+  { url: "/modes/", label: "Modes" },
+  { url: "/triads/", label: "Triads" },
 ]
 const ABOUT_LINK = { url: "/about/", label: "About" }
 

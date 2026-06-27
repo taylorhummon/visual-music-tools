@@ -74,7 +74,10 @@ export class DotsAnimator {
   ): number {
     if (this.#leftOverNotes === null) return startHour
     const { currentLeftOverNoteHour, nextLeftOverNoteHour } = this.#leftOverNotes
-    return startHour === currentLeftOverNoteHour ? nextLeftOverNoteHour : startHour
+    if (startHour === currentLeftOverNoteHour) {
+      return nextLeftOverNoteHour
+    }
+    return startHour
   }
 
   #combo(
@@ -84,9 +87,9 @@ export class DotsAnimator {
     const { currentIsCaterpillarPattern } = this.#derived
     if (currentIsCaterpillarPattern) {
       return this.#followsSimplifiedLabel(naturalNote)
-    } else {
-      return this.#minimal(startHour)
     }
+    // is butterfly pattern
+    return this.#minimal(startHour)
   }
 
   get #leftOverNotes(

@@ -1,5 +1,3 @@
-import Link from "next/link"
-
 import { ScalesTool } from "@scalesTool/ScalesTool"
 
 import styles from "./page.module.scss"
@@ -23,9 +21,6 @@ export default function Page() {
         </li>
       </ul>
       <ScalesTool />
-      <div className={styles["see-also-links"]}>
-        See also: <Link href="/mode/">Modes Tool</Link> and <Link href="/triad/">Triads Tool</Link>.
-      </div>
     </>
   )
 }

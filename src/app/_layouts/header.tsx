@@ -1,31 +1,29 @@
 "use client"
 
+import { usePathname } from "next/navigation"
 import { Burger, Divider, Drawer, Group, ScrollArea } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 
 import styles from "./header.module.scss"
 
 
-interface NavigationLink {
-  url: string,
-  label: string,
-}
-
-const TOOL_LINKS: Array<NavigationLink> = [
+const TOOL_LINKS = [
   { url: "/", label: "Scales" },
-  { url: "/mode", label: "Modes" },
-  { url: "/triad", label: "Triads" },
+  { url: "/mode/", label: "Modes" },
+  { url: "/triad/", label: "Triads" },
 ]
-const ABOUT_LINK = { url: "/about", label: "About" }
+const ABOUT_LINK = { url: "/about/", label: "About" }
 
 
 export default function Header() {
   const [ opened, { toggle, close } ] = useDisclosure(false)
+  const pathname = usePathname()
   const navigationLinks = TOOL_LINKS.map(({ url, label }) =>
     <NavigationLink
       key={label}
       url={url}
       label={label}
+      isActive={pathname === url}
     />
   )
 
@@ -56,6 +54,7 @@ export default function Header() {
         <NavigationLink
           url={ABOUT_LINK.url}
           label={ABOUT_LINK.label}
+          isActive={pathname === ABOUT_LINK.url}
         />
       </div>
 
@@ -83,14 +82,24 @@ export default function Header() {
   )
 }
 
+interface NavigationLinkParameters {
+  url: string,
+  label: string,
+  isActive: boolean,
+}
+
 function NavigationLink({
   url,
   label,
-}: NavigationLink): React.ReactNode {
+  isActive,
+}: NavigationLinkParameters): React.ReactNode {
   return (
     <a
       href={url}
       className={styles["link"]}
+      onClick={
+        (event) => { if (isActive) event.preventDefault() }
+      }
     >
       {label}
     </a>

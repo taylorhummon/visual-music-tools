@@ -15,5 +15,6 @@ export function getTriadQuality(
   if (diff1 === 4 && diff2 === 3) return "major"
   if (diff1 === 3 && diff2 === 4) return "minor"
   if (diff1 === 3 && diff2 === 3) return "diminished"
+  if (diff1 === 4 && diff2 === 4) return "augmented"
   throw Error("Unexpected triad quality")
 }
